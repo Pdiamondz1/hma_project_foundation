@@ -37,7 +37,8 @@ shifts the user from being a bottleneck and allows them to become the decision m
 **Intended outcome.** Clone → use the project → each scheduled tick the advisor reads the signals and
 drops a short, ranked, evidence-grounded list of ideas into `outputs/ideas-*.md` and the console
 "Ideas" inbox; high-weight ideas ping the user. The user approves with a checkbox; on approval the
-advisor drafts a brief (it never ships a change). The user becomes the decision-maker/approver.
+advisor drafts a *proposal* — a brief for project work, or a review item for foundation work — and
+never ships a change. The user becomes the decision-maker/approver.
 
 ## Architecture
 
@@ -97,8 +98,9 @@ Fields:
   → 10 = huge). Define `ease = 11 − effort` (low effort → high ease). Then
   **`weight = round(10 × (0.5·impact + 0.3·confidence + 0.2·ease))`** (range 0–100; the 0.5/0.3/0.2
   weights are fixed defaults). Worked example: impact 9 · confidence 7 · effort 4 → ease 7 →
-  `10 × (4.5 + 2.1 + 1.4) = 80`. Queue sorts highest-first; **weight ≥ 70 also alerts.** Confidence is
-  higher for live-metric or repeated evidence, lower for a one-off hunch.
+  `10 × (4.5 + 2.1 + 1.4) = 80`. (Nominal 0–100 scale; ≈10–100 in practice since sub-scores floor at 1.)
+  Queue sorts highest-first; **weight ≥ 70 also alerts.** Confidence is higher for live-metric or
+  repeated evidence, lower for a one-off hunch.
 - **`from`** — links to the `raw/`/`wiki/`/`metrics/` sources that triggered it. **Grounding rule:**
   every idea cites ≥ 1 evidence source; a pure-reasoning idea is allowed but labeled low confidence.
 - **`lane`** — `foundation` (system can safely act via `improve-system` on approval) vs `project`
@@ -153,7 +155,8 @@ signals gracefully.
   still never *applies* a review item.
 - It **never** edits `raw/` (immutable), `wiki/`, `.claude/skills/`, or the project's code/product.
 - It **never** writes `change-log.md` and **never auto-applies** anything. `improve-system` stays the
-  *single* applier and the *single* `change-log.md` writer. Approval produces a *brief*, not a change.
+  *single* applier and the *single* `change-log.md` writer. Approval produces a *proposal* (a brief or
+  a review item), not a change.
 
 ## The metrics feed contract (`raw/metrics/`)
 
@@ -241,9 +244,11 @@ skipped and logged — same as every other unattended step. No new alerting infr
   once → expect a ranked `outputs/ideas-*.md` with grounded `from:` links, sub-scores, lanes, and the
   `ideas-log.md` entries; confirm it wrote **nothing** outside `outputs/` (no `raw/`/`wiki/`/`.claude/`
   change, no `change-log.md` write).
-- **Approval → promote:** check one box, re-run → expect `outputs/briefs/<id>.md` written and an
-  `ideas-log.md` `promoted` line; project-lane brief is a spec stub, foundation-lane brief is tagged
-  for `improve-system`.
+- **Approval → promote:** check one box, re-run → a `project`-lane idea writes `outputs/briefs/<id>.md`
+  (a spec stub); a `foundation`-lane idea appends an `rv-` NEEDS SIGN-OFF item to today's
+  `outputs/review-*.md` (continuing the id sequence, referencing the source idea); both log a
+  `promoted` line in `ideas-log.md`. Confirm `improve-system` is untouched and `change-log.md` is not
+  written.
 - **Aging:** an unapproved idea older than `age_out_ticks` moves to Archived and logs `expired`.
 - **maintenance-loop:** runs ingest → improve-system → advise-project; the run-log block shows advisor
   counts; the approval-gate guarantee still holds (nothing structural applied without a checked box).
