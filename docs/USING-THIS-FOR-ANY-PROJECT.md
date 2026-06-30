@@ -42,8 +42,9 @@ how to do them by hand.
    project-specific (a dashboard, a form, a kanban — whatever your project needs).
 6. **Pick your infra tier.** Start at zero-config; climb only as far as you need (below).
 
-Then **make it autonomous:** schedule the `maintenance-loop` skill (ingest → self-improve) to
-run weekly so the system keeps itself current without you. See `docs/SCHEDULING.md`.
+Then **make it autonomous:** schedule the `maintenance-loop` skill (ingest → self-improve → advise) to
+run weekly so the system keeps itself current and proactively proposes project ideas without you.
+See `docs/SCHEDULING.md`; the advisor reads live usage data from the [metrics feed](docs/METRICS-FEED.md).
 
 ## The capability / infra ladder
 

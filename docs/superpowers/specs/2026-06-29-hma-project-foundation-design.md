@@ -181,3 +181,13 @@ runtime dependencies and change no existing contracts — both are skills plus d
   (recommended weekly); the repo ships **no live trigger** (it wouldn't generalize across
   clones) — `setup-project` registers one in the user's environment on opt-in. Alternatives
   (Windows Task Scheduler, GitHub Actions) and tradeoffs are documented in `docs/SCHEDULING.md`.
+
+## Phase 6 addendum — proactive project advisor (2026-06-30)
+
+The `advise-project` skill ships as the outward-facing counterpart to `improve-system`. It
+reads the KB, ingested activity, and the `raw/metrics/` feed, then files ranked project ideas
+to `outputs/ideas-*.md` for the user's approval across four lenses (improve / scale / maintain /
+pattern). It is propose-only and never applies changes — `improve-system` stays the single
+applier. It rides the `maintenance-loop` tick as step 3, so ideas accumulate on the same weekly
+schedule with no new scheduling needed. Full design:
+`docs/superpowers/specs/2026-06-30-proactive-project-advisor-design.md`.

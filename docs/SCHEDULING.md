@@ -12,6 +12,8 @@ You don't schedule the individual skills; you schedule one portable tick:
 > `improve-system` (one self-improvement pass), unattended, and appends a run block to
 > `outputs/runs/maintenance-loop.md`.
 
+Starting with Phase 6, the same weekly tick also runs `advise-project`, so proactive project ideas accumulate on the same schedule without any extra configuration.
+
 It is safe to fire with no human present: `improve-system` only ever applies the low-risk
 AUTO-APPROVE bucket and items you already checked off; everything structural or
 skill-related is *queued* for sign-off, never auto-applied. See

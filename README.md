@@ -37,6 +37,7 @@ Four things, built in from day one:
 - 🔎 **Auto-research** — it can pull in your notes, files, and sources for you.
 - 📈 **Self-learning** — repeated work turns into reusable, saved know-how.
 - 🩹 **Self-healing** — it spots and proposes fixes, and **always asks before** changing anything important.
+- 💡 **Proactive advisor** — it reads your usage data and proactively proposes improve, scale, and maintain ideas for you to approve (see [metrics feed](docs/METRICS-FEED.md)).
 
 ---
 
@@ -106,3 +107,4 @@ The technical reference — skip this if you just want to use it.
 - Phase 3 — the `aios/` web console (file-first) ✅
 - Phase 4 — optional intelligence layer (semantic search + Anthropic agent) ✅
 - Phase 5 — guided `setup-project` + autonomous `maintenance-loop` (scheduling) ✅
+- Phase 6 — `advise-project` proactive advisor (propose-only, rides `maintenance-loop` tick) ✅
