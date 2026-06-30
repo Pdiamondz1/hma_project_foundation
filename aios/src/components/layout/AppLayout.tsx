@@ -19,6 +19,7 @@ const NAV: NavItem[] = [
   { to: "/wiki", label: "Wiki", feature: "wiki" },
   { to: "/raw", label: "Raw", feature: "raw" },
   { to: "/review", label: "Review", feature: "review" },
+  { to: "/ideas", label: "Ideas", feature: "ideas" },
   { to: "/needs-context", label: "Needs Context", feature: "needsContext" },
   { to: "/change-log", label: "Change Log", feature: "changeLog" },
   { to: "/assistant", label: brand.assistantName, feature: "assistant" },

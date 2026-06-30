@@ -8,6 +8,7 @@ import Overview from "@/pages/Overview";
 import Wiki from "@/pages/Wiki";
 import Raw from "@/pages/Raw";
 import Review from "@/pages/Review";
+import Ideas from "@/pages/Ideas";
 import NeedsContext from "@/pages/NeedsContext";
 import ChangeLog from "@/pages/ChangeLog";
 import Assistant from "@/pages/Assistant";
@@ -28,6 +29,7 @@ export default function App() {
             {features.wiki && <Route path="wiki" element={<Wiki />} />}
             {features.raw && <Route path="raw" element={<Raw />} />}
             {features.review && <Route path="review" element={<Review />} />}
+            {features.ideas && <Route path="ideas" element={<Ideas />} />}
             {features.needsContext && <Route path="needs-context" element={<NeedsContext />} />}
             {features.changeLog && <Route path="change-log" element={<ChangeLog />} />}
             {assistantSurfaceEnabled() && <Route path="assistant" element={<Assistant />} />}
