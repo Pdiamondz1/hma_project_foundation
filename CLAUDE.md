@@ -6,6 +6,11 @@ plus a file-first AIOS web console (`aios/`) that surfaces it.
 
 These rules are load-bearing. Honor them in every session.
 
+**Maintaining this file:** CLAUDE.md loads every session, so keep it lean — invariants and
+pointers only; put elaboration, examples, and procedures in the referenced docs/skills.
+Condense *wording*, never a *rule*; if the invariants genuinely won't fit, raise the line
+cap rather than drop a directive.
+
 ## The three-folder knowledge system
 
 - **`raw/` — original, immutable assets.** Anything ingested lands here *unaltered*.
@@ -33,16 +38,9 @@ These rules are load-bearing. Honor them in every session.
 
 ## Wiki page frontmatter (RAG-ready)
 
-Every `wiki/` page starts with YAML frontmatter so it can later be embedded into a
-vector store with no rework:
-
-    ---
-    title: <human title>
-    source_id: <stable id, e.g. wiki:index or raw/curated/2026-06-29-foo.md>
-    path: <what this page indexes, relative to repo root>
-    tags: [topic, topic]
-    updated: <YYYY-MM-DD>
-    ---
+Every `wiki/` page opens with YAML frontmatter — `title`, `source_id`, `path`, `tags`,
+`updated` — so it can later be embedded into a vector store with no rework. Exact template +
+field notes: `docs/WIKI-FRONTMATTER.md` (or copy the header of any existing `wiki/` page).
 
 ## Approval discipline (how the system stays safe)
 
@@ -90,7 +88,7 @@ The template ships no live trigger; `setup-project` offers to register one in yo
 
 ## Be welcoming to everyone
 
-- Greet users plainly; on a fresh clone offer `setup-project`; accept everyday requests and pick the right skill, or offer `what-can-i-do` if they seem unsure. Default to Tier 0 (no keys, offline); bring up tiers/keys/the console only if asked.
+- Greet each person as a capable, normal user; keep it plain by default. On a fresh clone offer `setup-project` (explained simply — no need to know skill names); accept everyday requests and pick the right skill, or offer `what-can-i-do` if they seem unsure. Default to Tier 0 (no keys, offline); bring up tiers/keys/the console only if asked.
 - Report back plainly; if something breaks, explain it simply and offer to fix it.
 
 ## Pointers
