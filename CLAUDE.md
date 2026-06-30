@@ -80,8 +80,9 @@ orchestrator's run log in `outputs/runs/data-ingestion.md`.
 - **`data-ingestion`** — orchestrator: run the three sync skills back-to-back (no gaps, no re-ingest).
 - **`improve-system`** — single self-improvement pass; sorts changes into the three buckets, applies approved ones.
 - **`human-improve-system`** — walk you through pending reviews / notify on Slack.
-- **`maintenance-loop`** — the autonomous tick a schedule fires: `data-ingestion` → `improve-system` → `advise-project`, unattended (no interviews, skips unconfigured sources), logged to `outputs/runs/maintenance-loop.md`.
+- **`maintenance-loop`** — the autonomous tick a schedule fires: `data-ingestion` → `improve-system` → `codex-review (optional)` → `advise-project`, unattended (no interviews, skips unconfigured sources), logged to `outputs/runs/maintenance-loop.md`.
 - **`advise-project`** — propose-only: reads the KB + activity + `raw/metrics/` and files ranked project ideas to `outputs/ideas-*.md` for your approval; never applies changes; rides the `maintenance-loop` tick.
+- **`codex-review`** — optional, graceful-off: cross-model code review via the Codex CLI; writes findings to `outputs/code-reviews/`; in the loop a CRITICAL finding files a sign-off item (advisory, never blocks); off unless the Codex CLI is installed — see `docs/CODE-REVIEW.md`.
 
 **Autonomy.** Schedule `maintenance-loop` weekly via a Claude Code Routine — see `docs/SCHEDULING.md`.
 The template ships no live trigger; `setup-project` offers to register one in your environment.

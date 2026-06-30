@@ -85,6 +85,10 @@ fields below.
    If yes, follow `docs/SCHEDULING.md` to register a Claude Code Routine that fires the
    `maintenance-loop` skill (this is the one place a real, account-bound trigger is created
    — only with an explicit yes).
+10. **Offer cross-model code review (optional).** Let the user know that `codex-review` is an
+    optional add-on that runs cross-model code review via the Codex CLI and can flag critical
+    issues during the maintenance loop — point them to `docs/CODE-REVIEW.md` if interested.
+    Do not collect or write any API key; the doc has all the setup steps.
 
 ## Output
 

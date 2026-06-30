@@ -64,6 +64,8 @@ If a key or service isn't present, the system **degrades gracefully** — e.g. n
 `ANTHROPIC_API_KEY` ⇒ the Assistant is just the search panel; no embeddings ⇒ search falls
 back to BM25. You can never end up with a broken console because you skipped a tier.
 
+**Optional capability:** `codex-review` adds cross-model code review (needs the Codex CLI + OpenAI auth) and can surface CRITICAL findings as sign-off items in the maintenance loop — see `docs/CODE-REVIEW.md`.
+
 ## Recipes by project type
 
 These are *knob settings*, not separate apps — the same foundation, configured.
