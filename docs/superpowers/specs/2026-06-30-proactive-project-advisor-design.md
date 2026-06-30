@@ -82,9 +82,9 @@ existing items** (stable ids the GUI depends on). **Dedup ledger:** `outputs/ide
 **Each idea = a machine-parseable anchor line (the GUI toggles it) + an indented human block:**
 
 ```
-- [ ] `idea-20260630-003` — Add a first-run onboarding checklist  ·  dim: scale  ·  weight: 78  ·  lane: project
+- [ ] `idea-20260630-003` — Add a first-run onboarding checklist  ·  dim: scale  ·  weight: 80  ·  lane: project
       why:   D1→D7 retention is dropping and 3 of your sessions mention users "not sure what to do first."
-      score: impact 9 · confidence 7 · effort 3  → weight 78  (strong signal, low effort)
+      score: impact 9 · confidence 7 · effort 4  → ease 7 → weight 80  (strong signal, low effort)
       from:  raw/metrics/2026-06-29-dau.json · raw/inputs/processed/2026-06-27-session.md
       next:  Draft a 4-step in-app onboarding checklist — spec written on approval.
 ```
@@ -92,9 +92,13 @@ existing items** (stable ids the GUI depends on). **Dedup ledger:** `outputs/ide
 Fields:
 - **`id`** — `idea-YYYYMMDD-NNN`; the checkbox lives here so approving works identically to `review-*.md`.
 - **`dim`** — `improve` · `scale` · `maintain` · `pattern`.
-- **`weight` (0–100)** — transparent blend of **impact × confidence × (low-)effort**, sub-scores shown
-  so it is auditable, never a black box. Queue sorts highest-first; **weight ≥ 70 also alerts.**
-  Confidence is higher for live-metric or repeated evidence, lower for a one-off hunch.
+- **`weight` (0–100)** — a transparent, reproducible blend, sub-scores shown so it is auditable, never
+  a black box. Each sub-score is **1–10**: `impact`, `confidence`, and `effort` (raw effort, 1 = trivial
+  → 10 = huge). Define `ease = 11 − effort` (low effort → high ease). Then
+  **`weight = round(10 × (0.5·impact + 0.3·confidence + 0.2·ease))`** (range 0–100; the 0.5/0.3/0.2
+  weights are fixed defaults). Worked example: impact 9 · confidence 7 · effort 4 → ease 7 →
+  `10 × (4.5 + 2.1 + 1.4) = 80`. Queue sorts highest-first; **weight ≥ 70 also alerts.** Confidence is
+  higher for live-metric or repeated evidence, lower for a one-off hunch.
 - **`from`** — links to the `raw/`/`wiki/`/`metrics/` sources that triggered it. **Grounding rule:**
   every idea cites ≥ 1 evidence source; a pure-reasoning idea is allowed but labeled low confidence.
 - **`lane`** — `foundation` (system can safely act via `improve-system` on approval) vs `project`
@@ -103,10 +107,16 @@ Fields:
 
 **Lifecycle (the user only ever approves or ignores):**
 1. **Proposed** — in `ideas-*.md`, unchecked; logged `proposed`.
-2. **Approved** — the box is checked (chat or console). Next run **promotes** it: the advisor writes a
-   brief to `outputs/briefs/<id>.md` — a `project`-lane brief is a ready starting spec for the user +
-   Claude; a `foundation`-lane brief is tagged so `improve-system` adopts it through its normal gates
-   on its next pass. Logged `promoted`.
+2. **Approved** — the box is checked (chat or console). Next run **promotes** it, by lane:
+   - **`project` lane** → the advisor writes a starting spec to `outputs/briefs/<id>.md` for the user +
+     Claude to carry into brainstorming.
+   - **`foundation` lane** → the advisor appends a standard NEEDS SIGN-OFF item to today's
+     `outputs/review-*.md` (the queue `improve-system` already consumes), referencing the source
+     `idea-<id>` and continuing the file's existing `rv-YYYYMMDD-NNN` sequence (read the current max id;
+     never renumber). `improve-system` then handles it through its normal gates on its next pass.
+     **No change to `improve-system` is required — it remains the single applier and single
+     `change-log.md` writer.**
+   Either way, logged `promoted` in `ideas-log.md`.
 3. **Aged out** — an idea left unapproved for `age_out_ticks` (default 3) moves to an "Archived"
    section and is logged `expired`. It only returns if its weight materially rises (a worsening
    problem re-earns attention without nagging).
@@ -129,14 +139,18 @@ signals gracefully.
    cap at `max_ideas_per_tick` (default 7) so it never floods.
 5. **Write the queue** — append new ideas to today's `ideas-*.md` (new ids, never renumber); log each
    `proposed` in `ideas-log.md`.
-6. **Promote approved** — for any `- [x]` idea from a prior queue, write `outputs/briefs/<id>.md` and
-   log `promoted`.
+6. **Promote approved** — for any `- [x]` idea from a prior queue, promote by lane: `project` → write
+   `outputs/briefs/<id>.md`; `foundation` → append an `rv-` NEEDS SIGN-OFF item to today's
+   `outputs/review-*.md` (continue the existing id sequence; never renumber) referencing the source
+   idea. Log `promoted`.
 7. **Age out & alert** — archive ideas older than `age_out_ticks` (`expired`); if any new idea's
    weight ≥ `alert_threshold`, hand the top items to the notify path.
 8. **Summarize** — counts per lens, top ideas by weight, what was promoted, what's alerting.
 
 **Propose-only safety invariants (what keeps the user the decision-maker):**
-- The advisor **writes only inside `outputs/`** — `ideas-*.md`, `ideas-log.md`, `briefs/`.
+- The advisor **writes only inside `outputs/`** — `ideas-*.md`, `ideas-log.md`, `briefs/`, and (only
+  when promoting an approved `foundation`-lane idea) a *proposal* item appended to `review-*.md`. It
+  still never *applies* a review item.
 - It **never** edits `raw/` (immutable), `wiki/`, `.claude/skills/`, or the project's code/product.
 - It **never** writes `change-log.md` and **never auto-applies** anything. `improve-system` stays the
   *single* applier and the *single* `change-log.md` writer. Approval produces a *brief*, not a change.
