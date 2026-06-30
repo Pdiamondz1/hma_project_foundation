@@ -120,6 +120,20 @@ correct or add before I write it up?"
 Only proceed to Phase 2 after the user confirms (or makes corrections — then show the
 updated draft and confirm again).
 
+#### Optional: roast the idea before locking it in
+
+Right after the user confirms the draft (and before Phase 2), offer one optional gut-check:
+
+> "Before we lock this in, want a brutal second opinion on the core idea? It convenes a quick council
+> that pressure-tests it and gives a GO / RESHAPE / KILL call. Totally optional — say skip and I'll
+> write the charter as-is."
+
+- **On yes:** run the `roast` skill on the project idea. When it returns, fill the charter's
+  `## Vetting` section with the verdict + a link to the `outputs/vetting/<date>-<slug>/` folder. If the
+  verdict is RESHAPE or KILL, surface it and ask whether they want to adjust the charter before writing it.
+- **On skip/no:** proceed exactly as today; the charter's `## Vetting` line keeps its default
+  ("Not yet vetted — run `roast` for a second opinion").
+
 ---
 
 ### Phase 2 — Write the raw record
@@ -224,6 +238,10 @@ a valid value.>
 ## Open questions / assumptions
 <Anything flagged "assumed — confirm later" from the interview, plus genuine open
 questions the project still needs to answer.>
+
+## Vetting
+<If roasted: the verdict — GO / RESHAPE / KILL — in one line, with a link to
+`outputs/vetting/<date>-<slug>/`. Otherwise: "Not yet vetted — run `roast` for a second opinion.">
 
 ---
 *Source: raw/project/<YYYY-MM-DD>-discovery.md (full discovery interview).*
