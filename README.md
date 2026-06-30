@@ -34,18 +34,24 @@ graceful: off by default, no keys needed; switch it on per project.
 
 ## Quickstart
 
-This repo is the template. To use it for a new project, clone it and start adding
-knowledge. In Claude Code, run the **`add-new-resource`** skill and follow the interview
-to capture your first asset. The operating rules in `CLAUDE.md` load automatically every
-session.
+This repo is the template. To use it for a new project:
+
+1. Clone it, then in Claude Code run the **`setup-project`** skill — it interviews you and
+   specializes the clone (name, project type, capability tier, and a scaffolded `aios/.env`).
+2. Run **`add-new-resource`** and follow the interview to capture your first asset.
+3. (Optional) Schedule the **`maintenance-loop`** to run weekly so the system keeps itself
+   current and self-improves on its own — see **`docs/SCHEDULING.md`**.
+
+The operating rules in `CLAUDE.md` load automatically every session.
 
 ## Make it your project
 
 This foundation is meant to be cloned and specialized into anything — a web/mobile app, a
-workflow, a portfolio or data manager, a research second-brain. Start with
-**`docs/USING-THIS-FOR-ANY-PROJECT.md`** (the mental model + the capability/infra ladder)
-and **`docs/EXTENDING.md`** (concrete "add a skill / source / agent tool / surface / store"
-steps).
+workflow, a portfolio or data manager, a research second-brain. The fastest path is the
+**`setup-project`** skill (it does the specialization for you). For the mental model and the
+extension points, read **`docs/USING-THIS-FOR-ANY-PROJECT.md`** (the capability/infra ladder),
+**`docs/EXTENDING.md`** (concrete "add a skill / source / agent tool / surface / store" steps),
+and **`docs/SCHEDULING.md`** (run the self-improving loop on its own).
 
 The intelligence layer is **opt-in and graceful**: with no `aios/.env` the console runs
 zero-config (file-first + keyword search); add an `ANTHROPIC_API_KEY` for the live agent,

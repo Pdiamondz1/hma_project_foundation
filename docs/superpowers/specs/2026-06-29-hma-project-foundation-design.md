@@ -1,6 +1,6 @@
 # Design Spec: `hma_project_foundation` — a self-improving, RAG-ready project foundation with a file-first AIOS GUI
 
-> Status: Approved (2026-06-29); v1 (Phases 0–3) shipped. **Update 2026-06-30:** Phase 4 (the optional, local-first intelligence layer + the any-project extension kit) also shipped — see `docs/USING-THIS-FOR-ANY-PROJECT.md` and `docs/EXTENDING.md`.
+> Status: Approved (2026-06-29); v1 (Phases 0–3) shipped. **Update 2026-06-30:** Phase 4 (the optional, local-first intelligence layer + the any-project extension kit) also shipped — see `docs/USING-THIS-FOR-ANY-PROJECT.md` and `docs/EXTENDING.md`. **Update 2026-06-30 (Phase 5):** guided setup (`setup-project`) + autonomous scheduling (`maintenance-loop` + Claude Code Routines) shipped — see the Phase 5 addendum at the end and `docs/SCHEDULING.md`.
 
 ## Context
 
@@ -155,3 +155,29 @@ Run-history is a small JSON per sync skill (`last_run`, `cursor`) so re-runs are
 - Supabase, auth, vector DB, embeddings, and a live RAG agent (Phase 4).
 - Refactoring `harbormill-aios` / `dragoncandy` to consume the distilled base.
 - Personal-data ingest specifics (life-story recording, full email export) beyond providing the `raw/ecosystem/` + `sync-ecosystem-data` plumbing.
+
+## Phase 5 addendum — guided setup + autonomous scheduling (2026-06-30)
+
+Two additions that turn "built" into "usable by anyone, autonomously." They add no new
+runtime dependencies and change no existing contracts — both are skills plus docs.
+
+- **`setup-project` skill** (`.claude/skills/setup-project/`). The guided "make this clone
+  your project" flow. Interviews for name, project type, brand words, capability tier, and
+  surfaces, then makes targeted edits to `aios/src/config/{brand,project,features}.ts` and
+  `aios/index.html`, and scaffolds `aios/.env` from `aios/.env.example`. **Safety:** it never
+  collects API keys in chat — it sets only non-secret env values and leaves each secret slot
+  empty with a fill-in comment (`env.ts` already treats an absent key as "capability off", so
+  this degrades gracefully). It logs one `applied` line to `change-log.md` and, on an explicit
+  yes, offers to register the maintenance Routine. Idempotent: a re-run reads current config
+  for its defaults. It does NOT mutate `raw/` beyond optionally clearing seed placeholders.
+- **`maintenance-loop` skill** (`.claude/skills/maintenance-loop/`) + **Claude Code Routines**.
+  The portable autonomous tick a schedule fires: run `data-ingestion`, then `improve-system`,
+  unattended, logging a block to `outputs/runs/maintenance-loop.md`. Safety rides entirely on
+  the existing approval gates — `improve-system` only auto-applies its AUTO-APPROVE bucket and
+  already-checked items; nothing structural/skill-related is applied without a checked box. To
+  support unattended runs, the three sync skills + `data-ingestion` gained an "Unattended
+  invocation" note: no first-run interview; skip unconfigured/unreachable sources with a logged
+  "skipped (unconfigured)". Scheduling is via a Claude Code Routine firing `maintenance-loop`
+  (recommended weekly); the repo ships **no live trigger** (it wouldn't generalize across
+  clones) — `setup-project` registers one in the user's environment on opt-in. Alternatives
+  (Windows Task Scheduler, GitHub Actions) and tradeoffs are documented in `docs/SCHEDULING.md`.

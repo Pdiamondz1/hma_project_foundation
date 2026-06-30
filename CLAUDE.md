@@ -71,6 +71,7 @@ skills are incremental: per-skill config (sources/filters) lives in the skill's 
 `config.json`; run-state (last run + cursor) in `outputs/runs/<skill>.json`; the
 orchestrator's run log in `outputs/runs/data-ingestion.md`.
 
+- **`setup-project`** — specialize a fresh clone (brand, project type, capability tier, `aios/.env`); offers to schedule autonomy. Run this first after cloning.
 - **`add-new-resource`** — add a file into `raw/`, then index it in `wiki/`.
 - **`sync-claude-sessions`** — summarize new `~/.claude/projects/` sessions → `raw/inputs/processed/`.
 - **`sync-ecosystem-data`** — pull new connected-source data → `raw/ecosystem/` (+ light wiki indexes).
@@ -78,6 +79,11 @@ orchestrator's run log in `outputs/runs/data-ingestion.md`.
 - **`data-ingestion`** — orchestrator: run the three sync skills back-to-back (no gaps, no re-ingest).
 - **`improve-system`** — single self-improvement pass; sorts changes into the three buckets, applies approved ones.
 - **`human-improve-system`** — walk you through pending reviews / notify on Slack.
+- **`maintenance-loop`** — the autonomous tick a schedule fires: `data-ingestion` → `improve-system`, unattended (no interviews, skips unconfigured sources), logged to `outputs/runs/maintenance-loop.md`.
+
+**Autonomy.** Run the loop on a schedule with a Claude Code Routine that fires `maintenance-loop`
+weekly — see `docs/SCHEDULING.md`. The template ships no live trigger; `setup-project` offers to
+register one in your environment.
 
 ## Pointers
 

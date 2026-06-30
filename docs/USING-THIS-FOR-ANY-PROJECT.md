@@ -21,6 +21,11 @@ Nothing above assumes a domain. You make it *your* project by turning a few knob
 
 ## Specialize it in six moves
 
+**Fast path:** run the **`setup-project`** skill — it does moves 1–2 for you (interviews you,
+then writes `project.ts`, `brand.ts`, `features.ts`, `index.html`, and scaffolds `aios/.env`
+for your chosen tier), and offers to schedule the loop. The moves below are what it sets, and
+how to do them by hand.
+
 1. **Name it & rebrand.** Set your project in `aios/src/config/project.ts`
    (`projectType`), then rebrand via `aios/src/config/brand.ts` + the color tokens in
    `aios/src/index.css` + the assets in `aios/public/`. (See `docs/EXTENDING.md` →
@@ -36,6 +41,9 @@ Nothing above assumes a domain. You make it *your* project by turning a few knob
 5. **Add your own UI.** Drop new pages in `aios/src/pages/` + nav for anything
    project-specific (a dashboard, a form, a kanban — whatever your project needs).
 6. **Pick your infra tier.** Start at zero-config; climb only as far as you need (below).
+
+Then **make it autonomous:** schedule the `maintenance-loop` skill (ingest → self-improve) to
+run weekly so the system keeps itself current without you. See `docs/SCHEDULING.md`.
 
 ## The capability / infra ladder
 

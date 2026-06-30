@@ -35,6 +35,12 @@ doing in Claude Code. Run it manually with zero arguments first to confirm it be
    `last_run_finished`, `items_ingested`). Append one line to `outputs/change-log.md`:
    `- <date> — sync-claude-sessions — summarized N sessions → raw/inputs/processed/ — auto`.
 
+## Unattended invocation
+
+When fired by `data-ingestion` / `maintenance-loop` (no human present), do not prompt or
+propose alternatives — write to the default `raw/inputs/processed/` location, and if there
+are no new sessions, just record state and log "0 new sessions". Never block on a question.
+
 ## Output
 
 A short summary: how many new sessions were found and summarized, the files written, and

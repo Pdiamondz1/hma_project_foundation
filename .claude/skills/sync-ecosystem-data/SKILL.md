@@ -39,6 +39,14 @@ On demand or weekly. Run it manually with zero arguments first to test before sc
    append to `outputs/change-log.md`:
    `- <date> — sync-ecosystem-data — ingested N items from <sources> → raw/ecosystem/ — auto`.
 
+## Unattended invocation
+
+When fired by `data-ingestion` / `maintenance-loop` (no human present), do not run the
+first-run interview. If `config.json` is missing or empty, skip the skill and log
+"skipped (unconfigured)"; otherwise sync only the already-configured sources and skip any
+source whose `connection` can't be reached, logging "skipped (unreachable)". Never block on
+a question — configuration is done by running the skill manually first.
+
 ## Output
 
 A short summary per source: items ingested, items skipped (filtered or already seen), and

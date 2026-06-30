@@ -30,6 +30,14 @@ individually with zero arguments.
    per-skill results and totals. (The change-log lines are written by the sub-skills; this
    log is the run-level record.)
 
+## Unattended invocation
+
+This orchestrator is the scheduled/loop entry point, so it runs its sub-skills in their
+**unattended** mode (see each sub-skill's "Unattended invocation" note): no interviews, and
+any source without a `config.json` entry is skipped and logged "skipped (unconfigured)"
+rather than prompting. It never blocks on a question — first-run configuration is done by
+running each sync skill manually once.
+
 ## Output
 
 A short summary: per-skill items ingested, total, overall status, and pointers to anything

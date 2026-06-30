@@ -37,6 +37,13 @@ On demand or on a schedule. Run manually with zero arguments first to test befor
 5. **Record state + log.** Advance cursors and append to `outputs/change-log.md`:
    `- <date> — sync-curated-content — N posts from M sources → raw/curated/ — auto`.
 
+## Unattended invocation
+
+When fired by `data-ingestion` / `maintenance-loop` (no human present), do not run the
+first-run interview. Sync only sources that already have a `config.json` entry; for any
+source listed in `wiki/sources.md` without one, skip it and log "skipped (unconfigured)"
+rather than asking how to fetch it. Never block on a question.
+
 ## Output
 
 A short summary: new posts per source, key claims extracted, and the new `last_run` cursor.
