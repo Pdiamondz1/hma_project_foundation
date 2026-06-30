@@ -30,8 +30,8 @@ read by the whole system.
    `setup-project`; a docs-only `DESIGN.md` template.)
 2. **Stitch depth → both, manual-first.** Default needs **no keys**: the skill emits a ready-to-paste
    Stitch prompt + a `DESIGN.md` scaffold; the user generates at `stitch.withgoogle.com` and drops
-   the export back; the skill distills it. **Optional climb:** wire the **Stitch MCP** (API key in
-   `aios/.env`, never collected in chat, graceful-off) so Claude Code generates/pulls designs
+   the export back; the skill distills it. **Optional climb:** wire the **Stitch MCP** (`STITCH_API_KEY`
+   in `aios/.env`, never collected in chat, graceful-off) so Claude Code generates/pulls designs
    directly. Mirrors the Tier ladder + `codex-review`. (Rejected: MCP-first; manual-only.)
 3. **Apply target → portable spec + opt-in console theming.** Always write the portable
    `wiki/design-system.md` (the north star any UI reads). Then **offer**, with explicit approval, to
@@ -121,7 +121,7 @@ the recommended default flagged `(assumed — confirm later)` when still vague; 
   then drop the export (Stitch's `design.md` + screenshots) into `raw/design/<date>-…/`. If the user
   skips Stitch entirely, synthesize the system from the interview alone (Stitch is an *accelerator,
   not a dependency*).
-- **Optional climb (MCP):** if the Stitch MCP is configured (its API key present in `aios/.env`) and
+- **Optional climb (MCP):** if the Stitch MCP is configured (`STITCH_API_KEY` present in `aios/.env`) and
   the user opts in, Claude generates/pulls designs directly and saves the result into
   `raw/design/<date>-…/`. Absent key or MCP → **cleanly fall back to the manual path** (log the skip;
   never block). The key is **never collected in chat**.
@@ -209,8 +209,8 @@ muted, accent, destructive, success, warning, border — for both light (:root) 
   logic; the documented re-theme surface) + `aios/src/config/brand.ts` (also edited by `setup-project`),
   only on explicit user yes; same attended config-edit pattern as `setup-project`; logged to
   `change-log.md`; never in the loop.
-- **Never** collects/reads back/writes the Stitch (Google AI) API key — it lives in `aios/.env`,
-  empty slot with a comment, user fills it.
+- **Never** collects/reads back/writes `STITCH_API_KEY` (the Stitch / Google AI key) — it lives in
+  `aios/.env`, empty slot with a comment, user fills it.
 - **`improve-system` is untouched** — it remains the single applier / single `change-log.md` writer
   for the *self-improvement* lanes; `define-design`'s own attended change-log lines mirror how
   `define-project`/`setup-project` log their own attended writes.
@@ -237,12 +237,13 @@ muted, accent, destructive, success, warning, border — for both light (:root) 
   directive"*) to absorb these additions rather than blindly append; note the still-pending
   `codex-review` spec also wants +1 line, so condense generously. Per the maintenance policy, detail
   (Stitch tiers, MCP setup, `DESIGN.md` shape, privacy) lives in `docs/DESIGN-SYSTEM.md`.
-- **`.claude/skills/define-design/config.json`** — `stitch_mode` ("manual" default | "mcp"),
-  `default_archetype` (""), `theme_console` (true = offer the apply step), `mcp_enabled` (false;
-  graceful-off self-skips if no key).
-- **`docs/DESIGN-SYSTEM.md`** *(new)* — the Stitch workflow, MCP + key setup (key in `aios/.env`,
-  never in chat), the `DESIGN.md`/`design-system.md` shape, the console-token mapping, and the
-  privacy note.
+- **`.claude/skills/define-design/config.json`** — `default_archetype` (""), `theme_console`
+  (true = offer the apply step), `mcp_enabled` (the single Stitch toggle: `false` = the manual
+  paste-back default; `true` + `STITCH_API_KEY` in `aios/.env` = drive the Stitch MCP, graceful-off
+  if the key or MCP is absent).
+- **`docs/DESIGN-SYSTEM.md`** *(new)* — the Stitch workflow, MCP + key setup (`STITCH_API_KEY` in
+  `aios/.env`, never in chat), the `DESIGN.md`/`design-system.md` shape, the console-token mapping, and
+  the privacy note.
 - **`docs/USING-THIS-FOR-ANY-PROJECT.md`** — add `define-design` to the "define it first" /
   specialize sequence; **`README.md`** — one line that an early step is defining your design.
 

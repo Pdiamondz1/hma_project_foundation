@@ -47,8 +47,9 @@ missing file or key):
   recommend it first in Phase 1.
 - **`theme_console`** — `true` to offer the opt-in console-theming step (Phase 7); `false` to skip the offer.
 - **`mcp_enabled`** — the single Stitch toggle. Default `false` = the manual paste-back Stitch path. Set
-  `true` **and** put the Stitch/Google AI key in `aios/.env` to let Claude drive the Stitch MCP directly —
-  and even then it **gracefully falls back to the manual path** if the key or MCP is absent at runtime.
+  `true` **and** put `STITCH_API_KEY` (a Google AI / Gemini key) in `aios/.env` to let Claude drive the
+  Stitch MCP directly — and even then it **gracefully falls back to the manual path** if the key or MCP is
+  absent at runtime.
 
 ## Procedure
 
@@ -122,13 +123,13 @@ the design there, then drop the export (Stitch's `design.md` plus any screenshot
 Stitch entirely, synthesize the system from the interview alone** — Stitch is an accelerator,
 not a dependency.
 
-**Optional climb (MCP).** If `mcp_enabled` is true *and* the Stitch MCP's API key is present in
-`aios/.env` *and* the user opts in, generate or pull designs directly through the MCP and save
+**Optional climb (MCP).** If `mcp_enabled` is true *and* `STITCH_API_KEY` (a Google AI / Gemini key) is
+present in `aios/.env` *and* the user opts in, generate or pull designs directly through the MCP and save
 the result into the same `raw/design/` folder. If the key or MCP is absent, or the user
 declines, **fall back cleanly to the manual path** — note the skip, never block.
 
-**The Stitch/Google AI key is never collected in chat.** It lives only in `aios/.env` (an empty
-slot the user fills). Do not ask for it, read it back, or write it anywhere. See
+**`STITCH_API_KEY` (the Stitch/Google AI key) is never collected in chat.** It lives only in `aios/.env`
+(an empty slot the user fills). Do not ask for it, read it back, or write it anywhere. See
 `docs/DESIGN-SYSTEM.md` for setup and the privacy note.
 
 ### Phase 3 — Draft-confirm gate
@@ -199,8 +200,9 @@ an explicit yes**, edit exactly two files — never more:
   changing only the token *values*** (the `--token: H S% L%` triplets). When applying, also
   re-derive and sanity-check the **paired contrast tokens** against the new palette — the
   `*-foreground` pairs (`--primary-foreground`, `--secondary-foreground`, `--accent-foreground`,
-  `--muted-foreground`, `--card-foreground`) plus `--popover` / `--popover-foreground` — so text
-  stays legible on every surface after a strong palette change.
+  `--muted-foreground`, `--card-foreground`, `--destructive-foreground`) plus
+  `--popover` / `--popover-foreground` — so text stays legible on every surface after a strong palette
+  change.
 - **`aios/src/config/brand.ts`** — update `productName` / `tagline` / the assistant words **only
   if** the voice changed.
 
@@ -282,8 +284,8 @@ for :root and .dark.>
   (regenerating token values, preserving comments/structure) and `aios/src/config/brand.ts`,
   **only on an explicit user yes**, and logs an `applied` change-log line. It touches no other
   source and **never runs in the unattended `maintenance-loop`**.
-- **Never collect, read back, or write the Stitch (Google AI) key.** It lives only in `aios/.env`
-  (an empty slot the user fills). Do not request it in chat.
+- **Never collect, read back, or write `STITCH_API_KEY` (the Stitch / Google AI key).** It lives only in
+  `aios/.env` (an empty slot the user fills). Do not request it in chat.
 - **`improve-system` is untouched.** It remains the single applier / single `change-log.md`
   writer for the self-improvement lanes; `define-design`'s own attended change-log lines mirror
   how `define-project` and `setup-project` log their own attended writes.

@@ -28,7 +28,7 @@
 
 | Path | Create/Modify | Responsibility |
 |---|---|---|
-| `.claude/skills/define-design/config.json` | Create | `stitch_mode`, `default_archetype`, `theme_console`, `mcp_enabled`. |
+| `.claude/skills/define-design/config.json` | Create | `default_archetype`, `theme_console`, `mcp_enabled`. |
 | `raw/design/.gitkeep` | Create | Holds the immutable per-run Stitch-export folders (empty in the template). |
 | `.claude/skills/define-design/SKILL.md` | Create | The interview → capture → distill → opt-in-theme procedure. Mirrors `define-project` house style. |
 | `docs/DESIGN-SYSTEM.md` | Create | Stitch workflow, MCP + key setup (key in `aios/.env`, never chat), the `design-system.md` shape, the console-token mapping, the privacy note. |
@@ -58,13 +58,12 @@
 `.claude/skills/define-design/config.json` with EXACTLY:
 ```json
 {
-  "stitch_mode": "manual",
   "default_archetype": "",
   "theme_console": true,
   "mcp_enabled": false
 }
 ```
-(`stitch_mode`: `"manual"` paste-back default | `"mcp"`. `default_archetype`: optional pre-pick, empty = ask. `theme_console`: offer the opt-in apply step. `mcp_enabled`: graceful-off self-skips if no key.)
+(`default_archetype`: optional pre-pick, empty = ask. `theme_console`: offer the opt-in apply step. `mcp_enabled`: the single Stitch toggle — `false` = the manual paste-back default; `true` + `STITCH_API_KEY` in `aios/.env` = drive the Stitch MCP, graceful-off self-skips if the key is absent.)
 
 - [ ] **Step 2: Create the raw record dir keeper**
 
@@ -100,7 +99,7 @@ The body MUST encode the spec's procedure exactly:
 
 **`## When to use`** — first design pass on a fresh clone (after/with `define-project`); on a restyle/pivot (reads the current `wiki/design-system.md` for defaults, focuses on what's changing); when UI work needs a consistent look.
 
-**`## Inputs (interview first; zero-argument safe)`** — no arguments; opens the interview. On a re-run, read `wiki/design-system.md` first for defaults. Read behaviour from `.claude/skills/define-design/config.json` (`stitch_mode`, `default_archetype`, `theme_console`, `mcp_enabled`). Never block on a missing file/key.
+**`## Inputs (interview first; zero-argument safe)`** — no arguments; opens the interview. On a re-run, read `wiki/design-system.md` first for defaults. Read behaviour from `.claude/skills/define-design/config.json` (`default_archetype`, `theme_console`, `mcp_enabled`). Never block on a missing file/key.
 
 **`## Procedure`** with these phases:
 

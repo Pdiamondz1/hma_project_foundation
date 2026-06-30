@@ -72,8 +72,8 @@ fields below.
 5. **`aios/.env`** — create it from `aios/.env.example` if absent. Set only the NON-secret
    values for the chosen tier: `EMBEDDINGS`, `KB_STORE`, `PROJECT_TYPE` (mirror
    `projectType`), and `ANTHROPIC_MODEL` if changing it. Leave `ANTHROPIC_API_KEY`,
-   `OPENAI_API_KEY`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` **empty**, each with a
-   one-line comment naming what the user must paste in. (`aios/.env` is gitignored.)
+   `OPENAI_API_KEY`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `STITCH_API_KEY` **empty**, each
+   with a one-line comment naming what the user must paste in. (`aios/.env` is gitignored.)
 6. **Optional content reset** (only if confirmed in step 6 of the interview): delete seeded
    files under `raw/curated/`, `raw/ecosystem/`, `raw/inputs/processed/` (keep each
    `.gitkeep`); reset `wiki/index.md` and `wiki/sources.md` to their empty-template state;

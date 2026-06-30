@@ -61,8 +61,8 @@ Stitch use is gated by a single toggle — `mcp_enabled` in
 the Stitch prompt, you generate on the Stitch site yourself, and you paste the export back
 into `raw/design/<date>-<slug>/`. Nothing is sent on your behalf; no key is needed.
 
-**Optional climb — the Stitch MCP.** Set `mcp_enabled: true`, put the Stitch / Google AI
-key in `aios/.env` (an empty slot you fill — **never paste a key into chat**), and register
+**Optional climb — the Stitch MCP.** Set `mcp_enabled: true`, put `STITCH_API_KEY` (a Stitch /
+Google AI key) in `aios/.env` (an empty slot you fill — **never paste a key into chat**), and register
 the Stitch MCP server. Then Claude can drive Stitch directly and save the result into the
 same `raw/design/` folder. This is **graceful-off**: if the key or the MCP is absent at
 runtime, or you decline, the skill notes the skip and **falls back cleanly to the manual
@@ -134,6 +134,6 @@ upload, to Google.** It runs on **your own authorized key** and is strictly **op
 manual path only sends what you choose to type or upload on the Stitch site, and the MCP
 path activates only when you set `mcp_enabled: true`, supply the key in `aios/.env`, and
 opt in at runtime. Clones that leave the default (`mcp_enabled: false`, no key) send nothing
-on your behalf and work exactly as before. The Stitch / Google AI key lives **only** in
-`aios/.env` (a gitignored file you fill) — it is never collected, read back, or written
+on your behalf and work exactly as before. `STITCH_API_KEY` (the Stitch / Google AI key) lives
+**only** in `aios/.env` (a gitignored file you fill) — it is never collected, read back, or written
 anywhere by the skill, and you should **never paste it into chat**.
