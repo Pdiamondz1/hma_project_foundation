@@ -33,6 +33,8 @@ export interface IdeaItem {
 
 const ANCHOR_RE = /^\s*-\s*\[([ xX])\]\s*`(idea-[^`]+)`\s*(.*)$/;
 const BLOCK_RE = /^\s+(why|score|from|next):\s*(.*)$/i;
+// Intentionally matches ANY heading containing "archived" (e.g. "## Archived",
+// "### Archived ideas") — do not tighten this or real files stop flagging.
 const ARCHIVED_RE = /^#{1,6}\s+.*archived/i;
 
 export function parseIdeaItems(markdown: string): IdeaItem[] {
@@ -64,18 +66,26 @@ export function parseIdeaItems(markdown: string): IdeaItem[] {
       const key = b[1].toLowerCase();
       const val = b[2].trim();
       if (key === "from") current.from = val.split("·").map((s) => s.trim()).filter(Boolean);
-      else (current as unknown as Record<string, unknown>)[key] = val;
-    } else if (line.trim() !== "" && !BLOCK_RE.test(line)) {
-      current = null; // a non-blank, non-block line ends the current item's block
+      else if (key === "why") current.why = val;
+      else if (key === "score") current.score = val;
+      else if (key === "next") current.next = val;
+    } else if (line.trim() !== "") {
+      current = null; // a non-blank line ends the current item's block (block fields are consumed above)
     }
   }
   return items;
 }
 
+/**
+ * Flip ONLY the anchor checkbox for `id` (`[ ]` ↔ `[x]`) and return the new
+ * body. Never touches the indented block lines or any other anchor. An unknown
+ * id, or a box already in the requested state, returns the original string
+ * unchanged. Preserves the source EOL style (CRLF vs LF). Pure.
+ */
 export function toggleIdeaCheckbox(markdown: string, id: string, checked: boolean): string {
   const eol = markdown.includes("\r\n") ? "\r\n" : "\n";
   let changed = false;
-  const next = markdown.split(/\r?\n/).map((line) => {
+  const lines = markdown.split(/\r?\n/).map((line) => {
     const m = ANCHOR_RE.exec(line);
     if (m && m[2] === id) {
       const replaced = line.replace(/\[[ xX]\]/, `[${checked ? "x" : " "}]`);
@@ -84,5 +94,5 @@ export function toggleIdeaCheckbox(markdown: string, id: string, checked: boolea
     }
     return line;
   });
-  return changed ? next.join(eol) : markdown;
+  return changed ? lines.join(eol) : markdown;
 }

@@ -34,6 +34,8 @@ describe("parseIdeaItems", () => {
       dim: "scale",
       weight: 80,
       lane: "project",
+      why: "D1→D7 retention is dropping.",
+      score: "impact 9 · confidence 7 · effort 4 → ease 7 → weight 80",
       next: "Draft a 4-step onboarding checklist.",
       archived: false,
     });
