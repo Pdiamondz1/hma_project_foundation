@@ -61,6 +61,27 @@ export interface ReviewFile {
   items: ReviewItem[];
 }
 
+export interface IdeaItem {
+  id: string;
+  checked: boolean;
+  text: string;
+  dim?: string;
+  weight?: number;
+  lane?: string;
+  why?: string;
+  score?: string;
+  from?: string[];
+  next?: string;
+  archived: boolean;
+  raw: string;
+}
+
+export interface IdeaFile {
+  file: string;
+  title: string;
+  items: IdeaItem[];
+}
+
 export interface NeedsContextFile {
   file: string;
   title: string;
@@ -111,6 +132,23 @@ export const fileApi = {
       throw new Error(`Toggle failed (${res.status}): ${detail}`);
     }
     return (await res.json()) as { ok: boolean; changed: boolean; item: ReviewItem | null };
+  },
+
+  ideas: () =>
+    getJson<{ files: IdeaFile[] }>("/api/outputs/ideas").then((r) => r.files),
+
+  /** The ONLY mutation the GUI performs on ideas: toggle one idea checkbox in place. */
+  checkIdea: async (file: string, id: string, checked: boolean) => {
+    const res = await fetch("/api/outputs/ideas/check", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ file, id, checked }),
+    });
+    if (!res.ok) {
+      const detail = await res.text().catch(() => "");
+      throw new Error(`Toggle failed (${res.status}): ${detail}`);
+    }
+    return (await res.json()) as { ok: boolean; changed: boolean; item: IdeaItem | null };
   },
 
   needsContext: () =>
