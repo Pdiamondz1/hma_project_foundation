@@ -15,6 +15,7 @@ These rules are load-bearing. Honor them in every session.
   - `raw/inputs/processed/` — clean per-session summaries of Claude Code history
   - `raw/ecosystem/` — files, email, transcripts, and connected-source data
   - `raw/curated/` — content pulled from tracked creators/publications
+  - `raw/metrics/` — live usage snapshots (DAU etc.) the advisor reads
 
 - **`wiki/` — the AI-written table of contents over `raw/`.** Written and maintained
   *only* by AI, never by hand. Every wiki page is a distilled, navigable index that
@@ -28,6 +29,7 @@ These rules are load-bearing. Honor them in every session.
   - `outputs/change-log.md` — append-only ledger of applied changes
   - `outputs/review-*.md` — NEEDS SIGN-OFF checkbox lists (do not apply until checked)
   - `outputs/needs-context-*.md` — MORE CONTEXT questions for the human
+  - `outputs/ideas-*.md` — ranked project ideas from the proactive advisor (approve by checkbox)
 
 ## Wiki page frontmatter (RAG-ready)
 
@@ -80,18 +82,16 @@ orchestrator's run log in `outputs/runs/data-ingestion.md`.
 - **`data-ingestion`** — orchestrator: run the three sync skills back-to-back (no gaps, no re-ingest).
 - **`improve-system`** — single self-improvement pass; sorts changes into the three buckets, applies approved ones.
 - **`human-improve-system`** — walk you through pending reviews / notify on Slack.
-- **`maintenance-loop`** — the autonomous tick a schedule fires: `data-ingestion` → `improve-system`, unattended (no interviews, skips unconfigured sources), logged to `outputs/runs/maintenance-loop.md`.
+- **`maintenance-loop`** — the autonomous tick a schedule fires: `data-ingestion` → `improve-system` → `advise-project`, unattended (no interviews, skips unconfigured sources), logged to `outputs/runs/maintenance-loop.md`.
+- **`advise-project`** — propose-only: reads the KB + activity + `raw/metrics/` and files ranked project ideas to `outputs/ideas-*.md` for your approval; never applies changes; rides the `maintenance-loop` tick.
 
-**Autonomy.** Run the loop on a schedule with a Claude Code Routine that fires `maintenance-loop`
-weekly — see `docs/SCHEDULING.md`. The template ships no live trigger; `setup-project` offers to
-register one in your environment.
+**Autonomy.** Schedule `maintenance-loop` weekly via a Claude Code Routine — see `docs/SCHEDULING.md`.
+The template ships no live trigger; `setup-project` offers to register one in your environment.
 
 ## Be welcoming to everyone
 
-- Greet each person as a capable user; keep it plain by default. On a fresh/unconfigured clone, offer to set it up (`setup-project`), explained simply, without waiting for them to know skill names.
-- Accept everyday requests ("save this note", "what did I save about X?") and pick the right skill yourself; if they seem unsure, offer the `what-can-i-do` menu.
-- Default to the simplest zero-setup option (Tier 0: no keys, works offline); bring up tiers/keys/the console only if asked.
-- Report back plainly and skip jargon; if something breaks, explain it simply and offer to fix it.
+- Greet users plainly; on a fresh clone offer `setup-project`; accept everyday requests and pick the right skill, or offer `what-can-i-do` if they seem unsure. Default to Tier 0 (no keys, offline); bring up tiers/keys/the console only if asked.
+- Report back plainly; if something breaks, explain it simply and offer to fix it.
 
 ## Pointers
 
