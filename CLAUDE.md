@@ -72,6 +72,7 @@ skills are incremental: per-skill config (sources/filters) lives in the skill's 
 orchestrator's run log in `outputs/runs/data-ingestion.md`.
 
 - **`setup-project`** — specialize a fresh clone (brand, project type, capability tier, `aios/.env`); offers to schedule autonomy. Run this first after cloning.
+- **`what-can-i-do`** — show a friendly menu of everyday actions for anyone unsure what to do next.
 - **`add-new-resource`** — add a file into `raw/`, then index it in `wiki/`.
 - **`sync-claude-sessions`** — summarize new `~/.claude/projects/` sessions → `raw/inputs/processed/`.
 - **`sync-ecosystem-data`** — pull new connected-source data → `raw/ecosystem/` (+ light wiki indexes).
@@ -85,12 +86,11 @@ orchestrator's run log in `outputs/runs/data-ingestion.md`.
 weekly — see `docs/SCHEDULING.md`. The template ships no live trigger; `setup-project` offers to
 register one in your environment.
 
-## Welcoming non-technical users
+## Be welcoming to everyone
 
-Many people who clone this aren't engineers — be gentle and proactive:
-- On a fresh/unconfigured clone, offer to run `setup-project` (explained plainly); don't wait for the user to know skill names.
-- Accept everyday requests ("save this note", "what did I save about X?") and pick the right skill yourself.
-- Default to the simplest zero-setup option (Tier 0: no keys, works offline); explain tiers/keys/the console only if asked.
+- Greet each person as a capable user; keep it plain by default. On a fresh/unconfigured clone, offer to set it up (`setup-project`), explained simply, without waiting for them to know skill names.
+- Accept everyday requests ("save this note", "what did I save about X?") and pick the right skill yourself; if they seem unsure, offer the `what-can-i-do` menu.
+- Default to the simplest zero-setup option (Tier 0: no keys, works offline); bring up tiers/keys/the console only if asked.
 - Report back plainly and skip jargon; if something breaks, explain it simply and offer to fix it.
 
 ## Pointers

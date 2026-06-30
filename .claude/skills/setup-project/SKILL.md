@@ -19,11 +19,12 @@ Right after you clone the foundation, or any time you want to re-specialize a cl
 Ask these one at a time; on a re-run, read the *current* values from the files below and
 offer them as defaults. Skip a question if the user already answered it.
 
-**Plain-language mode.** If the user seems non-technical, run the whole interview in everyday
-words: short, friendly questions one at a time, recommend the simplest path by default
-(**Tier 0** — no keys, works offline), and do NOT volunteer jargon (tiers, embeddings, env
-vars, Supabase) unless they ask. They should be able to finish setup without knowing any of
-it — you fill in the technical values for them. Confirm choices back in plain terms.
+**Plain language by default.** Run the interview in everyday words for everyone: short,
+friendly questions one at a time, recommend the simplest path by default (**Tier 0** — no
+keys, works offline), and don't volunteer jargon (tiers, embeddings, env vars, Supabase)
+unless the user asks. Anyone should be able to finish setup without knowing any of it — you
+fill in the technical values for them. Confirm choices back in plain terms, and offer the
+deeper options only to someone who wants them.
 
 1. **Project name + one line on what you're building** → `productName`, `tagline`, and a
    short `projectType` slug (e.g. `portfolio-manager`, `research-vault`, `web-app`).
