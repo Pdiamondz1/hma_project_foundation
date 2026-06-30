@@ -31,7 +31,7 @@ shifts the user from being a bottleneck and allows them to become the decision m
 4. **Architecture → Approach A.** A new outward-facing `advise-project` skill running *beside*
    `improve-system`, reusing the existing approval-queue + console + notify patterns. (Rejected:
    overloading `improve-system`; a standalone always-on service.)
-5. **Weight & aging defaults.** Transparent `impact × confidence × effort` weight (0–100); alert at
+5. **Weight & aging defaults.** Transparent weight (0–100) blending impact, confidence, and effort; alert at
    weight ≥ 70; auto-age unapproved ideas after 3 ticks.
 
 **Intended outcome.** Clone → use the project → each scheduled tick the advisor reads the signals and
@@ -137,7 +137,8 @@ signals gracefully.
    rule** applies: each cites ≥ 1 source; pure-reasoning ideas are labeled low confidence.
 3. **Dedup & re-surface** — drop anything already in `ideas-log.md` or an open queue, unless its
    weight has materially risen.
-4. **Score & rank** — `impact × confidence × (low-)effort → weight`, sub-scores shown, sorted high→low;
+4. **Score & rank** — compute `weight` from the impact/confidence/effort blend (formula above),
+   sub-scores shown, sorted high→low;
    cap at `max_ideas_per_tick` (default 7) so it never floods.
 5. **Write the queue** — append new ideas to today's `ideas-*.md` (new ids, never renumber); log each
    `proposed` in `ideas-log.md`.
