@@ -31,13 +31,14 @@ Once you're set up, you can always type **"what can I do?"** and it'll show you 
 
 ## What you get
 
-Four things, built in from day one:
+Everything below is built in from day one:
 
 - 🧠 **A second brain** — everything you add is kept, organized, and searchable.
 - 🔎 **Auto-research** — it can pull in your notes, files, and sources for you.
 - 📈 **Self-learning** — repeated work turns into reusable, saved know-how.
 - 🩹 **Self-healing** — it spots and proposes fixes, and **always asks before** changing anything important.
 - 💡 **Proactive advisor** — it reads your usage data and proactively proposes improve, scale, and maintain ideas for you to approve (see [metrics feed](docs/METRICS-FEED.md)).
+- 🧪 **Vetted before you build** — say **"/roast"** and a council of expert "advisors" pressure-tests your idea, returns a clear **go / reshape / stop** verdict plus the cheapest way to test it, and can back it with a fact-checked research briefing — so you don't pour time into the wrong thing (see [idea vetting](docs/IDEA-VETTING.md)).
 - 🎨 **Designed, not generic** — a guided design step (Google Stitch–aware) captures your look-and-feel so what you build looks intentional, not AI-default.
 
 ---
@@ -76,7 +77,13 @@ Three folders do the work (all clickable):
 ## Make it your project
 
 This is meant to become *your* thing — a web or mobile app, a workflow, a portfolio or data
-manager, a research notebook. Before you specialize it, run **[`define-project`](.claude/skills/define-project/SKILL.md)** — a short discovery interview that captures your goal, audience, and success in `wiki/charter.md` so the rest of the system has a north star. Then run **[`define-design`](.claude/skills/define-design/SKILL.md)** to capture how it should *look* — a design system in `wiki/design-system.md` so your UI isn't generic. The easiest route is to let the **setup** step do it for you
+manager, a research notebook. The natural order is **define it → vet it → design it**:
+
+1. **Define it** — run **[`define-project`](.claude/skills/define-project/SKILL.md)**, a short discovery interview that captures your goal, audience, and success in `wiki/charter.md` so the rest of the system has a north star.
+2. **Vet it** — want a gut-check before you build? Say **"/roast"** and **[`roast`](.claude/skills/roast/SKILL.md)** convenes a council that pressure-tests the idea and gives a clear **go / reshape / stop** verdict, with an optional fact-checked briefing — so you only build what's worth building.
+3. **Design it** — run **[`define-design`](.claude/skills/define-design/SKILL.md)** to capture how it should *look* — a design system in `wiki/design-system.md` so your UI isn't generic.
+
+The easiest route is to let the **setup** step do it for you
 (it's part of [Start here](docs/START-HERE.md)). To go deeper, see
 [Using this for any project](docs/USING-THIS-FOR-ANY-PROJECT.md) and [Extending](docs/EXTENDING.md).
 
