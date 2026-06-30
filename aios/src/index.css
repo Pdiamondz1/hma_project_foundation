@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── AIOS — Theme tokens ──────────────────────────────────────────────────────
+   Single source of truth for the palette. To re-theme: edit the HSL values
+   below (and the words/logos in src/config/brand.ts). No component code changes.
+   Ships dark-first (<html class="dark">). :root holds the light palette.
+   (Mirrored from harbormill-aios's ops-deck aesthetic.)                          */
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 30% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 30% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 30% 12%;
+
+    /* Azure primary — the one confident accent */
+    --primary: 205 90% 46%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Amber secondary — highlights & "go" status */
+    --secondary: 38 92% 50%;
+    --secondary-foreground: 38 60% 12%;
+
+    --muted: 210 20% 96%;
+    --muted-foreground: 215 16% 40%;
+
+    --accent: 205 90% 95%;
+    --accent-foreground: 205 90% 30%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 152 56% 38%;
+    --warning: 38 92% 45%;
+
+    --border: 214 20% 90%;
+    --input: 214 20% 90%;
+    --ring: 205 90% 46%;
+
+    --radius: 0.75rem;
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.06);
+  }
+
+  .dark {
+    --background: 222 28% 9%;
+    --foreground: 210 20% 96%;
+
+    --card: 222 24% 13%;
+    --card-foreground: 210 20% 96%;
+
+    --popover: 222 24% 12%;
+    --popover-foreground: 210 20% 96%;
+
+    --primary: 205 90% 56%;
+    --primary-foreground: 222 45% 9%;
+
+    --secondary: 38 92% 58%;
+    --secondary-foreground: 38 60% 10%;
+
+    --muted: 222 16% 20%;
+    --muted-foreground: 215 16% 64%;
+
+    --accent: 205 50% 20%;
+    --accent-foreground: 205 90% 78%;
+
+    --destructive: 0 62% 48%;
+    --destructive-foreground: 210 20% 98%;
+
+    --success: 152 52% 50%;
+    --warning: 38 92% 58%;
+
+    --border: 222 16% 22%;
+    --input: 222 16% 22%;
+    --ring: 205 90% 56%;
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 6px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
+  }
+
+  *:focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight;
+  }
+}
+
+@layer utilities {
+  /* Tabular figures for metrics/KPIs */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Primary→secondary gradient text, for the wordmark/hero */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      120deg,
+      hsl(var(--primary)) 0%,
+      hsl(var(--secondary)) 100%
+    );
+  }
+
+  .glow {
+    box-shadow: 0 0 24px hsl(var(--primary) / 0.18),
+      0 0 60px hsl(var(--primary) / 0.06);
+  }
+
+  .glass {
+    @apply bg-card/70 backdrop-blur-xl;
+  }
+}

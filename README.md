@@ -20,7 +20,7 @@ vector-RAG upgrade (a live agent) is purely additive later.
 | `wiki/` | AI-written table of contents over `raw/`. Never hand-edited. |
 | `outputs/` | Generated reports + the self-improvement approval queues. |
 | `.claude/skills/` | The skills that grow and maintain the knowledge base. |
-| `aios/` | The file-first AIOS web console (added in Phase 3). |
+| `aios/` | The file-first AIOS web console (`cd aios && npm install && npm run dev`). |
 | `docs/superpowers/specs/` | The design spec. |
 | `CLAUDE.md` | The load-bearing operating rules (read this first). |
 
@@ -45,5 +45,5 @@ Built in phases (see the spec):
 - **Phase 0 — knowledge foundation + `add-new-resource`** ✅ in place
 - **Phase 1 — ingest/sync skills + `data-ingestion` orchestrator** ✅ in place
 - **Phase 2 — `improve-system` + `human-improve-system` (self-healing)** ✅ in place
-- Phase 3 — the `aios/` web console (file-first)
+- **Phase 3 — the `aios/` web console (file-first)** ✅ in place
 - Phase 4 (deferred) — Supabase + vector RAG + a live agent
