@@ -1,0 +1,3 @@
+# outputs/runs/ — sync run ledger. Skills write per-skill run-state here
+# (<skill>.json) plus the data-ingestion run log (data-ingestion.md).
+# Ships empty in the template; files are created on first run.

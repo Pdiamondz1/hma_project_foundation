@@ -66,13 +66,17 @@ vector store with no rework:
 
 ## Skills (the brain)
 
-Run any skill manually with zero arguments first; it interviews you before acting.
+Run any skill manually with zero arguments first; it interviews you before acting. Sync
+skills are incremental: per-skill config (sources/filters) lives in the skill's folder as
+`config.json`; run-state (last run + cursor) in `outputs/runs/<skill>.json`; the
+orchestrator's run log in `outputs/runs/data-ingestion.md`.
 
-- **`add-new-resource`** — add a file into `raw/`, then create/update the `wiki/`
-  entries that should reference it. *(available)*
-- Planned (later phases): `sync-claude-sessions`, `sync-ecosystem-data`,
-  `sync-curated-content`, `data-ingestion` (orchestrator), `improve-system`,
-  `human-improve-system`.
+- **`add-new-resource`** — add a file into `raw/`, then index it in `wiki/`.
+- **`sync-claude-sessions`** — summarize new `~/.claude/projects/` sessions → `raw/inputs/processed/`.
+- **`sync-ecosystem-data`** — pull new connected-source data → `raw/ecosystem/` (+ light wiki indexes).
+- **`sync-curated-content`** — pull new posts from `wiki/sources.md` → `raw/curated/`.
+- **`data-ingestion`** — orchestrator: run the three sync skills back-to-back (no gaps, no re-ingest).
+- Planned: `improve-system`, `human-improve-system`.
 
 ## Pointers
 
