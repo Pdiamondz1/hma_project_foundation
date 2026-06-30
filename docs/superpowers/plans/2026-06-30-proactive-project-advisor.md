@@ -463,8 +463,8 @@ export function parseIdeaItems(markdown: string): IdeaItem[] {
       const val = b[2].trim();
       if (key === "from") current.from = val.split("·").map((s) => s.trim()).filter(Boolean);
       else (current as Record<string, unknown>)[key] = val;
-    } else if (!line.trim() === false && !BLOCK_RE.test(line)) {
-      current = null; // a non-block, non-blank line ends the current item's block
+    } else if (line.trim() !== "" && !BLOCK_RE.test(line)) {
+      current = null; // a non-blank, non-block line ends the current item's block
     }
   }
   return items;
@@ -520,7 +520,11 @@ import { parseIdeaItems, toggleIdeaCheckbox, type IdeaItem } from "./ideas";
 interface IdeaFilePayload { file: string; title: string; items: IdeaItem[]; }
 
 async function listIdeas(): Promise<IdeaFilePayload[]> {
-  const files = await listOutputFiles("ideas");
+  // listOutputFiles("ideas") ALSO matches the dedup ledger ideas-log.md (it
+  // starts with "ideas-"). Exclude it: it has no idea anchor lines, so it would
+  // render a spurious empty card AND keep `files` non-empty, making the page's
+  // EmptyState ("No ideas yet…") unreachable on a fresh clone.
+  const files = (await listOutputFiles("ideas")).filter((f) => f !== "ideas-log.md");
   const out: IdeaFilePayload[] = [];
   for (const file of files) {
     const parsed = matter(await fs.readFile(path.join(OUTPUTS_DIR, file), "utf8"));
