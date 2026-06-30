@@ -36,7 +36,7 @@
 | `.claude/skills/setup-project/SKILL.md` | Modify | A light optional offer to enable code review (points to the doc; never collects a key). |
 | `docs/USING-THIS-FOR-ANY-PROJECT.md` | Modify | List `codex-review` as an optional capability. |
 
-**Severity contract (shared by skill + hook — keep consistent):** Codex's top-priority marker (e.g. `[P1]`, or the word "critical") → **CRITICAL**; unknown labels → **MINOR**. Rank: **CRITICAL > MAJOR > MINOR > INFO**.
+**Severity contract (shared by skill + hook — keep consistent):** Codex's top-priority **bracketed** marker (e.g. `[P1]` / `[CRITICAL]`) → **CRITICAL**; unknown labels → **MINOR**. Rank: **CRITICAL > MAJOR > MINOR > INFO**. (The shell hook greps the bracketed marker specifically, so prose like "no critical issues" can't false-trigger a strict-mode block.)
 
 ---
 
@@ -168,7 +168,7 @@ fi
 
 # Strict mode only: block on a CRITICAL (Codex top-priority) finding.
 if [ "${CODEX_REVIEW_STRICT:-0}" = "1" ]; then
-  if printf '%s' "$output" | grep -Eiq '\[P1\]|critical'; then
+  if printf '%s\n' "$output" | grep -Eiq '\[P1\]|\[CRITICAL\]'; then
     echo "[codex-review] STRICT: CRITICAL finding(s) — commit blocked. Fix, or bypass: git commit --no-verify"
     exit 1
   fi
@@ -197,7 +197,7 @@ if [ "$status" -ne 0 ]; then
 fi
 
 if [ "${CODEX_REVIEW_STRICT:-0}" = "1" ]; then
-  if printf '%s' "$output" | grep -Eiq '\[P1\]|critical'; then
+  if printf '%s\n' "$output" | grep -Eiq '\[P1\]|\[CRITICAL\]'; then
     echo "[codex-review] STRICT: CRITICAL finding(s) — push blocked. Bypass: git push --no-verify"
     exit 1
   fi
@@ -215,11 +215,11 @@ Expected: `shell syntax ok`.
 
 - [ ] **Step 4: Verify graceful-off behavior (codex-absent path)**
 
-Simulate codex not being on PATH and confirm the hook exits 0 (does not block):
+Simulate codex not being on PATH by pointing PATH at a guaranteed-empty dir, and confirm the hook exits 0 without invoking codex:
 ```bash
-PATH=/usr/bin sh .githooks/pre-commit; echo "exit=$?"
+PATH="$(mktemp -d)" sh .githooks/pre-commit; echo "exit=$?"
 ```
-Expected: prints nothing from codex and `exit=0`. (If `/usr/bin` still has codex on this machine, instead run the hook body's first guard logic mentally / temporarily rename — the requirement is: no `codex` on PATH ⇒ `exit 0`.)
+Expected: `exit=0` with no codex output. An empty PATH guarantees the codex-absent branch is taken, so this can never accidentally run a real `codex review` (unlike `PATH=/usr/bin`, which is only an approximate fallback).
 
 - [ ] **Step 5: Commit**
 
@@ -289,12 +289,13 @@ git commit -m "feat(codex-review): optional codex-review step in maintenance-loo
 
 Run: `wc -l CLAUDE.md` → note it (currently 97; hard cap **< 100**).
 
-- [ ] **Step 2: Add the CLAUDE.md skill entry**
+- [ ] **Step 2: Add the CLAUDE.md skill entry + keep the loop chain accurate**
 
-Add ONE bullet to the Skills list, after the `advise-project` entry:
-> `**`codex-review`** — *optional, graceful-off*: cross-model code review via the Codex CLI; writes findings to `outputs/code-reviews/`, and in the loop a CRITICAL finding files a sign-off item (advisory, never blocks). Off unless the Codex CLI is installed — see `docs/CODE-REVIEW.md`.`
+Add ONE bullet to the Skills list immediately after the `advise-project` entry, in the **same `- **\`name\`** — …` format** the sibling skill bullets use (leading `- `, bolded backticked name). Content: *`codex-review` — optional, graceful-off: cross-model code review via the Codex CLI; writes findings to `outputs/code-reviews/`, and in the loop a CRITICAL finding files a sign-off item (advisory, never blocks); off unless the Codex CLI is installed — see `docs/CODE-REVIEW.md`.*
 
-Keep detail in `docs/CODE-REVIEW.md` per the "Maintaining this file" policy — one line only. If this pushes the file to 100+, condense wording elsewhere (never a rule).
+Also update the existing `maintenance-loop` bullet's chain (same line, no new line) so the optional step shows: `data-ingestion → improve-system → codex-review (optional) → advise-project`.
+
+Keep detail in `docs/CODE-REVIEW.md` per the "Maintaining this file" policy — one line for the skill. If these push the file to 100+, condense wording elsewhere (never a rule).
 
 - [ ] **Step 3: setup-project optional offer**
 
