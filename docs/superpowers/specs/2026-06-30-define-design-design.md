@@ -74,8 +74,11 @@ apply** pipeline. No new conventions; the Stitch workflow slots into the three-f
 2. **`raw/design/`** *(new dir)* — immutable, append-only Stitch exports (the `design.md` Stitch
    emits, screenshots, any exported code). Each run drops a new dated set; never mutated.
 3. **`wiki/design-system.md`** *(written at runtime, not shipped)* — the distilled north star.
-4. **Opt-in console theming** — regenerate `index.css` tokens + `brand.ts` from the design system,
-   exactly the files `setup-project` already edits, only on an explicit in-interview yes.
+4. **Opt-in console theming** — regenerate `aios/src/index.css` color tokens (the file is documented
+   as the re-theme surface but **no skill regenerates it today**, so this is new logic) + the
+   `aios/src/config/brand.ts` words (which `setup-project` also edits), only on an explicit
+   in-interview yes — the same attended, user-approved, logged config-edit pattern `setup-project`
+   uses for `aios/` source.
 5. **`.claude/skills/define-design/config.json`** *(new)* + **`docs/DESIGN-SYSTEM.md`** *(new)* —
    config + the Stitch/MCP setup, the `DESIGN.md` shape, and the privacy note.
 
@@ -127,12 +130,13 @@ the recommended default flagged `(assumed — confirm later)` when still vague; 
 flagged assumptions + a palette preview) in one message; only proceed on confirmation (or revise and
 re-confirm).
 
-**Phase 4 — Write the raw record.** Save the Stitch export / interview capture under
-`raw/design/<YYYY-MM-DD>-…/` (a folder or dated file), append-only, with standard frontmatter. Each
-run (incl. re-runs) writes a **new** dated set; never mutate existing files. **Use the real path
-everywhere** it's referenced (frontmatter `source_id`/`path`, the design-system footer, the
-change-log line), including any same-day disambiguating suffix — same provenance rule as
-`define-project`.
+**Phase 4 — Write the raw record.** Save the Stitch export / interview capture under a **dated
+folder** `raw/design/<YYYY-MM-DD>-<slug>/` (the export files + a distilled capture file carrying the
+standard frontmatter), append-only. Each run (incl. re-runs) writes a **new** dated folder; never
+mutate existing files. If today already has a folder, use a disambiguating suffix
+(e.g. `-<slug>-2/`). **Use the real path everywhere** it's referenced (frontmatter
+`source_id`/`path`, the design-system footer, the change-log line), including any same-day suffix —
+same provenance rule as `define-project`.
 
 **Phase 5 — Write/update `wiki/design-system.md`.** Create (first run) or update in place (re-run)
 the north star using the shape below; bump `updated:`; on a re-run append a link to the new raw
@@ -144,11 +148,13 @@ design system is a north star, like the charter) and a "Recent additions" line, 
 
 **Phase 7 — Offer console theming (opt-in, approved).** Ask whether to apply the design to the AIOS
 console now. **Only on an explicit yes**, edit `aios/src/index.css` (regenerate the `:root`/`.dark`
-HSL color tokens from the design system's palette) and `aios/src/config/brand.ts` (productName /
-tagline / assistant words if the design changed voice). This mirrors what `setup-project` already
-does to those exact files in an attended interview — it is a user-approved config edit, **never** an
-autonomous structural change, and **never** done in the unattended loop. Preserve each file's
-comments/shape; change only the token values + brand words.
+HSL color tokens from the design system's palette — `index.css` is documented as the re-theme
+surface, but **no skill regenerates it today, so this is new logic** the plan must build, not a
+setup-project routine to reuse) and `aios/src/config/brand.ts` (productName / tagline / assistant
+words if the design changed voice — `setup-project` already edits this file). This is the same
+attended, user-approved, logged config-edit pattern `setup-project` uses for `aios/` source —
+**never** an autonomous structural change, and **never** done in the unattended loop. Preserve each
+file's comments/shape; change only the token values + brand words.
 
 **Phase 8 — Log the change.** Append one attributed line to `outputs/change-log.md`:
 `- <date> — define-design — wrote design system (wiki/design-system.md) from raw/design/<path>[; themed aios console] — auto|applied`
@@ -199,8 +205,10 @@ muted, accent, destructive, success, warning, border — for both light (:root) 
 - **`raw/design/` is immutable / append-only** — Stitch exports are ground truth; new dated sets
   only, never edits.
 - **`wiki/design-system.md` is normal AI wiki maintenance** (writes directly, like `charter.md`).
-- **Console theming is opt-in + attended** — edits only `aios/src/index.css` + `aios/src/config/brand.ts`,
-  only on explicit user yes, exactly like `setup-project`; logged to `change-log.md`; never in the loop.
+- **Console theming is opt-in + attended** — edits only `aios/src/index.css` (new token-regeneration
+  logic; the documented re-theme surface) + `aios/src/config/brand.ts` (also edited by `setup-project`),
+  only on explicit user yes; same attended config-edit pattern as `setup-project`; logged to
+  `change-log.md`; never in the loop.
 - **Never** collects/reads back/writes the Stitch (Google AI) API key — it lives in `aios/.env`,
   empty slot with a comment, user fills it.
 - **`improve-system` is untouched** — it remains the single applier / single `change-log.md` writer
@@ -223,8 +231,12 @@ muted, accent, destructive, success, warning, border — for both light (:root) 
   "define your design" idea (propose-only, as today); when present, it's available as a signal.
 - **`CLAUDE.md`** — add one Skills-list bullet for `define-design` and a one-line pointer that the
   look-and-feel north star is `wiki/design-system.md` (read before generating any UI), plus the new
-  `raw/design/` subfolder in the three-folder section. Must stay **< 100 lines**; per the maintenance
-  policy, detail (Stitch tiers, MCP setup, `DESIGN.md` shape, privacy) lives in `docs/DESIGN-SYSTEM.md`.
+  `raw/design/` subfolder in the three-folder section. Must stay **< 100 lines** — the file is at
+  **98 today**, so the plan must **budget for condensing existing wording** (per CLAUDE.md's own
+  maintenance policy: *"Condense wording, never a rule; raise the line cap before dropping a
+  directive"*) to absorb these additions rather than blindly append; note the still-pending
+  `codex-review` spec also wants +1 line, so condense generously. Per the maintenance policy, detail
+  (Stitch tiers, MCP setup, `DESIGN.md` shape, privacy) lives in `docs/DESIGN-SYSTEM.md`.
 - **`.claude/skills/define-design/config.json`** — `stitch_mode` ("manual" default | "mcp"),
   `default_archetype` (""), `theme_console` (true = offer the apply step), `mcp_enabled` (false;
   graceful-off self-skips if no key).
@@ -272,8 +284,8 @@ shipped — the template ships with no design system, like the rest of the empty
   `docs/WIKI-FRONTMATTER.md` and carries the documented sections incl. the Stitch-prompt block.
 - **Integration:** `setup-project` offers/uses it; `define-project` points to it; `what-can-i-do`
   shows the item; `advise-project` degrades gracefully when absent; `wc -l CLAUDE.md` < 100 with the
-  new bullet + pointer + `raw/design/` note; README/USING mention it; the design-spec addendum points
-  here.
+  new bullet + pointer + `raw/design/` note (condensing existing wording as needed to stay under the
+  cap, never dropping a rule); README/USING mention it; the design-spec addendum points here.
 - **No pollution:** `git status` clean aside from the intended files; no real
   `raw/design/*` or `wiki/design-system.md` committed (only `raw/design/.gitkeep`).
 
