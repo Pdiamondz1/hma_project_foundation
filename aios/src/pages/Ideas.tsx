@@ -18,6 +18,7 @@ export default function Ideas() {
       (acc, f) => acc + f.items.filter((i) => !i.archived && !i.checked).length,
       0
     ) ?? 0;
+  // Count across all files so the empty state fires even when files exist but carry no items.
   const totalItems = files?.reduce((acc, f) => acc + f.items.length, 0) ?? 0;
 
   return (
@@ -80,7 +81,7 @@ export default function Ideas() {
                             <summary className="cursor-pointer select-none px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground">
                               Archived ({archived.length})
                             </summary>
-                            <div className="space-y-2 px-3 pb-3">
+                            <div className="space-y-2 px-3 pb-3 pt-2">
                               {archived.map((item) => (
                                 <IdeaRow
                                   key={item.id}
