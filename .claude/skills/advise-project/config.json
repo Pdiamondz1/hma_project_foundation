@@ -1,0 +1,6 @@
+{
+  "alert_threshold": 70,
+  "age_out_ticks": 3,
+  "max_ideas_per_tick": 7,
+  "dimensions": ["improve", "scale", "maintain", "pattern"]
+}
