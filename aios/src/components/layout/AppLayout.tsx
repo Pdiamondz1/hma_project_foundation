@@ -3,6 +3,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { brand } from "@/config/brand";
 import { features, type FeatureKey } from "@/config/features";
+import { assistantSurfaceEnabled } from "@/config/project";
 import { cn } from "@/lib/utils";
 
 interface NavItem {
@@ -31,7 +32,12 @@ const NAV: NavItem[] = [
  */
 export function AppLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const navItems = NAV.filter((item) => !item.feature || features[item.feature]);
+  const navItems = NAV.filter((item) => {
+    if (item.feature && !features[item.feature]) return false;
+    // The Assistant surface also respects the project capability (intent).
+    if (item.to === "/assistant" && !assistantSurfaceEnabled()) return false;
+    return true;
+  });
 
   return (
     <div className="relative min-h-screen bg-background">

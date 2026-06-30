@@ -86,3 +86,43 @@ The seams are already in place so the upgrade is *purely additive*:
 
 Nothing about the file contracts or the surfaces changes — the GUI keeps reading the same
 shapes.
+
+## Intelligence layer (Phase 4 — opt-in)
+
+The Phase-4 layer is **live but fully opt-in**. With **no `aios/.env`**, the console runs
+exactly as v1: pure-JS **BM25** lexical search and the search-panel Assistant — zero extra
+keys, zero extra infra. Everything below degrades gracefully when its key is absent. Copy
+`aios/.env.example` → `aios/.env` and set only what you want.
+
+| Capability | Turn it on with | Falls back to |
+|---|---|---|
+| **Semantic embeddings** | `EMBEDDINGS=local` + `npm run kb:enable-local-embeddings` (local 384-dim model), **or** `EMBEDDINGS=openai` + `OPENAI_API_KEY=…` (1536-dim) | BM25 lexical search |
+| **The agent** | `ANTHROPIC_API_KEY=…` (optionally `ANTHROPIC_MODEL=`, default `claude-sonnet-4-6`) | the search panel |
+| **Supabase store** | `KB_STORE=supabase` + `SUPABASE_URL=…` + `SUPABASE_SERVICE_ROLE_KEY=…` (apply `supabase/migrations/0001_knowledge.sql`) | the local JSON index |
+
+- **Knowledge store** — pluggable `KnowledgeStore` (`server/kb/store.ts`). `LocalStore`
+  (default) persists a vector/lexical index under `aios/.kb-index/` (gitignored).
+  `SupabaseStore` is inert unless both Supabase vars are set. Embeddings come from a
+  pluggable `EmbeddingProvider` (`server/kb/embeddings.ts`): the local model is an
+  **optional** dependency loaded dynamically — if it isn't installed the store falls back to
+  BM25, so the base `npm install` stays lean and reliable.
+- **Reindex** — `npm run kb:index` (or `POST /api/kb/reindex`) builds the active store's
+  index from `wiki/` (incremental by `source_id` + content hash). `GET /api/search` and
+  `GET /api/kb/stats` are wired to the active store; the search response shape is unchanged.
+- **The agent** — `GET /api/assistant/status` reports `{ enabled, model, backend }`;
+  `POST /api/assistant/chat` streams an Anthropic tool-use loop (SSE) grounded in the KB via
+  an **extensible tool registry** (`server/assistant/tools.ts`: `search_knowledge`,
+  `get_wiki_page`, `list_raw`, `get_change_log`, `propose_review_item`, plus two clearly
+  marked example template tools). `propose_review_item` only *proposes* — it appends a NEEDS
+  SIGN-OFF item to `outputs/review-YYYY-MM-DD.md` and never writes the change-log. With no
+  key, `/chat` returns `{ disabled:true }` and the UI shows the search panel.
+- **Project config** — `src/config/project.ts` sets `projectType` + capability intent; the
+  server mirrors real capability from env (`server/env.ts`) so client and server agree.
+
+### Intelligence scripts
+
+```bash
+npm run kb:index                    # (re)build the active store's index from wiki/
+npm run kb:enable-local-embeddings  # install the optional local embedding model
+node server/scripts/smoke.mjs       # no-keys smoke test of the new endpoints
+```

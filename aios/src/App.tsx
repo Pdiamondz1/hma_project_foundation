@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { features } from "@/config/features";
+import { assistantSurfaceEnabled } from "@/config/project";
 
 import Overview from "@/pages/Overview";
 import Wiki from "@/pages/Wiki";
@@ -29,7 +30,7 @@ export default function App() {
             {features.review && <Route path="review" element={<Review />} />}
             {features.needsContext && <Route path="needs-context" element={<NeedsContext />} />}
             {features.changeLog && <Route path="change-log" element={<ChangeLog />} />}
-            {features.assistant && <Route path="assistant" element={<Assistant />} />}
+            {assistantSurfaceEnabled() && <Route path="assistant" element={<Assistant />} />}
             {/* Disabled surfaces + unknown deep links fall back to Overview. */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>

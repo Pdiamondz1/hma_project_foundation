@@ -21,6 +21,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import matter from "gray-matter";
+import { handleIntelligenceApi } from "./intelligence";
+import { storeSearch } from "./kb/store";
+import { kbStatsSummary } from "./kb/reindex";
 
 /* ─────────────────────────── KB root resolution ─────────────────────────── */
 
@@ -377,6 +380,8 @@ export interface KbStats {
   reviews: { open: number; total: number; files: number };
   needsContext: { open: number };
   changeLog: { recent: string[] };
+  /** Phase-4 retrieval-layer summary (additive; absent fields are harmless in v1). */
+  kb: { backend: string; vectors: number; lastIndexed: string | null; embeddings: string };
 }
 
 async function getStats(): Promise<KbStats> {
@@ -395,6 +400,7 @@ async function getStats(): Promise<KbStats> {
     },
     needsContext: { open: needs.reduce((acc, n) => acc + n.questions.length, 0) },
     changeLog: { recent: recentChangeLogEntries(await readChangeLog(), 5) },
+    kb: await kbStatsSummary(),
   };
 }
 
@@ -431,6 +437,10 @@ export async function handleFileApi(
   const route = url.pathname;
 
   try {
+    // Phase-4 intelligence endpoints (opt-in; degrade gracefully). Delegated
+    // first so /api/kb/reindex, /api/assistant/* are handled before the v1 switch.
+    if (await handleIntelligenceApi(req, res, url, method)) return true;
+
     if (method === "GET" && route === "/api/kb/stats") {
       sendJson(res, 200, await getStats());
       return true;
@@ -506,7 +516,10 @@ export async function handleFileApi(
 
     if (method === "GET" && route === "/api/search") {
       const q = url.searchParams.get("q") ?? "";
-      sendJson(res, 200, { query: q, results: await searchWiki(q) });
+      // Rewired to the active KnowledgeStore (semantic if embeddings are on,
+      // else BM25). storeSearch never throws — it degrades to live BM25. Shape
+      // is unchanged: { title, path, snippet, score }.
+      sendJson(res, 200, { query: q, results: await storeSearch(q) });
       return true;
     }
 
