@@ -40,7 +40,7 @@ Two cleanly separated layers in one repo, communicating only through files:
 ```
 
 - **The skills are the "backend brain"** (Claude Code skills, no runtime). They ingest data into `raw/`, distill it into `wiki/`, and write reports/approval-queues into `outputs/`.
-- **The GUI is a read-mostly window** onto those files. Its only writes go to `outputs/` (checking a NEEDS SIGN-OFF box, appending to `change-log.md`) — mirroring the `report-ingest` "single write seam" guarantee from harbormill-aios.
+- **The GUI is a read-mostly window** onto those files. Its *only* write is toggling a NEEDS SIGN-OFF checkbox in `outputs/review-*.md` — mirroring the `report-ingest` "single write seam" guarantee from harbormill-aios. It never writes `change-log.md`; skills own that ledger.
 - **RAG-ready, not RAG-on:** `wiki/` pages carry frontmatter (`title`, `path`, `tags`, `source_id`); the file API exposes a swappable `search(query)` (lexical now, vector later); the Assistant page and a `tools.ts`-shaped registry exist as stubs. Phase 4 swaps lexical search for pgvector + embeddings and wires a live agent — no structural change.
 
 ## Repository structure (target)
@@ -83,7 +83,7 @@ hma_project_foundation/
 - Seed `wiki/index.md` + `wiki/sources.md` as empty-but-structured starting points (do **not** compile the wiki — raw starts empty).
 
 ### B. The 7 skills (`.claude/skills/<name>/SKILL.md` + folder)
-Each follows its slide exactly; each **interviews before building**, **runs manually with zero arguments** before any scheduling, and promotes nothing to `.claude/skills/` or `wiki/` root without sign-off (proposals go to `_candidates/`).
+Each follows its slide exactly; each **interviews before building** and **runs manually with zero arguments** before any scheduling. Routine wiki maintenance (e.g. `add-new-resource` and the sync skills creating/updating topical index pages) writes to `wiki/` directly; only *structural* rewrites and *new/edited skills* require sign-off (proposals go to `wiki/_candidates/`).
 
 | Skill | Job (from slides) | Reads | Writes |
 |---|---|---|---|
@@ -104,11 +104,23 @@ Run-history is a small JSON per sync skill (`last_run`, `cursor`) so re-runs are
   - `GET /api/kb/stats` — counts of raw/wiki/outputs + recent `change-log` entries
   - `GET /api/wiki`, `GET /api/wiki/:path` — list (frontmatter) + render
   - `GET /api/raw` — list raw assets (read-only)
-  - `GET /api/outputs/reviews` — parse `review-*.md` into checkbox items; `POST /api/outputs/reviews/:id/check` — toggle a box (writes back to the md + appends to `change-log.md`)
+  - `GET /api/outputs/reviews` — parse `review-*.md` into checkbox items (each with a stable `id`); `POST /api/outputs/reviews/:id/check` — toggle that item's box in place (the only GUI write; does **not** touch `change-log.md`)
   - `GET /api/outputs/needs-context`, `GET /api/outputs/change-log`
   - `GET /api/search?q=` — lexical search over `wiki/` (the swappable RAG-ready seam)
 - **Pages** (each feature-flagged + brand-driven), mapping austin.marchese buckets → AIOS surfaces:
-  Overview (KB stats + recent activity) · Wiki (browse/render) · Raw (read-only asset list) · **Review Queue** (`review-*.md` → checkbox approve = NEEDS SIGN-OFF) · **Needs Context** (`needs-context-*.md` = MORE CONTEXT) · **Change Log** (`change-log.md` = applied) · Assistant (RAG-ready chat stub over `/api/search`).
+  Overview (KB stats + recent activity) · Wiki (browse/render) · Raw (read-only asset list) · **Review Queue** (`review-*.md` → checkbox approve = NEEDS SIGN-OFF) · **Needs Context** (`needs-context-*.md` = MORE CONTEXT) · **Change Log** (`change-log.md` = applied) · Assistant (a simple "ask the knowledge base" panel that renders `/api/search` results — not a simulated chat; this is the RAG seam, not a live agent).
+
+### C.1 `outputs/` file contracts (pinned for cross-phase agreement)
+
+`improve-system` (Phase 2) writes these; the GUI Review Queue (Phase 3) reads/toggles them. Pinning the format now keeps the Phase 2 → Phase 3 boundary safe.
+
+- **`review-*.md`** — YAML frontmatter (`title`, `source_id: outputs:review-<date>`, `generated_by`, `updated`) followed by checkbox items, each with a stable id that is never renumbered or rewritten once issued (new items are appended):
+
+      - [ ] `rv-YYYYMMDD-NNN` — <concise change>  ·  target: <path>  ·  detail: <what changes>
+
+  The file API's `:id` is this `rv-...` token. `improve-system` reads which ids are checked and applies only those on its next run.
+- **`needs-context-*.md`** — frontmatter + a list of open questions for the human (free text).
+- **`change-log.md`** — append-only, **written by skills only** (never the GUI). One attributed line per applied change: `- <date> — <skill> — <what> — <auto|applied>`.
 
 ### D. RAG-ready seams (inert in v1)
 - `wiki/` frontmatter schema (`source_id`, `title`, `path`, `tags`) compatible with dragoncandy's `donny_knowledge` rows.
