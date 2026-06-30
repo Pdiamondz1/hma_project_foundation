@@ -1,6 +1,6 @@
 # Design Spec: `hma_project_foundation` — a self-improving, RAG-ready project foundation with a file-first AIOS GUI
 
-> Status: Approved (2026-06-29). Source of truth for the v1 build. Phase 4 items are explicitly deferred.
+> Status: Approved (2026-06-29); v1 (Phases 0–3) shipped. **Update 2026-06-30:** Phase 4 (the optional, local-first intelligence layer + the any-project extension kit) also shipped — see `docs/USING-THIS-FOR-ANY-PROJECT.md` and `docs/EXTENDING.md`.
 
 ## Context
 

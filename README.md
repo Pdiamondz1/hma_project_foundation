@@ -9,8 +9,9 @@ capabilities built in from day one:
 - **Self-healing** — an `improve-system` loop that proposes fixes behind human approval gates
 
 It ships with a **file-first AIOS web console** (`aios/`) that surfaces the knowledge
-base and the approval queues — no database required. It is structured so a Supabase +
-vector-RAG upgrade (a live agent) is purely additive later.
+base and the approval queues — no database required. An **optional intelligence layer**
+(semantic search + an Anthropic agent with an extensible tool registry) is opt-in and
+graceful: off by default, no keys needed; switch it on per project.
 
 ## Layout
 
@@ -38,6 +39,19 @@ knowledge. In Claude Code, run the **`add-new-resource`** skill and follow the i
 to capture your first asset. The operating rules in `CLAUDE.md` load automatically every
 session.
 
+## Make it your project
+
+This foundation is meant to be cloned and specialized into anything — a web/mobile app, a
+workflow, a portfolio or data manager, a research second-brain. Start with
+**`docs/USING-THIS-FOR-ANY-PROJECT.md`** (the mental model + the capability/infra ladder)
+and **`docs/EXTENDING.md`** (concrete "add a skill / source / agent tool / surface / store"
+steps).
+
+The intelligence layer is **opt-in and graceful**: with no `aios/.env` the console runs
+zero-config (file-first + keyword search); add an `ANTHROPIC_API_KEY` for the live agent,
+embeddings for semantic search, or Supabase for cloud/multi-user — each degrades gracefully
+if absent.
+
 ## Status
 
 Built in phases (see the spec):
@@ -46,4 +60,4 @@ Built in phases (see the spec):
 - **Phase 1 — ingest/sync skills + `data-ingestion` orchestrator** ✅ in place
 - **Phase 2 — `improve-system` + `human-improve-system` (self-healing)** ✅ in place
 - **Phase 3 — the `aios/` web console (file-first)** ✅ in place
-- Phase 4 (deferred) — Supabase + vector RAG + a live agent
+- **Phase 4 — optional intelligence layer (semantic search + Anthropic agent, local-first)** ✅ in place
