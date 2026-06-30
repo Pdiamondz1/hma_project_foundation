@@ -85,6 +85,14 @@ orchestrator's run log in `outputs/runs/data-ingestion.md`.
 weekly — see `docs/SCHEDULING.md`. The template ships no live trigger; `setup-project` offers to
 register one in your environment.
 
+## Welcoming non-technical users
+
+Many people who clone this aren't engineers — be gentle and proactive:
+- On a fresh/unconfigured clone, offer to run `setup-project` (explained plainly); don't wait for the user to know skill names.
+- Accept everyday requests ("save this note", "what did I save about X?") and pick the right skill yourself.
+- Default to the simplest zero-setup option (Tier 0: no keys, works offline); explain tiers/keys/the console only if asked.
+- Report back plainly and skip jargon; if something breaks, explain it simply and offer to fix it.
+
 ## Pointers
 
 - Design spec: `docs/superpowers/specs/2026-06-29-hma-project-foundation-design.md`

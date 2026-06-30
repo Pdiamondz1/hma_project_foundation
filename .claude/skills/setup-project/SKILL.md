@@ -19,14 +19,20 @@ Right after you clone the foundation, or any time you want to re-specialize a cl
 Ask these one at a time; on a re-run, read the *current* values from the files below and
 offer them as defaults. Skip a question if the user already answered it.
 
+**Plain-language mode.** If the user seems non-technical, run the whole interview in everyday
+words: short, friendly questions one at a time, recommend the simplest path by default
+(**Tier 0** — no keys, works offline), and do NOT volunteer jargon (tiers, embeddings, env
+vars, Supabase) unless they ask. They should be able to finish setup without knowing any of
+it — you fill in the technical values for them. Confirm choices back in plain terms.
+
 1. **Project name + one line on what you're building** → `productName`, `tagline`, and a
    short `projectType` slug (e.g. `portfolio-manager`, `research-vault`, `web-app`).
 2. **Assistant name + persona** (optional; defaults: name "Ada", persona "a knowledge-base
    search assistant — it finds and cites the wiki pages that answer your question").
 3. **Company name + URL** (optional).
 4. **Capability tier** — the ladder in `docs/USING-THIS-FOR-ANY-PROJECT.md`. Pick one:
-   - **Tier 0 — zero-config (BM25):** no keys. `EMBEDDINGS=none`; `semanticSearch:false`,
-     `assistant:false`.
+   - **Tier 0 — zero-config (BM25):** *(recommended default — pick this unless the user asks
+     for more)* no keys. `EMBEDDINGS=none`; `semanticSearch:false`, `assistant:false`.
    - **Tier 1 — + local embeddings:** `EMBEDDINGS=local`; `semanticSearch:true`. (Offer to
      run `npm run kb:enable-local-embeddings`.)
    - **Tier 2 — + the agent:** `assistant:true`; needs `ANTHROPIC_API_KEY` (user fills).
