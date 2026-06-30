@@ -136,8 +136,9 @@ updated: <YYYY-MM-DD>
 **Direction:** <archetype + the feeling, e.g. "Professional dashboard, calm and precise">
 
 ## Palette
-<HSL token triplets mapping onto aios/src/index.css — primary, secondary, background,
-foreground, muted, accent, destructive, success, warning, border — for :root and .dark.>
+<HSL token triplets mapping onto aios/src/index.css — background, foreground, card,
+primary, secondary, muted, accent, destructive, success, warning, border, input, ring —
+for :root and .dark.>
 
 ## Typography & shape
 <Type pairing (display/body), weights, --radius, density.>
@@ -275,7 +276,10 @@ After the **"Define it first"** paragraph (line 24), add a sibling line: *"**The
 
 (a) In **"Make it your project"** (line 78), after the `define-project` sentence, add: *"Then run **[`define-design`](.claude/skills/define-design/SKILL.md)** to capture how it should *look* — a design system in `wiki/design-system.md` so your UI isn't generic."*
 (b) In **"What you get"** (line 40 area), add a bullet: *"🎨 **Designed, not generic** — a guided design step (Google Stitch–aware) captures your look-and-feel so what you build looks intentional, not AI-default."*
-(c) In **"Build status"** (line 110 area), append `- Phase 9 — `define-design` design-discovery + design system (Google Stitch–aware) ✅`. (Honesty fix; leave the prior lines as-is.)
+(c) In **"Build status"** (line 110 area), the list currently stops at Phase 6 — Phases 7 and 8 were never added. Append all three so the ladder is honest:
+> `- Phase 7 — optional `codex-review` cross-model code-review gate (graceful-off) ✅`
+> `- Phase 8 — `define-project` discovery interview → project charter (`wiki/charter.md`) ✅`
+> `- Phase 9 — `define-design` design-discovery + design system (`wiki/design-system.md`, Google Stitch–aware) ✅`
 
 - [ ] **Step 6: Design-spec addendum**
 
