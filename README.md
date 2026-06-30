@@ -1,76 +1,108 @@
 # Project Foundation
 
-A reusable, self-improving **project foundation** you clone to start new work with four
-capabilities built in from day one:
+**A starter kit you copy to begin any new project — with a built-in "second brain" that
+remembers and organizes everything you feed it, and a helper you talk to in plain English.**
 
-- **2nd-brain knowledge** — a disciplined `raw/ → wiki/ → outputs/` knowledge base
-- **Auto-researching** — sync skills that pull in sessions, ecosystem data, and curated content
-- **Self-learning** — repeated work is distilled into reusable wiki pages and skill candidates
-- **Self-healing** — an `improve-system` loop that proposes fixes behind human approval gates
+Think of it as an empty, *smart* notebook for a new project. You add notes, files, and links
+by just talking; it quietly files them away, keeps a tidy index, and even tidies and improves
+itself over time. Use it for almost anything — a business idea, a research project, a web or
+mobile app, a portfolio, or a growing collection of notes.
 
-It ships with a **file-first AIOS web console** (`aios/`) that surfaces the knowledge
-base and the approval queues — no database required. An **optional intelligence layer**
-(semantic search + an Anthropic agent with an extensible tool registry) is opt-in and
-graceful: off by default, no keys needed; switch it on per project.
+> 💡 **You don't need to be a programmer, and you don't need to know GitHub.** A free app called
+> **Claude Code** does the technical parts for you. Start with **[Start here »](docs/START-HERE.md)**
 
-## Layout
+---
 
-| Path | What it is |
+## 🚀 Start here
+
+Pick whichever fits you:
+
+| You are… | Go to | What it's like |
+|---|---|---|
+| **New to this, or new to GitHub** | **[Start here](docs/START-HERE.md)** | The simplest path. No terminal, no commands — you install one app and just talk to it. |
+| **Comfortable and want every step** | [New project walkthrough](docs/NEW-PROJECT-WALKTHROUGH.md) | The full hands-on guide: copy it, set it up, run the dashboard, pick options. |
+
+Once you're set up, you can always type **"what can I do?"** and it'll show you a friendly menu.
+
+> On this GitHub page, the green **Use this template** button (top of the page) makes your own
+> copy. If you follow **[Start here](docs/START-HERE.md)**, the app can do that for you too.
+
+---
+
+## What you get
+
+Four things, built in from day one:
+
+- 🧠 **A second brain** — everything you add is kept, organized, and searchable.
+- 🔎 **Auto-research** — it can pull in your notes, files, and sources for you.
+- 📈 **Self-learning** — repeated work turns into reusable, saved know-how.
+- 🩹 **Self-healing** — it spots and proposes fixes, and **always asks before** changing anything important.
+
+---
+
+## 📚 Documentation
+
+Every link below is clickable:
+
+| Guide | Read it for… |
 |---|---|
-| `raw/` | Original, immutable ingested assets. Never edited by hand or AI. |
-| `wiki/` | AI-written table of contents over `raw/`. Never hand-edited. |
-| `outputs/` | Generated reports + the self-improvement approval queues. |
-| `.claude/skills/` | The skills that grow and maintain the knowledge base. |
-| `aios/` | The file-first AIOS web console (`cd aios && npm install && npm run dev`). |
-| `docs/superpowers/specs/` | The design spec. |
-| `CLAUDE.md` | The load-bearing operating rules (read this first). |
+| [Start here](docs/START-HERE.md) | The simplest, plain-language way to begin. |
+| [New project walkthrough](docs/NEW-PROJECT-WALKTHROUGH.md) | The full step-by-step — including how to pull in updates later. |
+| [Using this for any project](docs/USING-THIS-FOR-ANY-PROJECT.md) | The mental model + how far to take it (the "tiers"). |
+| [Extending](docs/EXTENDING.md) | Adding your own skills, sources, tools, and pages. |
+| [Scheduling](docs/SCHEDULING.md) | Letting it run and improve itself on a schedule. |
+| [Design spec](docs/superpowers/specs/2026-06-29-hma-project-foundation-design.md) | The full design, for the curious. |
+| [CLAUDE.md](CLAUDE.md) | The rules the AI follows every session. |
 
-## How knowledge flows
+---
 
-1. You drop something in (a file, a session, a link).
-2. A skill copies the original, unaltered, into the right `raw/` folder.
-3. The skill writes/updates a `wiki/` page that indexes and references it.
-4. `improve-system` periodically proposes improvements, routed through approval gates.
+## How it works (in plain terms)
 
-## Quickstart
+1. You drop something in — a file, a note, a link.
+2. It saves the original, untouched, in a safe folder.
+3. It writes a short, organized summary so you can find it later.
+4. Now and then it reviews everything, fixes small things, and **asks you** before bigger changes.
 
-This repo is the template. To use it for a new project:
+Three folders do the work (all clickable):
 
-1. Clone it, then in Claude Code run the **`setup-project`** skill — it interviews you and
-   specializes the clone (name, project type, capability tier, and a scaffolded `aios/.env`).
-2. Run **`add-new-resource`** and follow the interview to capture your first asset.
-3. (Optional) Schedule the **`maintenance-loop`** to run weekly so the system keeps itself
-   current and self-improves on its own — see **`docs/SCHEDULING.md`**.
+- [`raw/`](raw) — your originals, never changed.
+- [`wiki/`](wiki) — the AI-written, organized index of your originals.
+- [`outputs/`](outputs) — reports and the "please approve this" lists.
 
-The operating rules in `CLAUDE.md` load automatically every session.
-
-**The simplest way to start** — **`docs/START-HERE.md`**: no terminal, no commands; you just
-talk to the Claude Code app.
-
-**Want the full hands-on walkthrough** (console, capability tiers, options)? See
-**`docs/NEW-PROJECT-WALKTHROUGH.md`**.
+---
 
 ## Make it your project
 
-This foundation is meant to be cloned and specialized into anything — a web/mobile app, a
-workflow, a portfolio or data manager, a research second-brain. The fastest path is the
-**`setup-project`** skill (it does the specialization for you). For the step-by-step, read
-**`docs/NEW-PROJECT-WALKTHROUGH.md`**. For the mental model and the extension points, read
-**`docs/USING-THIS-FOR-ANY-PROJECT.md`** (the capability/infra ladder), **`docs/EXTENDING.md`**
-(concrete "add a skill / source / agent tool / surface / store" steps), and
-**`docs/SCHEDULING.md`** (run the self-improving loop on its own).
+This is meant to become *your* thing — a web or mobile app, a workflow, a portfolio or data
+manager, a research notebook. The easiest route is to let the **setup** step do it for you
+(it's part of [Start here](docs/START-HERE.md)). To go deeper, see
+[Using this for any project](docs/USING-THIS-FOR-ANY-PROJECT.md) and [Extending](docs/EXTENDING.md).
 
-The intelligence layer is **opt-in and graceful**: with no `aios/.env` the console runs
-zero-config (file-first + keyword search); add an `ANTHROPIC_API_KEY` for the live agent,
-embeddings for semantic search, or Supabase for cloud/multi-user — each degrades gracefully
-if absent.
+Smarter features are **optional and off by default** — it works fully with no keys and no extra
+setup. Turn on better search, a live chat assistant, or cloud storage only if and when you want
+them. Each is explained in [Using this for any project](docs/USING-THIS-FOR-ANY-PROJECT.md).
 
-## Status
+---
 
-Built in phases (see the spec):
+## 🔧 Under the hood (for the curious)
 
-- **Phase 0 — knowledge foundation + `add-new-resource`** ✅ in place
-- **Phase 1 — ingest/sync skills + `data-ingestion` orchestrator** ✅ in place
-- **Phase 2 — `improve-system` + `human-improve-system` (self-healing)** ✅ in place
-- **Phase 3 — the `aios/` web console (file-first)** ✅ in place
-- **Phase 4 — optional intelligence layer (semantic search + Anthropic agent, local-first)** ✅ in place
+The technical reference — skip this if you just want to use it.
+
+| Path | What it is |
+|---|---|
+| [`raw/`](raw) | Original, immutable ingested assets. Never edited by hand or AI. |
+| [`wiki/`](wiki) | AI-written table of contents over `raw/`. Never hand-edited. |
+| [`outputs/`](outputs) | Generated reports + the self-improvement approval queues. |
+| [`.claude/skills/`](.claude/skills) | The skills that grow and maintain the knowledge base. |
+| [`aios/`](aios) | The file-first web console (`cd aios && npm install && npm run dev`). |
+| [`docs/`](docs) | All the guides + the design spec. |
+| [`CLAUDE.md`](CLAUDE.md) | The operating rules the AI loads every session. |
+
+**Build status** — all phases shipped:
+
+- Phase 0 — knowledge foundation + `add-new-resource` ✅
+- Phase 1 — ingest/sync skills + `data-ingestion` orchestrator ✅
+- Phase 2 — `improve-system` + `human-improve-system` (self-healing) ✅
+- Phase 3 — the `aios/` web console (file-first) ✅
+- Phase 4 — optional intelligence layer (semantic search + Anthropic agent) ✅
+- Phase 5 — guided `setup-project` + autonomous `maintenance-loop` (scheduling) ✅
