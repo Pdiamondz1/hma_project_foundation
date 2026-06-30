@@ -1,0 +1,7 @@
+{
+  "enabled": true,
+  "default_base": "main",
+  "caution_severity": "CRITICAL",
+  "loop_scope": "uncommitted",
+  "model": ""
+}
