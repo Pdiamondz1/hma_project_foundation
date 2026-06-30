@@ -76,7 +76,8 @@ orchestrator's run log in `outputs/runs/data-ingestion.md`.
 - **`sync-ecosystem-data`** — pull new connected-source data → `raw/ecosystem/` (+ light wiki indexes).
 - **`sync-curated-content`** — pull new posts from `wiki/sources.md` → `raw/curated/`.
 - **`data-ingestion`** — orchestrator: run the three sync skills back-to-back (no gaps, no re-ingest).
-- Planned: `improve-system`, `human-improve-system`.
+- **`improve-system`** — single self-improvement pass; sorts changes into the three buckets, applies approved ones.
+- **`human-improve-system`** — walk you through pending reviews / notify on Slack.
 
 ## Pointers
 

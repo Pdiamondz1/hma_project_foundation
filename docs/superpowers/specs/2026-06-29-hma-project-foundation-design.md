@@ -95,7 +95,7 @@ Each follows its slide exactly; each **interviews before building** and **runs m
 | `improve-system` | Self-improvement pass → sort every change into AUTO-APPROVE / NEEDS SIGN-OFF / MORE CONTEXT | recent activity | `outputs/change-log.md`, `outputs/review-*.md`, `outputs/needs-context-*.md` |
 | `human-improve-system` | Human-in-the-loop: walk through review / notify on Slack when needed | `outputs/review-*.md` | (notifications) |
 
-Run-history is a small JSON per sync skill (`last_run`, `cursor`) so re-runs are incremental and idempotent. Concretely: per-skill config (sources/filters) lives in `.claude/skills/<skill>/config.json`; run-state in `outputs/runs/<skill>.json`; the orchestrator's run log in `outputs/runs/data-ingestion.md` — the pattern proven by harbormill-aios's loops + dragoncandy's `donny-knowledge-sync`.
+Run-history is a small JSON per sync skill (`last_run`, `cursor`) so re-runs are incremental and idempotent. Concretely: per-skill config (sources/filters) lives in `.claude/skills/<skill>/config.json`; run-state in `outputs/runs/<skill>.json`; the orchestrator's run log in `outputs/runs/data-ingestion.md` — the pattern proven by harbormill-aios's loops + dragoncandy's `donny-knowledge-sync`. `human-improve-system`'s notify target (e.g. Slack) lives in `.claude/skills/human-improve-system/config.json`.
 
 ### C. File-first AIOS GUI (`aios/`) — distilled from `harbormill-aios`
 - **Port and keep (generic):** `src/config/brand.ts`, `src/config/features.ts`, `components/layout/AppLayout.tsx` (strip `useAuth`/`useAccess` → local single-user/no-auth), `components/ui/*` (shadcn), `PageHeader`/`StatCard`/`MarkdownProse`/`EmptyState` primitives, Tailwind theme tokens (`src/index.css`), the atmosphere/blueprint-grid styling.
