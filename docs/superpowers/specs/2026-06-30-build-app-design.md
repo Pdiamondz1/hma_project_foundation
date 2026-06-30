@@ -111,7 +111,10 @@ charter's `Out`/`Later` sections are honored as hard exclusions.
 ### Phase 2 — Single draft-confirm gate
 
 One message, one confirm — consistent with `define-project`/`define-design`, but **minimal
-hand-holding** per the user's intent. Show: app name + one-liner (from charter), the route/screen list
+hand-holding** per the user's intent. ("Single gate" means the *build* decision; the Phase 0
+pre-flight routing — offering `define-project`, accepting an inline scope, the KILL "build anyway"
+override — are separate pre-flight interactions, not extra build gates.) Show: app name + one-liner
+(from charter), the route/screen list
 (one line of purpose each), components + mock entities per screen, the theme source
 (`wiki/design-system.md` or "neutral default"), the stack + that it lives in `app/` runnable with
 `npm run dev`, anything deferred (core-slice note), and the folded-in vetting status. Ask once:
@@ -202,13 +205,15 @@ of what/why/when lands in the knowledge base:
   pinned stack/versions, and anything deferred. Follows the `raw/project/` (define-project discovery
   record) precedent — AI-written but immutable ground truth, append-only.
 - **`wiki/build.md`** — AI-written index (created at runtime on first build, like `roast` creates
-  `wiki/vetting.md`; normal wiki maintenance, no sign-off). Holds: the current app summary, the route
+  `wiki/vetting.md`; normal wiki maintenance, no sign-off; opens with the standard RAG frontmatter per
+  `docs/WIKI-FRONTMATTER.md`). Holds: the current app summary, the route
   list, where it lives (`app/`), the one-command run instructions, the theme source, and links to the
   `raw/builds/` record(s), `wiki/charter.md`, and `wiki/design-system.md`. Cross-linked from
   `wiki/index.md` (pinned under "By area" + a "Recent additions" line) on first creation. No pasted
   code — it references the raw record.
 - **`outputs/change-log.md`** — one attributed line per build (attended write touching project source,
-  so `applied`, like `setup-project`/`define-design` console theming):
+  so `applied`, like `setup-project`/`define-design` console theming), following the file's prevailing
+  order (newest-at-top, as the sibling skills write it):
   `- <YYYY-MM-DD> — build-app — scaffolded web app (app/) from wiki/charter.md MVP; themed from wiki/design-system.md — applied`
 
 This respects the rules: `raw/builds/` is append-only ground truth; `wiki/build.md` is an AI-written
