@@ -44,8 +44,7 @@ a note rather than blocking.
 - **Ingested activity** — recent `raw/inputs/processed/` summaries and `raw/ecosystem/` data.
 - **Metrics feed** — `raw/metrics/*.json`: the latest snapshot **and the delta vs. the
   previous snapshot** (for trend direction). **Ignore files named `EXAMPLE*` and dotfiles.**
-- **Project identity** — `projectType` + tagline from `aios/src/config/project.ts` /
-  `aios/src/config/brand.ts`, to anchor strategic reasoning to *this* project.
+- **Project identity** — `wiki/charter.md` when present (purpose/audience/success/scope/constraints); otherwise `projectType` + tagline from `aios/src/config/project.ts` / `aios/src/config/brand.ts`. Either anchors strategic reasoning to *this* project.
 - **Memory** — `outputs/ideas-log.md` + any open `outputs/ideas-*.md`, so it knows what it
   has already said.
 
