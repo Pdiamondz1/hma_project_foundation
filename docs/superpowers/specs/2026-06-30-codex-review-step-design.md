@@ -61,9 +61,10 @@ inside `outputs/`.
 Zero-argument and unattended-safe (same discipline as the sync skills / `advise-project`).
 
 ### Procedure
-1. **Detect availability.** Verify the `codex` CLI is installed and authenticated. If not: write/log
-   *"codex-review unavailable — install the Codex CLI and run `codex login` (or set `OPENAI_API_KEY`)"*
-   and exit cleanly (success, no error). Never block.
+1. **Detect availability.** Verify the `codex` CLI is installed (`command -v codex`) and authenticated —
+   detect auth via a lightweight `codex login status`-style probe, or attempt-and-catch an auth error on
+   the first run. If either check fails: write/log *"codex-review unavailable — install the Codex CLI and
+   run `codex login` (or set `OPENAI_API_KEY`)"* and exit cleanly (success, no error). Never block.
 2. **Pick the git scope** (see table). If the scope is empty (clean tree / no diff), log
    "nothing to review" and exit.
 3. **Run `codex review`** with that scope (e.g. `codex review --base <default_base>` or
@@ -72,13 +73,14 @@ Zero-argument and unattended-safe (same discipline as the sync skills / `advise-
 4. **Parse findings & severity.** Extract Codex's findings section (not its full working transcript).
    Normalize Codex's priority labels (e.g. `[P1]`) to **CRITICAL / MAJOR / MINOR / INFO** — Codex's top
    priority → CRITICAL; **unknown labels default to MINOR** so nothing silently escalates. Record the
-   **max severity** and per-severity counts.
+   **max severity** and per-severity counts. **Severity rank (for the `≥` comparison): CRITICAL > MAJOR
+   > MINOR > INFO.**
 5. **Write the report** to `outputs/code-reviews/<YYYY-MM-DD>-<scope-slug>.md` (RAG-ready frontmatter;
    shape below).
 6. **Act per posture (advisory + auto-caution).** Always: the report is the output. **Only when invoked
    by `maintenance-loop` AND max severity ≥ `caution_severity`:** append ONE NEEDS SIGN-OFF item to
-   today's `outputs/review-*.md` (continue the `rv-YYYYMMDD-NNN` sequence; read current max; never
-   renumber) referencing the report — *"codex-review flagged CRITICAL issues in this tick's changes —
+   today's `outputs/review-*.md` (creating that file if `improve-system` produced none this tick;
+   continue the `rv-YYYYMMDD-NNN` sequence; read current max; never renumber) referencing the report — *"codex-review flagged CRITICAL issues in this tick's changes —
    review before relying on them."* This raises caution; it never un-applies or blocks.
 7. **Summarize** — availability, scope reviewed, per-severity counts, report path, any caution flag.
 
@@ -128,6 +130,10 @@ updated: <YYYY-MM-DD>
   commit), bypassable with `git commit --no-verify`.
 - If `codex` is not installed/authenticated, the hook **exits 0** (never blocks).
 - Pure shell — it does not and cannot invoke the Claude skill; it shares only the `codex review` CLI.
+- **Strict-mode CRITICAL detection (shell):** the hook greps `codex review`'s output for Codex's
+  top-priority marker (e.g. `[P1]` / "critical"); a match → exit non-zero. This must stay consistent with
+  the skill's "Codex top priority → CRITICAL" mapping so the two surfaces don't diverge — the plan defines
+  the exact marker and keeps both in step.
 
 ## Wiring & configuration
 
