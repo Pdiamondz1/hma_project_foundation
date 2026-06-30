@@ -26,7 +26,7 @@ unless the user asks. Anyone should be able to finish setup without knowing any 
 fill in the technical values for them. Confirm choices back in plain terms, and offer the
 deeper options only to someone who wants them.
 
-**Charter check (do this first).** Before the numbered questions, check whether `wiki/charter.md` exists. If it does not, offer: *"Want to get clear on your project's goal first? It only takes a few minutes and makes the rest easier. (recommended)"* — if yes, run `define-project` first, then read the resulting charter to pre-fill questions 1–2 below (the user confirms or tweaks each value). If a charter is already present, read it now and pre-fill from it. Proceed normally if the user declines — setup-project works fine without one.
+**Charter check (do this first).** Before the numbered questions, check whether `wiki/charter.md` exists. If it does not, offer: *"Want to get clear on your project's goal first? It only takes a few minutes and makes the rest easier. (recommended)"* — if yes, run `define-project` first, then read the resulting charter to pre-fill question 1 below (name, `projectType`, tagline, one-liner — the user confirms or tweaks each value). If a charter is already present, read it now and pre-fill from it. Proceed normally if the user declines — setup-project works fine without one.
 
 1. **Project name + one line on what you're building** → `productName`, `tagline`, and a
    short `projectType` slug (e.g. `portfolio-manager`, `research-vault`, `web-app`).

@@ -145,6 +145,12 @@ updated: <YYYY-MM-DD>
 Never edit or overwrite an existing file in `raw/`. If today already has a file, use a
 disambiguating suffix (e.g. `-discovery-2.md`).
 
+**Use the real filename everywhere.** The `<YYYY-MM-DD>-discovery.md` shown in the templates
+is a placeholder — wherever the actual record is referenced (this file's `source_id`/`path`
+frontmatter, the charter's *Source* footer, and the `change-log.md` line), use the **exact
+filename you wrote this run, including any disambiguating suffix**, so a same-day pivot's
+provenance points at the new record, not the first one.
+
 ---
 
 ### Phase 3 — Write or update the charter
