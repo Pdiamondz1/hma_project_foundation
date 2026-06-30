@@ -20,6 +20,8 @@ export interface FeatureFlags {
   changeLog: boolean;
   /** The "ask the knowledge base" search panel (RAG-ready seam). */
   assistant: boolean;
+  /** The proactive project advisor's idea inbox (approve a checkbox to accept an idea). */
+  ideas: boolean;
 }
 
 export const features: FeatureFlags = {
@@ -29,6 +31,7 @@ export const features: FeatureFlags = {
   needsContext: true,
   changeLog: true,
   assistant: true,
+  ideas: true,
 };
 
 export type FeatureKey = keyof FeatureFlags;
