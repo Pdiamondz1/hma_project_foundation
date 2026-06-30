@@ -7,9 +7,9 @@
  * so it works under `npm run dev` AND `npm run preview` with no separate
  * process.
  *
- * WRITE OWNERSHIP (load-bearing): the ONLY write this API performs is toggling
- * a single checkbox in an `outputs/review-*.md` file. It NEVER writes
- * `outputs/change-log.md` (skills own that ledger) and NEVER touches `raw/`.
+ * WRITE OWNERSHIP (load-bearing): the ONLY writes this API performs are toggling
+ * checkboxes in `outputs/review-*.md` and `outputs/ideas-*.md` files. It NEVER
+ * writes `outputs/change-log.md` (skills own that ledger) and NEVER touches `raw/`.
  *
  * RAG-READY SEAM: `searchWiki()` is a lexical substring/term search today. In
  * Phase 4 it is swapped for pgvector + embeddings with no change to the route
@@ -278,11 +278,11 @@ async function listReviews(): Promise<ReviewFilePayload[]> {
 interface IdeaFilePayload { file: string; title: string; items: IdeaItem[]; }
 
 async function listIdeas(): Promise<IdeaFilePayload[]> {
-  // listOutputFiles("ideas") ALSO matches the dedup ledger ideas-log.md (it
-  // starts with "ideas-"). Exclude it: it has no idea anchor lines, so it would
-  // render a spurious empty card AND keep `files` non-empty, making the page's
-  // EmptyState unreachable on a fresh clone.
-  const files = (await listOutputFiles("ideas")).filter((f) => f !== "ideas-log.md");
+  // listOutputFiles("ideas") ALSO matches the ideas-log* dedup ledger(s) (they
+  // start with "ideas-"). Exclude them: they have no idea anchor lines, so they
+  // would render a spurious empty card AND keep `files` non-empty, making the
+  // page's EmptyState unreachable on a fresh clone.
+  const files = (await listOutputFiles("ideas")).filter((f) => !/^ideas-log/.test(f));
   const out: IdeaFilePayload[] = [];
   for (const file of files) {
     const parsed = matter(await fs.readFile(path.join(OUTPUTS_DIR, file), "utf8"));
@@ -533,12 +533,23 @@ export async function handleFileApi(
       const file = String(body.file ?? "");
       const id = String(body.id ?? "");
       const checked = Boolean(body.checked);
-      if (!/^ideas-[^/\\]+\.md$/.test(file)) { sendJson(res, 400, { error: "Invalid ideas file." }); return true; }
+
+      // Guard: only outputs/ideas-*.md, no traversal.
+      if (!/^ideas-[^/\\]+\.md$/.test(file)) {
+        sendJson(res, 400, { error: "Invalid ideas file." });
+        return true;
+      }
       const abs = path.join(OUTPUTS_DIR, file);
-      if (!existsSync(abs)) { sendJson(res, 404, { error: "Ideas file not found." }); return true; }
+      if (!existsSync(abs)) {
+        sendJson(res, 404, { error: "Ideas file not found." });
+        return true;
+      }
       const original = await fs.readFile(abs, "utf8");
       const updated = toggleIdeaCheckbox(original, id, checked);
-      if (updated !== original) await fs.writeFile(abs, updated, "utf8");
+      if (updated !== original) {
+        await fs.writeFile(abs, updated, "utf8");
+      }
+      // Re-parse so the client gets the authoritative item state back.
       const item = parseIdeaItems(matter(updated).content).find((i) => i.id === id) ?? null;
       sendJson(res, 200, { ok: true, changed: updated !== original, item });
       return true;
