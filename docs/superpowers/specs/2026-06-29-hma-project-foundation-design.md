@@ -218,3 +218,12 @@ any UI) covering style, color, type, and voice, with append-only Stitch exports 
 `raw/design/`. It is Google Stitch–aware (manual default; optional Stitch MCP when a Google
 AI key is present) and offers to theme the console. Full design:
 `docs/superpowers/specs/2026-06-30-define-design-design.md`.
+
+## Phase 10 addendum — Idea vetting (`roast` + `storm-research`)
+
+A vet-before-you-build gate: two embedded skills — `roast` (a 5-persona council + GO/RESHAPE/KILL
+Judge) and `storm-research` (a citation-verified, multi-perspective HTML briefing) — write vetting
+artifacts to `outputs/vetting/<date>-<slug>/` and index them in `wiki/vetting.md`. `roast` is Tier 0;
+`storm-research` needs the built-in web tools and refuses rather than fabricates offline. Wired into
+`define-project` (draft-gate offer), `what-can-i-do`, and `advise-project` (on-demand only). Full
+design: `docs/superpowers/specs/2026-06-30-idea-vetting-design.md`; how-to: `docs/IDEA-VETTING.md`.

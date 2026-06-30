@@ -25,6 +25,8 @@ Nothing above assumes a domain. You make it *your* project by turning a few knob
 
 **Then define how it looks:** run **`define-design`** — a design-discovery interview that captures your style, palette, and voice in `wiki/design-system.md` (the look-and-feel north star), is Google Stitch–aware, and can theme the console.
 
+**Then vet the idea:** run **`roast`** for a brutal GO / RESHAPE / KILL second opinion before you build, and (optionally) **`storm-research`** for a citation-verified HTML briefing — both saved to `outputs/vetting/`. See `docs/IDEA-VETTING.md`.
+
 **Fast path:** run the **`setup-project`** skill — it does moves 1–2 for you (interviews you,
 then writes `project.ts`, `brand.ts`, `features.ts`, `index.html`, and scaffolds `aios/.env`
 for your chosen tier), and offers to schedule the loop. The moves below are what it sets, and
@@ -71,6 +73,8 @@ back to BM25. You can never end up with a broken console because you skipped a t
 **Optional capability:** `codex-review` adds cross-model code review (needs the Codex CLI + OpenAI auth) and can surface CRITICAL findings as sign-off items in the maintenance loop — see `docs/CODE-REVIEW.md`.
 
 **Optional capability:** the **Stitch MCP** lets `define-design` generate and pull UI designs from Google Stitch directly (needs a Google AI key in `aios/.env`); without it, `define-design` works fully in manual mode — see `docs/DESIGN-SYSTEM.md`.
+
+**Optional capability:** `storm-research` produces a verified, multi-perspective HTML briefing from five expert lenses with primary-source fact-checking (uses the built-in web tools — no key; refuses rather than fabricates offline) — see `docs/IDEA-VETTING.md`.
 
 ## Recipes by project type
 

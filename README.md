@@ -112,3 +112,4 @@ The technical reference — skip this if you just want to use it.
 - Phase 7 — optional `codex-review` cross-model code-review gate (graceful-off) ✅
 - Phase 8 — `define-project` discovery interview → project charter (`wiki/charter.md`) ✅
 - Phase 9 — `define-design` design-discovery + design system (`wiki/design-system.md`, Google Stitch–aware) ✅
+- Phase 10 — `roast` + `storm-research` idea-vetting gate (vet before you build) ✅
