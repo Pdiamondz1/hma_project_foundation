@@ -19,10 +19,11 @@ go-live. That boundary is deliberate and permanent.
    sign-in/auth, and a go-live checklist. Scaffolds hands-off; you do the one go-live step. See
    `docs/BUILD-BACKEND.md`.
 
-2. **Prove it works — testing.**
-   A `test-app` skill: generate unit + integration + end-to-end (Playwright) tests against your app *and*
-   the charter's success criteria, produce a runnable suite + coverage, and wire it into the subagent fleet.
-   A prototype has no tests; a product does.
+2. **Prove it works — testing — `test-app`** *(shipped, Phase 19).*
+   Generate unit + component + end-to-end (Playwright) tests against your app *and* the charter's success
+   criteria (each criterion becomes an automated test or a flagged manual/metric note), produce a runnable
+   suite + coverage, and a coverage/criteria manifest in `outputs/tests/`. Adds a `test-writer` agent to the
+   fleet. Scaffolds offline; the run stays yours. See `docs/TEST-APP.md`.
 
 3. **Prove it's safe — audit.**
    A `security-audit` skill (dependency + secret scanning, authorization / input-validation / injection
