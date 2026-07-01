@@ -54,15 +54,19 @@ Three parts, all committed product:
 **The fleet is 6 agents** — the guide's "2–8, sharper-not-more" band. It covers the foundation's
 genuinely *reusable* grunt-work roles. It deliberately does **not** include a custom `explorer` (the
 built-in `Explore` agent already does read-only codebase mapping — adding one would create the
-overlapping-description problem the guide warns against). The **idea-specific personas** (`roast`'s
+overlapping-description problem the guide warns against). The reviewer/researcher agents likewise don't
+misroute against the other built-ins: `plan-reviewer` *reviews* a plan whereas the built-in `Plan` agent
+*authors* one, and `web-researcher`'s narrow trigger is far more specific than the `general-purpose`
+catch-all — the trigger-rule discipline keeps delegation unambiguous. The **idea-specific personas** (`roast`'s
 5-persona council, `storm-research`'s 5 expert lenses) **stay inside their skills** — they are
 parameterized per-idea, not reusable specialists, and their orchestration already works.
 
 ## The fleet — `.claude/agents/*.md`
 
 Each file: YAML frontmatter (`name` = filename, lowercase-hyphen; a trigger-rule `description`; a minimal
-`tools` allowlist; a cost-right `model`; `maxTurns` on open-ended ones) + a short body (role → workflow →
-checklist/criteria → output format → constraints). Descriptions serve **both** automatic delegation and
+`tools` allowlist; a cost-right `model`; `maxTurns` on open-ended ones; the optional `color` field may be
+added for UI distinctness but is **not** required) + a short body (role → workflow → checklist/criteria →
+output format → constraints). Descriptions serve **both** automatic delegation and
 explicit `subagent_type` selection.
 
 | Agent (`name`) | `model` | `tools` | One job |
@@ -87,10 +91,11 @@ explicit `subagent_type` selection.
 `code-reviewer`); Sonnet for build/research (`web-researcher`, `plan-reviewer`, `implementer`); Haiku for
 the mechanical doc role (`doc-writer`). This is most of the cost control in one column.
 
-**Safety by construction:** the read-only agents (`web-researcher`, `spec-reviewer`, `plan-reviewer`,
-`code-reviewer`) carry no `Write`/`Edit`, so they *physically cannot* mutate the repo regardless of what
-goes wrong. `implementer` is the only writer and is scoped to a single task with `maxTurns` to bound
-runaway.
+**Safety by construction:** the four review/research agents carry no `Write`/`Edit` and their bodies
+state "do not modify files." The two without `Bash` (`web-researcher`, `spec-reviewer`) *physically
+cannot* mutate the repo at all; `plan-reviewer`/`code-reviewer` hold `Bash` **only** for read-only
+verification (`git diff`, `grep`) — the tool grant is deliberately narrow and the body forbids writes.
+`implementer` is the only writer and is scoped to a single task with `maxTurns` to bound runaway.
 
 ## `docs/SUBAGENTS.md` — the foundation's subagent policy
 
@@ -121,6 +126,11 @@ convention:
   4-phase pipeline and persona prompts are otherwise unchanged.
 - **`.claude/skills/roast/SKILL.md`** — an additive note that the **Researcher** persona may delegate to
   `web-researcher` when web is available (graceful-off unchanged).
+- **Persona/executor reconciliation (applies to both notes):** the lens/persona **prompt and its strict
+  output contract stay exactly as-is** (e.g. STORM's "Return EXACTLY 1)…2)…3)…"). Using `web-researcher`
+  means dispatching with `subagent_type: web-researcher` **only to supply the Sonnet model + web-restricted
+  tools in place of `general-purpose`** — the persona's structured output governs, not `web-researcher`'s
+  own "cited brief" shape. This is why these stay "may"/opt-in, not a rewrite.
 - **`CLAUDE.md`** — one lean pointer (under *Pointers*, or a short new line): the `.claude/agents/` fleet
   + the model-mix / least-tools convention + that the phase-build pipeline should delegate to
   `spec-reviewer` / `plan-reviewer` / `implementer` / `code-reviewer`; points to `docs/SUBAGENTS.md`.
