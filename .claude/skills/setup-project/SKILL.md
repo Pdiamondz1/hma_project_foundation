@@ -86,7 +86,7 @@ fields below.
    `npm run kb:enable-local-embeddings`; `cd aios && npm run typecheck`; run
    `add-new-resource` to capture a first asset; then `npm run kb:index`.
    - If `wiki/charter.md` and `wiki/design-system.md` both exist, offer: *"Want me to build a
-     first version of your app now? → runs `build-app` (web) or `build-mobile` (phone)"* (propose-only — never auto-run).
+     first version of your app now? → runs `build-app` (web), `build-mobile` (phone), or `build-plugin` (browser extension)"* (propose-only — never auto-run).
 9. **Offer to schedule autonomy.** Ask if they want the weekly self-improvement Routine.
    If yes, follow `docs/SCHEDULING.md` to register a Claude Code Routine that fires the
    `maintenance-loop` skill (this is the one place a real, account-bound trigger is created
