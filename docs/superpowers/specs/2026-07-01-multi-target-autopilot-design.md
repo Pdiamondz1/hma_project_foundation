@@ -64,7 +64,10 @@ The single Target question becomes: *"Which do you want to build — a web app, 
 extension, or any combination?"* It still recommends a **primary** target from purpose/audience, but the
 user may pick **one or more** (up to all three); `default_targets` pre-selects when set. The chosen set
 is written to `intake.md` (and carried into `plan.md`). Everything else in the grill (project + design
-dims) is unchanged and shared across the targets.
+dims) is unchanged and shared across the targets. **Pluralize the leftover singular-target phrasing** the
+plan-writer will find in the skill — the grill's exit criterion ("a target is chosen" → "a **target set**
+is chosen") and the confirm question ("build **it** end-to-end" → "build **them**") — so nothing undercuts
+the multi-select intent.
 
 ### 3. Upstream (Phase A steps 2–4) — unchanged
 `define-project` → `roast` (vet, KILL-upfront) → `storm-research` (research) run **exactly once** and
@@ -73,7 +76,9 @@ platforms is automatic because they share the same north-stars.
 
 ### 4. Plan-confirm (Phase B) — lists the set
 The single `plan.md` + confirm gate lists **all** chosen targets and what each will build (its folder +
-screens/surfaces). One confirm covers the whole set; it satisfies each build skill's own gate.
+screens/surfaces). One confirm covers the whole set; it satisfies each build skill's own gate. **In
+`plan.md`, key each target's screen/surface detail by its folder** (`app/` / `mobile/` / `plugin/`) so each
+(unchanged) builder can locate its own slice unambiguously when it reads the plan in autonomous mode.
 
 ### 5. Hands-off build (Phase C) — loop, with per-target independence
 Run `define-design` **once** → `wiki/design-system.md`. Then, for **each** selected target in order
@@ -83,7 +88,12 @@ the step to `run.md`. **Key semantic:** the targets are **independent of each ot
 on the shared charter + design, not on the other targets), so a **per-target build failure logs and
 continues to the next target** — it does *not* abort the run (unlike the single-target hard-stop). A
 failure in the shared `define-design` step *does* halt (all targets depend on it). Both are recorded in
-`decisions.md` / `run.md`; the run is resumable.
+`decisions.md` / `run.md`; the run is resumable. **The plan must reconcile autopilot's existing
+"Re-running & edge cases" section:** split its "Sub-skill failure mid-run → stop gracefully" bullet into a
+**build-target** failure (log + continue to the next target — do not abort) vs a **`define-design`/upstream**
+failure (halt). **Run-state:** `outputs/runs/autopilot.json` gains a per-target outcome — a `targets` map
+(`{web: built|failed|pending, …}`) and/or a `completed_with_failures` status — so a resume retries only the
+unbuilt/failed targets (the single `status`/`step_index` can't represent "target 2 failed, target 3 built").
 
 ### 6. Hand-over (Phase D) — per-target preview
 The close-out names each built folder and gives the **preview command for each**: `app/` → `npm run dev`;
