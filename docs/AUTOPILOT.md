@@ -8,21 +8,22 @@
 
 1. **You describe your goal** — one line, or just start it and it asks.
 2. **It grills you once** — a single, fast interview (what you're building, who it's for, how it should
-   look, and whether it's a web app / phone app / browser extension), always offering options + a
-   recommended pick so it moves quickly.
+   look, and which platforms — a web app, a phone app, a browser extension, **or any combination**),
+   always offering options + a recommended pick so it moves quickly.
 3. **It vets and researches — upfront** — it runs the `roast` council for a **go / reshape / stop**
    verdict and (when online) a fact-checked research briefing, *before* you commit. If the idea gets a
    **stop (KILL)** verdict, it pauses and asks you what to do.
 4. **It shows you one plan** — already vetted and researched — and asks once: *"Build this?"*
-5. **It builds hands-off** — designs it, then scaffolds your `app/` / `mobile/` / `plugin/` — no more
-   questions.
+5. **It builds hands-off** — designs it once, then scaffolds **each app you picked** (`app/` and/or
+   `mobile/` and/or `plugin/`) — no more questions.
 6. **It hands you a decision log** — every judgment call it made, in `outputs/autopilot/<date>-<slug>/`,
    for you to review after (not before).
 
 ## What you end up with
 
 The same things the individual skills make — your charter, a vetting verdict, a design system, and a
-built app with mock data — plus the decision log. Preview the app with the one command it prints.
+built app (or **several — one per platform you picked**) with mock data — plus the decision log. Preview
+each app with the one command it prints.
 
 ## The one pause
 

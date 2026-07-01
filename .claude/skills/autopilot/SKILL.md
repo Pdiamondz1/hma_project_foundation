@@ -1,6 +1,6 @@
 ---
 name: autopilot
-description: Use when someone asks to "build my whole project", "do the whole thing for me", "take it from here", "set it and forget it", "run it on autopilot", "build it end-to-end", or says "/autopilot". The capstone — describe your goal once, get grilled once, confirm one vetted + researched plan, then it runs define-project → roast → storm-research → define-design → build hands-off, pausing only on a KILL verdict. User-initiated, then hands-off. Delegates grunt work to the .claude/agents/ fleet. Tier 0 (mock/local data — no backend, keys, or accounts). Attended-started — NEVER runs in the unattended maintenance loop. Zero-argument safe.
+description: Use when someone asks to "build my whole project", "do the whole thing for me", "take it from here", "set it and forget it", "run it on autopilot", "build it end-to-end", or says "/autopilot". The capstone — describe your goal once, get grilled once, confirm one vetted + researched plan, then it runs define-project → roast → storm-research → define-design → build (one or more of web/mobile/plugin) hands-off, pausing only on a KILL verdict. User-initiated, then hands-off. Delegates grunt work to the .claude/agents/ fleet. Tier 0 (mock/local data — no backend, keys, or accounts). Attended-started — NEVER runs in the unattended maintenance loop. Zero-argument safe.
 argument-hint: "[describe your goal in one line, or leave blank and I'll ask]"
 ---
 
