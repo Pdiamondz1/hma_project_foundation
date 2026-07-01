@@ -175,9 +175,13 @@ plain-words preview path:
 > `cd app && npm install` (one time — this downloads the app's building blocks), then `npm run dev`,
 > and open the link it prints (http://localhost:<dev_port>). Want me to start it for you?"*
 
-If they say yes, run `cd app && npm install` then `npm run dev`. Optionally offer `npm run typecheck`
-to check it over, and — if a browser is available — a screenshot. Offer to fix any type errors on the
-spot. The app runs on a different port than the console, so both can run at once.
+If they say yes, run the install and dev-server commands **with `app/` as the working directory** —
+as one compound command (`cd app && npm install && npm run dev`) or via `npm --prefix app install`
+then `npm --prefix app run dev`. Don't split a bare `cd app` from a later `npm run dev`: shell
+`cd` does not persist across separate command invocations, so the dev server would otherwise start
+from the repo root and fail. Optionally offer `npm --prefix app run typecheck` to check it over, and —
+if a browser is available — a screenshot; offer to fix any type errors on the spot. The app runs on a
+different port than the console, so both can run at once.
 
 ## Re-running (incremental, never clobber)
 
