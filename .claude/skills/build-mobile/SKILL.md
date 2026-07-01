@@ -239,3 +239,15 @@ repair.
 A new `mobile/` folder (a runnable, themed Expo mobile MVP), an immutable `raw/builds/<date>-<slug>.md`
 record tagged `target: mobile`, a created/updated `wiki/build.md` Mobile section (+ `wiki/index.md`
 cross-links), one `change-log.md` line — and a QR-code path to preview it on a phone.
+
+## Autonomous invocation (driven by `autopilot`)
+
+When invoked by `autopilot` rather than a human, read `wiki/charter.md` + `wiki/design-system.md` + the
+latest `outputs/vetting/.../roast-verdict.md` + the confirmed `outputs/autopilot/<date>-<slug>/plan.md`,
+and **skip your Phase 2 confirm gate** — `autopilot`'s single plan-confirm already covered it. Any RESHAPE
+pivot is already folded into the charter; record any KILL override `autopilot` passes exactly as your
+attended mode does. Scaffold **offline** and do **not** run `npm install` (the preview command stays a
+post-run offer `autopilot` makes at the end). Flag any `(assumed — confirm later)` choice to `autopilot`
+for its decision ledger, and write your `raw/builds/` record + `wiki/build.md` + `change-log.md` line as
+usual. This note is additive — your attended behavior above is unchanged; `autopilot` is user-initiated
+and never part of the unattended `maintenance-loop` (that rule is untouched).

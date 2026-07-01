@@ -319,3 +319,15 @@ Example:
 >
 > 2 items marked "assumed — confirm later": exact body typeface; mobile contrast target.
 > Re-run define-design any time you want a restyle or those assumptions resolve.
+
+## Autonomous invocation (driven by `autopilot`)
+
+When invoked by `autopilot` rather than a human, do **not** open your interview or draft-confirm gate —
+`autopilot` owns the single confirm gate. Infer the design direction from `wiki/charter.md` + the design
+answers in `outputs/autopilot/<date>-<slug>/intake.md`, pick your **recommended defaults** (the archetype
+library + token derivation), flag each `(assumed — confirm later)` AND report it to `autopilot` for the
+ledger, then write `wiki/design-system.md` + `raw/design/<date>-<slug>/` exactly as attended. Synthesize
+from those inputs alone — do **not** wait on a Stitch paste-back (use the MCP only if already configured),
+and **never run console-theming** (that stays opt-in attended). This note is additive — your attended
+behavior above is unchanged; `autopilot` is user-initiated and never part of the unattended
+`maintenance-loop`.

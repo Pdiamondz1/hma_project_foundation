@@ -138,3 +138,13 @@ A roast is a fast reasoning pass. For an evidence-backed second layer, offer to 
 - The Judge must make an actual call. "It depends" is not a verdict. Pick GO, RESHAPE, or KILL and own it.
 - The cheapest 48-hour test is the most important output. It's how the user finds out if they're right without building the whole thing.
 - Keep the final verdict skimmable. The council does the depth; the Judge does the decision.
+
+## Autonomous invocation (driven by `autopilot`)
+
+When invoked by `autopilot` rather than a human, build the brief from `wiki/charter.md` (skip your
+≤4-question intake batch) and skip the storm-research offer (autopilot runs research as its own step).
+Convene the council and return the GO/RESHAPE/KILL verdict exactly as normal — but **hand the KILL/RESHAPE
+decision to `autopilot`** rather than prompting, and record the verdict for its decision ledger. The
+Researcher persona may run as the `web-researcher` agent (Sonnet + web-restricted), keeping its persona
+prompt/output contract. This note is additive — your attended behavior above is unchanged; `autopilot` is
+user-initiated and never part of the unattended `maintenance-loop`.

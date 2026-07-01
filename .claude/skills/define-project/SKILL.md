@@ -274,3 +274,15 @@ Example:
 
 Next, let's define how it **looks** — run `define-design` to capture your design system
 (`wiki/design-system.md`).
+
+## Autonomous invocation (driven by `autopilot`)
+
+When invoked by `autopilot` (the capstone orchestrator) rather than a human, do **not** open your
+interview or draft-confirm gate — `autopilot` owns the single confirm gate. Read the consolidated intake
+at `outputs/autopilot/<date>-<slug>/intake.md`, infer and pick your **recommended defaults** for anything
+thin (the same propose-a-default logic you use when a human is vague), flag each `(assumed — confirm later)`
+in the charter AND report it to `autopilot` for the decision ledger, then write `wiki/charter.md` +
+`raw/project/<date>-discovery.md` and your `change-log.md` line exactly as in attended mode. Do **not**
+offer the optional roast (autopilot runs vetting as its own step). On a RESHAPE fold-in, use your existing
+pivot mode to update the charter in place. This note is additive — your attended behavior above is
+unchanged; `autopilot` is user-initiated and never part of the unattended `maintenance-loop`.

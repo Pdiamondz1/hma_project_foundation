@@ -112,3 +112,13 @@ This is what separates Storm Research from a normal report. Run it before delive
 - **Target the reader, not a default person.** The actionable insight and claim safety guide speak to the role identified in Phase 0. Keep them generic if no role is given.
 - **Cost.** This spawns ~9-11 agents per run. That is expected. Do not fan out wider than five lenses or one verifier per citation cluster.
 - **Design.** Clean white and professional (Montserrat / Roboto Mono, blue accent). Keep the template CSS verbatim. Do not swap in a different visual style.
+
+## Autonomous invocation (driven by `autopilot`)
+
+When invoked by `autopilot` rather than a human, run the STORM pipeline on the vetted idea (from
+`wiki/charter.md` + the roast verdict) without an interview. You are **web-gated as always** — if web is
+unavailable, **skip with a note** ("research skipped — offline") rather than fabricating; `autopilot`
+proceeds on the roast verdict alone. Your lenses and citation verifiers may run as the `web-researcher`
+agent (Sonnet + web-restricted), keeping each lens's prompt/output contract. Report the briefing path (or
+the skip) to `autopilot` for its decision ledger. This note is additive — your attended behavior above is
+unchanged; `autopilot` is user-initiated and never part of the unattended `maintenance-loop`.
