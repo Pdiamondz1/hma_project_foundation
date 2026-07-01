@@ -58,8 +58,8 @@ Every link below is clickable:
 | [Building your app](docs/BUILD-APP.md) | How the system builds your app for you. |
 | [Building your mobile app](docs/BUILD-MOBILE.md) | How the system builds a phone app for you. |
 | [Building your browser extension](docs/BUILD-PLUGIN.md) | How the system builds a Chrome extension for you. |
-| [Make data real](docs/BUILD-BACKEND.md) | Add a real Supabase backend + sign-in to your built app |
-| [Path to production](docs/PATH-TO-PRODUCTION.md) | The ordered map from prototype to a shippable product |
+| [Make data real](docs/BUILD-BACKEND.md) | Add a real Supabase backend + sign-in to your built app. |
+| [Path to production](docs/PATH-TO-PRODUCTION.md) | The ordered map from prototype to a shippable product. |
 | [Extending](docs/EXTENDING.md) | Adding your own skills, sources, tools, and pages. |
 | [Subagents](docs/SUBAGENTS.md) | The tuned agent fleet that does the grunt work — and how to add your own. |
 | [Autopilot](docs/AUTOPILOT.md) | Describe your goal once — it vets, designs, and builds end-to-end. |
