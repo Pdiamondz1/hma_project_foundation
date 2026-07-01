@@ -31,6 +31,8 @@ Nothing above assumes a domain. You make it *your* project by turning a few knob
 
 **Or do it all in one go:** run **`autopilot`** — describe your goal once and it grills you, vets + researches the idea, shows you one plan to confirm, then runs the whole define→vet→design→build chain hands-off, **building one platform or several (web + phone + extension in a single run)** (pausing only on a "stop" verdict), logging every call for you to review after — and, once it's built, filing a ranked list of next moves to `outputs/ideas-*.md` (propose-only). Tier 0; user-initiated, never unattended. See `docs/AUTOPILOT.md`.
 
+**Then make it real:** once you've built an app, run **`build-backend`** — it upgrades your `app/` from placeholder data to a real Supabase backend (schema derived from your data + a graceful-off data layer that keeps the app running on sample data until you add keys + email sign-in + tests), then hands you a 5-minute go-live checklist. Real data is the first rung of the full **path to production** (`docs/PATH-TO-PRODUCTION.md`): real data → testing → audit → deploy → a go/no-go ship-check → polish. The safety-sensitive rungs (keys, deploy, publish) always stay scaffold-and-checklist — you do the actual go-live. See `docs/BUILD-BACKEND.md`.
+
 **Under the hood:** the template ships a tuned fleet of specialist subagents (`.claude/agents/`) that does the grunt work — the right model per job, read-only by default — so building is cheaper, safer, and consistent. See `docs/SUBAGENTS.md`.
 
 **Fast path:** run the **`setup-project`** skill — it does moves 1–2 for you (interviews you,

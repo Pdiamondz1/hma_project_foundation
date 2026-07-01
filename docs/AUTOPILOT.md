@@ -39,6 +39,9 @@ once you say "go," it runs to the end. Everything else it decides on its own and
   background. It is **not** part of the scheduled maintenance loop.
 - **Tier 0** — mock data, no keys, no accounts. Real data, accounts, deployment, and app-store / Web-Store
   publishing are later tiers (run the individual skills for those).
+
+Optionally, autopilot can make the built web app **backend-ready** in the same hands-off run: set `wire_backend_after_build: true` in `.claude/skills/autopilot/config.json` and, after the build, it runs `build-backend` (offline, graceful-off — no keys) so you finish with a real schema + data layer + sign-in scaffolded, and a go-live checklist. It's **off by default** (it adds sign-in, which changes the app's shape) and autopilot still never touches a key. See `docs/BUILD-BACKEND.md`.
+
 - **It reuses your existing skills** — `define-project`, `roast`, `storm-research`, `define-design`, and
   `build-app`/`mobile`/`plugin` — driving each in an automatic mode. Their normal, one-at-a-time behavior
   is unchanged; autopilot just chains them for you, and hands the grunt work to the tuned
