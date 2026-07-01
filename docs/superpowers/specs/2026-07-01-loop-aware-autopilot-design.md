@@ -55,17 +55,19 @@ One localized change to `autopilot` + one additive note to `advise-project`:
 ## The changes
 
 ### 1. New autopilot **Phase E — Post-build advise** (SKILL.md)
-After Phase D (hand-over), if `config.advise_after_build` (default `true`), run `advise-project` in a
-**post-build focus**: ground it on the just-built charter (especially `Later`/`Out`), the decision-ledger
+After the build completes (Phase C) — and before the final hand-over — if `config.advise_after_build`
+(default `true`), run `advise-project` in a **post-build focus**: ground it on the just-built charter (especially `Later`/`Out`), the decision-ledger
 `(assumed — confirm later)` flags, the build record (`raw/builds/` + the run's `plan.md`/`run.md` +
 per-target outcomes), and the deferred tiers — to file ranked "what's next" ideas to `outputs/ideas-*.md`.
 It is **propose-only and hands-off** — nothing is applied, so there is **no confirm gate**. Log the pass to
-the run's `run.md`, and in the close-out (Phase D) point the user at the ideas file alongside the decision
-ledger ("here's what I'd do next — approve any you like").
+the run's `run.md`, and have the Phase D hand-over (the last thing autopilot says, written *after* this
+pass) point the user at the ideas file alongside the decision ledger ("here's what I'd do next — approve
+any you like").
 
 ### 2. `advise-project` additive `## Post-build invocation` note (SKILL.md)
-Add ONE new `## Post-build invocation` H2 (mirroring the sync skills' `## Unattended invocation` note and
-the build skills' `## Autonomous invocation` note): *when invoked by `autopilot` right after a build,
+Add ONE new `## Post-build invocation` H2 — the same *additive per-skill note* pattern as the build skills'
+`## Autonomous invocation (driven by autopilot)` notes, but deliberately named for its distinct trigger
+(autopilot's **Phase E**, *after* the build, not during the build chain): *when invoked by `autopilot` right after a build,
 focus the four lenses on the just-built project* — the charter `Later`/`Out` items → `scale`/`improve`
 ideas; the ledger's `(assumed — confirm later)` flags → `maintain`/validate ideas; the deferred tiers →
 next-step ideas; the build record → what exists now (metrics may be empty — that's fine). Write to
@@ -114,8 +116,8 @@ and the autopilot run folder — created only when a user runs autopilot.
   `advise-project` (propose-only, no confirm gate) gated on `config.advise_after_build`; `config.json` has
   `advise_after_build` (default true).
 - **Additive note:** `advise-project/SKILL.md` has a new `## Post-build invocation` note AND its existing
-  sections (the interview, `## Unattended invocation`, the propose-only Safety invariants) are intact — the
-  diff shows **0 deletions** on that file.
+  sections (`## When to use`, `## Inputs`, `## Procedure`, `## The ideas-*.md contract`, `## Safety
+  invariants`) are intact — the diff shows **0 deletions** on that file.
 - **Untouched:** `improve-system` / `maintenance-loop` / `build-*` / `raw` are byte-for-byte unchanged
   (`git diff` empty); `advise-project` stays propose-only (never applies, `improve-system` single applier).
 - **No pollution:** no real `outputs/ideas-*.md` / run artifacts committed; only the intended files in
