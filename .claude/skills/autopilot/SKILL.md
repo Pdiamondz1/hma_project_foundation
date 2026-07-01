@@ -42,6 +42,7 @@ Read `.claude/skills/autopilot/config.json` (all values default; never block on 
 - `auto_adopt_reshape` (default `true`) — a non-KILL RESHAPE is auto-adopted (folded in, logged, no pause).
 - `advise_after_build` (default `true`) — run the Phase E post-build advise pass (propose-only) at the end of a run.
 - `wire_backend_after_build` (default `false`) — opt-in: after the web build, run `build-backend` (offline, graceful-off) to make the app backend-ready; the go-live step stays the user's. Off by default.
+- `test_after_build` (default `false`) — opt-in: after the web build (and any backend wire), run `test-app` (offline, via the `test-writer` agent) to generate a test suite mapped to the charter's success criteria; the run stays the user's. Off by default.
 
 ## Procedure
 
@@ -128,6 +129,14 @@ depends on it); then `build-<target>` runs **once per selected target**, and the
    run the migration/`npm install`/deploy and never collects a key. Log the step + the
    `outputs/backend/<date>-<slug>/GO-LIVE.md` path to `run.md`. **Default off** — autopilot stays Tier 0
    (it never touches a key) and this changes the app's shape (adds sign-in), so it's opt-in.
+4. **`test-app` (autonomous) — OPTIONAL, only if `config.test_after_build` is true AND `web` is among the
+   selected targets** (it tests only the web `app/`; skipped + logged otherwise). Runs as a **tail of Phase
+   C** (after `build-<target>` and any `build-backend` wire, before the Phase D hand-over) so the app is
+   tested in whatever data shape it ends in and the hand-over includes the test manifest. It generates the
+   suite **offline** via `test-writer` (do NOT run `npm install` or the tests) → its `raw/builds/` record
+   tagged `layer: tests` + a `## Tests` section in `wiki/build.md` + one `applied` change-log line + the
+   `outputs/tests/<date>-<slug>/TEST-PLAN.md` manifest (surface its path in the hand-over). **Default off** —
+   a "build my whole project" user isn't surprised with extra tooling; one flag opts in.
 
 ### Phase D — Hand it over
 
