@@ -53,12 +53,14 @@ libraries:
   `define-project` model + its 5 starter archetypes for a blank user).
 - **Design (5 dims)** — style / color / type & shape / voice / targets (the `define-design` 5 style
   archetypes; recommend a direction inferred from the project answers).
-- **Target (1)** — web (`app/`) / phone (`mobile/`) / browser extension (`plugin/`); recommend
-  `config.default_target` if set, else infer from purpose/audience.
+- **Target(s)** — web (`app/`) · phone (`mobile/`) · browser extension (`plugin/`); **multi-select — pick
+  one or more (up to all three)**. Recommend a primary from purpose/audience (and pre-select
+  `config.default_targets` if set), but let the user choose several; the whole set is built from the same
+  charter + design.
 
 Cap follow-ups at `config.grill_round_cap`; anything still thin becomes the recommended default flagged
 `(assumed — confirm later)` and goes to the ledger — never a blocking loop. **Exit when** all 10
-dimensions are answered-or-defaulted, a target is chosen, and no unresolved either/or would change scope.
+dimensions are answered-or-defaulted, a **target set** (one or more) is chosen, and no unresolved either/or would change scope.
 Then write the gathered project/design/target answers to `outputs/autopilot/<date>-<slug>/intake.md` — the
 consolidated intake the Phase A sub-skills read.
 
@@ -88,11 +90,12 @@ as the `web-researcher` agent. **Graceful-off:** if web is unavailable, skip wit
 Write the confirmed intent to `outputs/autopilot/<date>-<slug>/plan.md` (built from the intake + charter +
 verdict + research + design direction + target), and show it in **one** message: the app name + one-liner,
 the charter summary (purpose/audience/success/scope), **the GO verdict + cheapest test**, **the key
-research findings**, the design direction, the target + what it will build, and the
+research findings**, the design direction, **the target set + what each target will build (keyed by its
+folder `app/`/`mobile/`/`plugin/` so each builder finds its own slice)**, and the
 `(assumed — confirm later)` list. Ask **one** question:
 
 > *"This is the plan — already vetted (**GO**) and researched. After you say go, I'll design it and build
-> it end-to-end **without stopping**. Every judgment call I make gets logged for you to review after.
+> **them** end-to-end **without stopping**. Every judgment call I make gets logged for you to review after.
 > Go? (yes / tweak something)"*
 
 On "tweak", revise and re-show. On **yes**, this single gate **satisfies each build skill's own confirm
