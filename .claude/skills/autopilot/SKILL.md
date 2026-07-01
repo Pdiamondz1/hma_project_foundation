@@ -41,6 +41,7 @@ Read `.claude/skills/autopilot/config.json` (all values default; never block on 
 - `stop_on_kill` (default `true`) — a KILL verdict is the one stop (surfaced upfront, before the confirm).
 - `auto_adopt_reshape` (default `true`) — a non-KILL RESHAPE is auto-adopted (folded in, logged, no pause).
 - `advise_after_build` (default `true`) — run the Phase E post-build advise pass (propose-only) at the end of a run.
+- `wire_backend_after_build` (default `false`) — opt-in: after the web build, run `build-backend` (offline, graceful-off) to make the app backend-ready; the go-live step stays the user's. Off by default.
 
 ## Procedure
 
@@ -119,6 +120,14 @@ depends on it); then `build-<target>` runs **once per selected target**, and the
    `raw/builds/<date>-<slug>.md` (target-tagged; the builder's own `-N` same-day rule keeps each target's record distinct) + its section of the shared `wiki/build.md` + its own
    `applied` change-log line. Record each target's outcome (built / failed / skipped) in `run.md` +
    `decisions.md`; a failed target does not stop the others.
+3. **`build-backend` (autonomous) — OPTIONAL, only if `config.wire_backend_after_build` is true AND `web`
+   is among the selected targets** (it wires only the web `app/`; skipped + logged otherwise). Runs as a
+   **tail of Phase C** (after `build-<target>`, before the Phase D hand-over) so the hand-over includes the
+   go-live checklist and the Phase E advise sees the backend-ready app. It scaffolds the Supabase schema +
+   graceful-off data layer + auth **offline (no keys)** so the app stays runnable on mock data; it does NOT
+   run the migration/`npm install`/deploy and never collects a key. Log the step + the
+   `outputs/backend/<date>-<slug>/GO-LIVE.md` path to `run.md`. **Default off** — autopilot stays Tier 0
+   (it never touches a key) and this changes the app's shape (adds sign-in), so it's opt-in.
 
 ### Phase D — Hand it over
 

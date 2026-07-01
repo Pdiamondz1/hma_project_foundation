@@ -7,5 +7,6 @@
   "research_upfront": true,
   "stop_on_kill": true,
   "auto_adopt_reshape": true,
-  "advise_after_build": true
+  "advise_after_build": true,
+  "wire_backend_after_build": false
 }
