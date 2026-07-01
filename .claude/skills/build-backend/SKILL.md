@@ -99,6 +99,12 @@ Build **in-session, in order** — all offline, no network, no keys:
      the mock/no-keys bundle never loads it — "inert unless env present" is *structurally* guaranteed.
    - `index.ts` — `getActiveStore()`: if `import.meta.env.VITE_SUPABASE_URL` **and**
      `VITE_SUPABASE_ANON_KEY` are both present, return `SupabaseStore`; else **fall back to `MockStore`**.
+   - **Resilience (keys-present-but-schema-missing).** A user who pastes keys *before* running the migration
+     would otherwise hit missing tables. `SupabaseStore` must **catch a missing-relation / connection error
+     and surface a clear one-line state** — *"backend not set up yet — run the migration (see GO-LIVE.md)"*
+     (or fall back to `MockStore` with a visible console warning) — **never a blank crash**. The go-live
+     ordering below runs the migration **before** the keys, which makes this window rare; this is the safety
+     net for the off-checklist case.
 3. **Page rewire (minimal).** Pages call `store.listX()` / `store.getX()` (async) via
    `@tanstack/react-query` instead of importing the mock getters directly. Add a `QueryClientProvider` wrap
    in `app/src/main.tsx`. Do not touch routing or the theme.
@@ -143,16 +149,19 @@ steps), then close in plain words. **Never** run the migration, `npm install`, o
 ask for or enter a key. The checklist says exactly:
 
 > 1. Create a free Supabase project at supabase.com (it gives you a project URL + an anon key).
-> 2. In the `app/` folder, copy `.env.example` to `.env` and paste your two values into
->    `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`. (`app/.env` is gitignored — your keys stay local.)
-> 3. Run the migration: paste `app/supabase/migrations/0001_init.sql` into the Supabase SQL editor (or
->    `supabase db push` if you use the CLI). This creates your tables and loads the sample rows.
+> 2. **Run the migration first (before adding keys):** paste `app/supabase/migrations/0001_init.sql` into
+>    the Supabase SQL editor (or `supabase db push` if you use the CLI). This creates your tables and loads
+>    the sample rows — it runs in the Supabase dashboard, no `.env` needed.
+> 3. **Now add your keys:** in the `app/` folder, copy `.env.example` to `.env` and paste your two values
+>    into `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`. (`app/.env` is gitignored — your keys stay
+>    local.)
 > 4. Start the app (`cd app && npm install && npm run dev`). It now reads and writes your real database;
 >    sign-in is live.
 >
-> *Until you do step 2, the app keeps running on its sample data — nothing is broken.* *(Optional: for
-> private per-user data, switch the shared-read policy to owner-scoped RLS — see the note in the build
-> record.)*
+> *Until you add your keys (step 3), the app keeps running on its sample data — nothing is broken. Running
+> the migration before the keys means your tables already exist the moment the app switches to the real
+> database, so there is no broken in-between.* *(Optional: for private per-user data, switch the shared-read
+> policy to owner-scoped RLS — see the note in the build record.)*
 
 Close: *"Your app is now backend-ready. Everything's scaffolded — the only thing left is yours: create the
 database and paste two keys, following `outputs/backend/<date>-<slug>/GO-LIVE.md`. Want me to walk you

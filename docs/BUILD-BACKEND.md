@@ -25,11 +25,12 @@ or publishes for you. When it's done scaffolding, it hands you a short checklist
 (`outputs/backend/<date>-<slug>/GO-LIVE.md`):
 
 1. Create a free Supabase project (you get a URL + a key).
-2. Paste the two values into `app/.env` (they stay on your machine — that file is gitignored).
-3. Run the one migration (paste the SQL into Supabase, or use the CLI).
+2. Run the one migration first — paste the SQL into Supabase (or use the CLI). This creates your tables; it
+   runs in the Supabase dashboard, no keys needed.
+3. Paste the two values into `app/.env` (they stay on your machine — that file is gitignored).
 4. Start the app — it now uses your real database.
 
-Until you do step 2, the app keeps running on its sample data. Nothing breaks; you flip it to real whenever
+Until you add your keys (step 3), the app keeps running on its sample data. Nothing breaks; you flip it to real whenever
 you're ready.
 
 ## What it is (and isn't) yet
