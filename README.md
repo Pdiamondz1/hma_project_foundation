@@ -41,6 +41,7 @@ Everything below is built in from day one:
 - 🧪 **Vetted before you build** — say **"/roast"** and a council of expert "advisors" pressure-tests your idea, returns a clear **go / reshape / stop** verdict plus the cheapest way to test it, and can back it with a fact-checked research briefing — so you don't pour time into the wrong thing (see [idea vetting](docs/IDEA-VETTING.md)).
 - 🎨 **Designed, not generic** — a guided design step (Google Stitch–aware) captures your look-and-feel so what you build looks intentional, not AI-default.
 - 🛠️ **Built for you** — when you're ready, say **"build my app"** (web), **"build my mobile app"** (phone), or **"build my browser extension"** (Chrome) and it scaffolds a working, on-brand first version in an `app/`, `mobile/`, or `plugin/` folder — mock data first, no coding (see [web](docs/BUILD-APP.md) · [mobile](docs/BUILD-MOBILE.md) · [extension](docs/BUILD-PLUGIN.md)).
+- 🚀 **Or do it all in one go** — say **"build my whole project"** and it grills you once, vets + researches the idea, confirms one plan, then builds it end-to-end hands-off — pausing only if the idea gets a "stop" verdict (see [autopilot](docs/AUTOPILOT.md)).
 - 🤖 **Sharp under the hood** — the grunt work runs on a tuned fleet of specialist subagents that ships with the template (the right model per job, read-only by default), so it's cheaper, safer, and consistent (see [subagents](docs/SUBAGENTS.md)).
 
 ---
@@ -59,6 +60,7 @@ Every link below is clickable:
 | [Building your browser extension](docs/BUILD-PLUGIN.md) | How the system builds a Chrome extension for you. |
 | [Extending](docs/EXTENDING.md) | Adding your own skills, sources, tools, and pages. |
 | [Subagents](docs/SUBAGENTS.md) | The tuned agent fleet that does the grunt work — and how to add your own. |
+| [Autopilot](docs/AUTOPILOT.md) | Describe your goal once — it vets, designs, and builds end-to-end. |
 | [Scheduling](docs/SCHEDULING.md) | Letting it run and improve itself on a schedule. |
 | [Design spec](docs/superpowers/specs/2026-06-29-hma-project-foundation-design.md) | The full design, for the curious. |
 | [CLAUDE.md](CLAUDE.md) | The rules the AI follows every session. |
@@ -131,3 +133,4 @@ The technical reference — skip this if you just want to use it.
 - Phase 12 — `build-mobile`: turn the charter + design system into a themed Expo phone app (`mobile/`) ✅
 - Phase 13 — `build-plugin`: turn the charter + design system into a themed Manifest V3 browser extension (`plugin/`) ✅
 - Phase 14 — tuned `.claude/agents/` subagent fleet + `docs/SUBAGENTS.md` policy (model-mix + least-tools) ✅
+- Phase 15 — `autopilot`: describe once → grill + vet + research + confirm → hands-off design+build (the capstone) ✅

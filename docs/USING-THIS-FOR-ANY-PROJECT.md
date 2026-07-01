@@ -29,6 +29,8 @@ Nothing above assumes a domain. You make it *your* project by turning a few knob
 
 **Then build it:** run **`build-app`** — it turns the charter (the MVP scope) + design system (the theme) into a working, themed front-end web app in a new top-level `app/` folder, runnable with `npm run dev`. Prefer a phone app? Run **`build-mobile`** for a themed Expo (React Native) app in a `mobile/` folder you preview on your phone via a QR code (Expo Go). Prefer a browser extension? Run **`build-plugin`** for a themed Manifest V3 extension in a `plugin/` folder you load into Chrome via Developer mode. All are Tier-0 front-end MVPs (mock data, no keys); real data/accounts/deploy, installable/app-store builds, and Chrome Web Store submission are later tiers. See `docs/BUILD-APP.md` · `docs/BUILD-MOBILE.md` · `docs/BUILD-PLUGIN.md`.
 
+**Or do it all in one go:** run **`autopilot`** — describe your goal once and it grills you, vets + researches the idea, shows you one plan to confirm, then runs the whole define→vet→design→build chain hands-off (pausing only on a "stop" verdict), logging every call for you to review after. Tier 0; user-initiated, never unattended. See `docs/AUTOPILOT.md`.
+
 **Under the hood:** the template ships a tuned fleet of specialist subagents (`.claude/agents/`) that does the grunt work — the right model per job, read-only by default — so building is cheaper, safer, and consistent. See `docs/SUBAGENTS.md`.
 
 **Fast path:** run the **`setup-project`** skill — it does moves 1–2 for you (interviews you,
