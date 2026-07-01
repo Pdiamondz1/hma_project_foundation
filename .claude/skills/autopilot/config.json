@@ -1,0 +1,10 @@
+{
+  "run_dir": "autopilot",
+  "confidence_chain": ["define-project", "roast", "storm-research"],
+  "build_chain": ["define-design", "build"],
+  "default_target": "",
+  "grill_round_cap": 3,
+  "research_upfront": true,
+  "stop_on_kill": true,
+  "auto_adopt_reshape": true
+}
