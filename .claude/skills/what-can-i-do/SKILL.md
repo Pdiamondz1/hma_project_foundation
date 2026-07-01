@@ -22,6 +22,7 @@ everyone*).
    - **Pressure-test an idea** — get a brutal second opinion before you build → runs `roast`
    - **Make it look great** — set your project's design: style, colors, and feel → runs `define-design`
    - **Build a first version of your app** — turn your plan into something you can click → runs `build-app`
+   - **Build a mobile app** — turn your plan into an app you can open on your phone → runs `build-mobile`
    - **Add something** — save a note, a file, or a link → runs `add-new-resource`
    - **Find something** — search what you've saved so far → searches the knowledge base
    - **See what's saved** — a quick overview of the project so far → reads `wiki/index.md`

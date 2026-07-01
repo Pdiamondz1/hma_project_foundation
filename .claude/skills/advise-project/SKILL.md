@@ -81,8 +81,8 @@ For any `- [x]` idea from a prior queue, promote it by lane:
 - **`project` lane** → write a starting spec to `outputs/briefs/<id>.md` for the user + Claude
   to carry into brainstorming. *(On-demand only: the user may `roast` a high-weight project idea for a
   GO/RESHAPE/KILL gut-check before carrying it into brainstorming, and a GO-vetted idea's brief may
-  point to `build-app` as the suggested next step. Never auto-run a roast or `build-app` inside the
-  unattended tick — both are attended; advise-project stays propose-only and asks no one.)*
+  point to `build-app` (web) or `build-mobile` (phone) as the suggested next step. Never auto-run a roast, `build-app`, or `build-mobile` inside the
+  unattended tick — all are attended; advise-project stays propose-only and asks no one.)*
 - **`foundation` lane** → append a NEEDS SIGN-OFF item to today's `outputs/review-*.md`,
   referencing the source `idea-<id>`. **Read the current max `rv-YYYYMMDD-NNN` id in that
   file, continue the sequence, and never renumber existing items.** `improve-system` then
