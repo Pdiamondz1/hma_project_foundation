@@ -243,3 +243,22 @@ itself is a build target outside the three-folder discipline, like `aios/`. Wire
 (a GO-vetted brief may point to it). The `raw/builds/` + `wiki/build.md` provenance is written
 generically so future `build-mobile` / `build-plugin` slices slot in without rework. Full design:
 `docs/superpowers/specs/2026-06-30-build-app-design.md`; how-to: `docs/BUILD-APP.md`.
+
+## Phase 12 addendum — Build the mobile app (`build-mobile`) (2026-06-30)
+
+Phase 12 adds the phone sibling of `build-app`: the build step is now **web *or* mobile**. The
+`build-mobile` skill turns the same three north-stars — charter (the MVP scope) + design system (the
+theme) + latest vetting verdict — into a working, themed **Expo (React Native)** app in a new top-level
+`mobile/` folder: its own **Expo + Expo Router + NativeWind + TypeScript** project, themed from the same
+13 HSL tokens as the web app. You preview it on a phone by scanning a QR code with the free **Expo Go**
+app — no Mac, no Xcode. Like `build-app` it is attended-only (one screen-plan confirm gate; never in the
+unattended `maintenance-loop`), Tier 0 (mock/local data, no keys/accounts/backend, offline-safe
+scaffolding), and re-runnable (incremental, never clobbers — it owns everything under `mobile/`,
+including its theme). Expo Router's routes live in `mobile/app/`, distinct from the web `app/` (no
+collision); `mobile/` is a build target outside the three-folder discipline, like `aios/` and `app/`.
+Provenance rides the **shared** `raw/builds/` + `wiki/build.md` spine — now carrying a `target`
+dimension (records tagged `target: mobile`; `wiki/build.md` gains a Mobile app section alongside Web).
+Wired into `what-can-i-do`, `setup-project` (propose-only once a charter + design exist), and
+`advise-project` (a GO-vetted brief may point to it). Installable app-store builds (EAS + an Expo
+account) and plugins remain later slices. Full design:
+`docs/superpowers/specs/2026-06-30-build-mobile-design.md`; how-to: `docs/BUILD-MOBILE.md`.
