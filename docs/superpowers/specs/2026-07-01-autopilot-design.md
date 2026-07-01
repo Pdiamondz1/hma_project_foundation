@@ -134,7 +134,7 @@ tweak)."* `yes` **satisfies each build skill's own confirm gate**; the hands-off
 
 Run `build_chain` in order, driving each sub-skill in **autonomous mode**, logging each step. **No vetting
 stop (already GO); it only halts on a genuine failure** (graceful + resumable):
-1. `define-design` (autonomous) → infers direction from charter + gathered design answers; synthesizes
+1. `define-design` (autonomous) → infers direction from the confirmed `plan.md` + charter + gathered design answers; synthesizes
    from the interview alone (Stitch/console-theming are opt-in attended, skipped) → `wiki/design-system.md`
    + `raw/design/<date>-<slug>/`.
 2. `build-<target>` (autonomous) → reads charter + design + the GO verdict; **skips its confirm gate**

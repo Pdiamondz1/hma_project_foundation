@@ -323,8 +323,9 @@ Example:
 ## Autonomous invocation (driven by `autopilot`)
 
 When invoked by `autopilot` rather than a human, do **not** open your interview or draft-confirm gate —
-`autopilot` owns the single confirm gate. Infer the design direction from `wiki/charter.md` + the design
-answers in `outputs/autopilot/<date>-<slug>/intake.md`, pick your **recommended defaults** (the archetype
+`autopilot` owns the single confirm gate. Infer the design direction from the confirmed
+`outputs/autopilot/<date>-<slug>/plan.md` (which carries any tweak made at the confirm gate) +
+`wiki/charter.md` + the design answers in `intake.md`, pick your **recommended defaults** (the archetype
 library + token derivation), flag each `(assumed — confirm later)` AND report it to `autopilot` for the
 ledger, then write `wiki/design-system.md` + `raw/design/<date>-<slug>/` exactly as attended. Synthesize
 from those inputs alone — do **not** wait on a Stitch paste-back (use the MCP only if already configured),

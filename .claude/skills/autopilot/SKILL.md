@@ -34,7 +34,7 @@ skills' "never unattended" rule is about the cron loop, not a user-initiated run
 Read `.claude/skills/autopilot/config.json` (all values default; never block on absence):
 - `run_dir` (default `"autopilot"`) — the run-record folder under `outputs/`.
 - `confidence_chain` (default `["define-project","roast","storm-research"]`) — the UPFRONT phase (charter → vet → research), before the confirm gate.
-- `build_chain` (default `["define-design","build"]`) — the HANDS-OFF phase (design → build), after the gate.
+- `build_chain` (default `["define-design","build-<target>"]`) — the HANDS-OFF phase, after the gate; the `build-<target>` step resolves to the target-specific skill `build-app` | `build-mobile` | `build-plugin` chosen in the grill (there is no skill literally named `build`).
 - `default_target` (default `""`) — `""` = ask/infer the build target in the grill; else `web|mobile|plugin`.
 - `grill_round_cap` (default `3`) — max follow-up rounds per dimension before defaulting-with-assumption.
 - `research_upfront` (default `true`) — run `storm-research` upfront; web-gated / graceful-off.
@@ -102,7 +102,7 @@ gate**; begin the hands-off build.
 
 Run `config.build_chain` in order, driving each sub-skill in autonomous mode, logging each step to
 `run.md`. **No vetting stop (already GO); halt only on a genuine failure** (graceful + resumable):
-1. **`define-design` (autonomous)** — infer the direction from the charter + the intake's design answers;
+1. **`define-design` (autonomous)** — infer the direction from the confirmed `plan.md` + the charter + the intake's design answers;
    synthesize from those alone (no Stitch paste-back wait; console-theming stays opt-in attended, skip
    it) → `wiki/design-system.md` + `raw/design/<date>-<slug>/`.
 2. **`build-<target>` (autonomous)** — read `plan.md` + `wiki/charter.md` + `wiki/design-system.md` + the

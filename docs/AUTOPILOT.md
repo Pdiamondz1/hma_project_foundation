@@ -47,5 +47,5 @@ there — it never silently overwrites your work.
 
 ## The journey it completes
 
-define → vet → design → build — now in one go. See [charter](../wiki/charter.md) (once built),
-[building your app](BUILD-APP.md), and [the subagent fleet](SUBAGENTS.md) it runs on.
+define → vet → design → build — now in one go. See [building your app](BUILD-APP.md) and
+[the subagent fleet](SUBAGENTS.md) it runs on.
