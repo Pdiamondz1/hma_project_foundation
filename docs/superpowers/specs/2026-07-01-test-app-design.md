@@ -43,9 +43,11 @@ mark rung 2 shipped. All **author-only** — the template ships clean, never wit
 
 The **"prove it works"** step and the testing sibling of the `build-*` family. It takes any built `app/`
 (whether a plain `build-app` prototype or a `build-backend`-wired one) and gives it a real test suite:
-Vitest + Testing Library + Playwright + coverage — **the same Vitest convention `aios/` already uses**
-(`aios/package.json` → `"test": "vitest run"`, colocated `*.test.ts`). It then maps that suite back to the
-charter's **success criteria**, so the tests prove *the user's* definition of "works."
+Vitest + Testing Library + Playwright + coverage. It reuses the **Vitest test-runner convention `aios/`
+already ships** (`aios/package.json` → `"test": "vitest run"`, colocated `*.test.ts`); the **jsdom +
+Testing Library + coverage** layer is net-new (aios runs `environment: "node"` and carries none of it). It
+then maps that suite back to the charter's **success criteria**, so the tests prove *the user's* definition
+of "works."
 
 **When to use.** "test my app", "add tests", "write tests", "does my app actually work", "check my app",
 `/test-app`. Also offered by `what-can-i-do` and pointed to by `advise-project` as the next step after a
@@ -107,14 +109,20 @@ duplicating or clobbering.
 
 - **Phase 3 — Scaffold the suite (offline; via the `test-writer` agent).**
   1. **Harness.** Add (or **extend**, if present) the Vitest config — a `test` block in
-     `app/vite.config.ts` matching `aios/`'s shape (`environment: "jsdom"`, a `src/test/setup.ts` that
-     registers `@testing-library/jest-dom`, coverage via `@vitest/coverage-v8`). Add
-     `app/playwright.config.ts` (base URL = the app's `dev_port`). Add dev deps:
-     `vitest` (+ `@vitest/coverage-v8`), `@testing-library/react`, `@testing-library/jest-dom`,
-     `@testing-library/user-event`, `jsdom`, `@playwright/test` — **pinned to the same majors** `aios/` uses
-     where it already has them, and **only if not already present** (build-backend may have added some). Add
-     scripts: `test` (`vitest run`), `test:watch` (`vitest`), `test:coverage` (`vitest run --coverage`),
-     `test:e2e` (`playwright test`). No other stack drift.
+     `app/vite.config.ts` with `environment: "jsdom"` (component tests need a DOM — this differs from
+     `aios/`'s `node` env), a `src/test/setup.ts` that registers `@testing-library/jest-dom`, and coverage
+     via `@vitest/coverage-v8` **pinned to the same major as `vitest`** (both `^4` — a coverage-v8/vitest
+     major mismatch is a common footgun, and `aios/` carries no coverage-v8 to copy). Add
+     `app/playwright.config.ts` — base URL = the app's `dev_port`, **and a `webServer: { command: "npm run
+     dev", port: <dev_port>, reuseExistingServer: !process.env.CI }` block** so `npm run test:e2e`
+     auto-starts the dev server and the E2E suite is actually runnable (without it the base URL points at
+     nothing). Add dev deps: `vitest` (+ `@vitest/coverage-v8`), `@testing-library/react`,
+     `@testing-library/jest-dom`, `@testing-library/user-event`, `jsdom`, `@playwright/test` — pinned to the
+     majors `aios/` already uses where it has them (only `vitest ^4`, which `@vitest/coverage-v8` tracks);
+     the Testing Library / jsdom / Playwright deps are net-new. Add each **only if not already present**
+     (build-backend may have added `vitest` / `@playwright/test`). Add scripts: `test` (`vitest run`),
+     `test:watch` (`vitest`), `test:coverage` (`vitest run --coverage`), `test:e2e` (`playwright test`). No
+     other stack drift.
   2. **Unit tests** — colocated `*.test.ts(x)` next to their targets.
   3. **Component/integration tests** — colocated `*.test.tsx` per page, using a small shared render helper
      (router + providers).
@@ -123,7 +131,10 @@ duplicating or clobbering.
     each unit/component test **and runs `vitest` to green**, iterating on failures. It **never installs**
     (see the boundary): if the app's dev deps aren't installed in the working tree, `test-writer` writes the
     tests from the source it can read and **reports them as authored-not-run**, leaving the green run to the
-    user's `npm install`. E2E specs are always authored-not-run (they need browsers).
+    user's `npm install`. E2E specs are always authored-not-run (they need browsers). **In the template's
+    own default flow a freshly `build-app`'d `app/` has no `node_modules`, so `test-writer` most often
+    authors-not-runs** — the run-to-green loop pays off on re-runs and when the user has already installed
+    deps.
 
 - **Phase 4 — Record it (provenance; rides the shared spine).**
   - **`raw/builds/<YYYY-MM-DD>-<slug>.md`** *(immutable, append-only; `-2` for same-day re-runs)* — RAG
@@ -139,15 +150,19 @@ duplicating or clobbering.
   `improve-system` stays the single applier — `test-app` writes only its own `applied` line, exactly as the
   other `build-*` skills do.
 
-- **Phase 5 — Hand over (offer-don't-run).** Write the coverage/criteria **manifest** to
-  **`outputs/tests/<YYYY-MM-DD>-<slug>/TEST-PLAN.md`** (RAG frontmatter + the criteria→test map + what's
-  covered + what's flagged manual + the run commands), then close in plain words. **Never** run
-  `npm install`, the Playwright browser download, or the tests. The close offers:
+- **Phase 5 — Hand over (offer, then run only on explicit yes — exactly as `build-app` does).** Write the
+  coverage/criteria **manifest** to **`outputs/tests/<YYYY-MM-DD>-<slug>/TEST-PLAN.md`** (RAG frontmatter +
+  the criteria→test map + what's covered + what's flagged manual + the run commands), then close in plain
+  words. **Do not run anything unprompted** that hits the network or installs to disk — **offer** it (the
+  same rule `build-app`'s Phase 5 uses before it runs `npm run dev`). The close offers:
   > *"Your test suite is ready. To run it: `cd app && npm install` (one time), then `npm test`. For the
   > browser (E2E) tests, also run `npx playwright install` once (a bigger one-time download of test
   > browsers), then `npm run test:e2e`. Want me to run the unit tests for you?"*
-  On yes, run **only** the offered command with `app/` as the working directory (`cd app && npm install &&
-  npm test`) — never the browser download unless explicitly asked.
+  On an **explicit yes**, run **only** the unit tests with `app/` as the working directory
+  (`cd app && npm install && npm test`) — exactly the Tier-0, explicit-consent convenience `build-app`
+  already ships for the dev server. **Never** run the Playwright browser download (`npx playwright install`)
+  unless the user explicitly asks (it is a large download); E2E specs stay authored-not-run by default. This
+  is Tier 0 — no keys, no deploy, nothing irreversible; the run is a convenience, never automatic.
 
 **Re-running (incremental, never clobber).** If a test setup already exists, switch to **incremental
 mode**: read the existing tests + latest `raw/builds/` test record, diff the current app/charter against
@@ -181,8 +196,9 @@ byte unchanged.
 A 7th one-job agent following the exact fleet conventions (`docs/SUBAGENTS.md`):
 - **`model: sonnet`** — test writing needs judgment about what to assert (haiku too weak, opus wasteful).
 - **`tools: Read, Write, Edit, Bash`** — Read the source under test; Write/Edit the test files; **Bash to run
-  `vitest`** and the grep/git DoD checks. (Like `implementer` and `code-reviewer`, holding `Bash` is a
-  body-instructed limit, noted honestly in `docs/SUBAGENTS.md` — it writes tests only, never product code.)
+  `vitest`** and the grep/git DoD checks. It is a **scoped writer, exactly like `implementer`** (it holds
+  `Write`/`Edit`): its honest limit is body-instructed and *scope-based* — it touches only test files + the
+  test harness/config it's told to add, never product source under test.
 - **`maxTurns`** set (a run-to-green loop can wander) — cap it (e.g. `40`, matching `implementer`).
 - **Body:** one job — *write the assigned test(s) → run `vitest` → iterate to green → report*. Constraints:
   touch only test files (+ the test harness/config it's told to add); never modify product source under
@@ -190,7 +206,11 @@ A 7th one-job agent following the exact fleet conventions (`docs/SUBAGENTS.md`):
   nesting (agents can't call agents). Report is data for the controller (DONE/BLOCKED + the `vitest` output
   + files written).
 
-`docs/SUBAGENTS.md` gets a new fleet-table row and its `Bash`-nuance note extended to include `test-writer`.
+`docs/SUBAGENTS.md` gets a new fleet-table row. **It is documented `implementer`-style — a *scoped
+writer*.** It must **not** be appended to the `code-reviewer` Bash-nuance note (lines 28–29), which is
+specifically about a *read-only* agent with "no `Write`/`Edit`"; `test-writer` holds `Write`/`Edit`, so
+that sentence would be false of it. Document its limit the way `implementer`'s is — a writer scoped to test
+files only.
 
 ### Autopilot integration (opt-in, default OFF)
 
@@ -213,9 +233,12 @@ Phases A–E are unchanged (the test phase is additive and off by default).
 
 ## Safety / reconciliation
 
-- **Offline, no keys, no irreversible action.** `test-app` writes test files + config + a manifest; it never
-  enters a key, never installs or downloads for the user, never deploys. The one confirm gate covers the
-  file-writing; the run is always the user's.
+- **Offline, no keys, no irreversible action.** `test-app` writes test files + config + a manifest fully
+  offline; it never enters a key and never deploys. It never runs anything **unprompted**; on an explicit
+  yes it may run the unit tests (`cd app && npm install && npm test`) — exactly the Tier-0,
+  explicit-consent convenience `build-app`'s Phase 5 already ships for `npm run dev`. It **never** runs the
+  Playwright browser download unless explicitly asked. The confirm gate covers the file-writing; every run
+  is user-initiated.
 - **Attended for the app-shape change; Tier 0 preserved for autopilot.** The skill's own run has a confirm
   gate; autopilot's test phase is opt-in/default-off and only does the offline scaffold. Neither is ever
   added to `maintenance-loop`.
@@ -256,9 +279,10 @@ against the template) a manual smoke of a generated suite:
   real-but-not-exhaustive.
 - **Offer-don't-run + no-keys:** SKILL.md forbids running `npm install` / the browser download / the tests
   for the user and collecting any key; only offers the run commands + writes the `outputs/tests/` manifest.
-- **`test-writer` agent correct:** `.claude/agents/test-writer.md` has `model: sonnet`,
-  `tools: Read, Write, Edit, Bash`, a `maxTurns`, a one-job body (write→run→iterate→report), and the
-  never-install / authored-not-run fallback; `docs/SUBAGENTS.md` lists it.
+- **`test-writer` agent correct:** `.claude/agents/test-writer.md` has `name: test-writer` (== the
+  filename, per the SUBAGENTS convention), `model: sonnet`, `tools: Read, Write, Edit, Bash`, a `maxTurns`,
+  a one-job body (write→run→iterate→report), and the never-install / authored-not-run fallback;
+  `docs/SUBAGENTS.md` lists it as a scoped writer (NOT in the code-reviewer Bash-nuance note).
 - **Autopilot test phase opt-in/off:** `autopilot/config.json` has `test_after_build:false`; the SKILL.md
   test phase is described as opt-in / web-only / offline; autopilot stays Tier 0 / never in
   `maintenance-loop` (grep those invariants intact).
