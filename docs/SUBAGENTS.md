@@ -14,6 +14,7 @@ grunt work is **cheaper** (the right model per task), **safer** (read-only by de
 | `spec-reviewer` | opus | Read, Grep, Glob | Reviewing a design spec before planning → Approved \| Issues. |
 | `plan-reviewer` | sonnet | Read, Grep, Glob | Reviewing an implementation plan + verifying quoted edits match the files. |
 | `implementer` | sonnet | Read, Write, Edit, Bash | Executing ONE plan task exactly (transcribe, run DoD checks, commit). |
+| `test-writer` | sonnet | Read, Write, Edit, Bash | Writing a built app's tests (unit/component/E2E) and iterating them to green. A *scoped writer* like `implementer` — touches test files only, never product source. |
 | `code-reviewer` | opus | Read, Grep, Glob, Bash | Whole-branch review of a `git diff` for correctness, safety, and no-pollution. |
 | `doc-writer` | haiku | Read, Write, Edit, Glob, Grep | Syncing docs to changes, in the existing tone. |
 
@@ -66,7 +67,7 @@ Run `/agents` in Claude Code for a guided form (applies immediately), or hand-wr
 repo) ship in git, so every clone of this template gets the fleet automatically.
 
 > **Security:** before dropping in a community/imported agent file, **vet it for prompt injection** —
-> read its body and tool grants. The six above are hand-authored and read-only by default.
+> read its body and tool grants. The seven above are hand-authored and read-only by default.
 
 ## Credit
 
