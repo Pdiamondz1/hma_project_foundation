@@ -108,7 +108,8 @@ routes dir is **`mobile/app/`**, distinct from the repo-root web `app/` (no coll
 mobile/
 ├── package.json          # own; "main":"expo-router/entry" (REQUIRED — no index.html entry); pinned Expo
 │                         #   SDK (config.expo_sdk): expo, react, react-native, expo-router, nativewind,
-│                         #   react-native-safe-area-context, react-native-reanimated; dev: typescript,
+│                         #   react-native-safe-area-context, react-native-reanimated, class-variance-authority,
+│                         #   clsx, tailwind-merge; dev: typescript,
 │                         #   tailwindcss@^3.4, babel-preset-expo, @types/*. Scripts: start (expo start),
 │                         #   android, ios, web (expo start --web).
 ├── app.json              # Expo config: name/slug from charter; expo-router plugin; icon/splash placeholders
