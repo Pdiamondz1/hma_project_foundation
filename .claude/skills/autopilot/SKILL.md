@@ -104,20 +104,27 @@ gate**; begin the hands-off build.
 ### Phase C — Hands-off build (silent; after the gate)
 
 Run `config.build_chain` in order, driving each sub-skill in autonomous mode, logging each step to
-`run.md`. **No vetting stop (already GO); halt only on a genuine failure** (graceful + resumable):
+`run.md`. **No vetting stop (already GO).** `define-design` runs once (a failure there halts — everything
+depends on it); then `build-<target>` runs **once per selected target**, and the targets are
+**independent** — a per-target build failure is logged and the run **continues to the next target**
+(graceful + resumable):
 1. **`define-design` (autonomous)** — infer the direction from the confirmed `plan.md` + the charter + the intake's design answers;
    synthesize from those alone (no Stitch paste-back wait; console-theming stays opt-in attended, skip
    it) → `wiki/design-system.md` + `raw/design/<date>-<slug>/`.
-2. **`build-<target>` (autonomous)** — read `plan.md` + `wiki/charter.md` + `wiki/design-system.md` + the
-   GO verdict; **skip the Phase 2 confirm gate** (your gate covered it); the RESHAPE pivot is already
-   folded; scaffold `app/`|`mobile/`|`plugin/` **offline** (do NOT run `npm install`) →
-   `raw/builds/<date>-<slug>.md` + `wiki/build.md` + its own `applied` change-log line.
+2. **`build-<target>` (autonomous) — once per selected target** (`web`→`build-app`, `mobile`→`build-mobile`,
+   `plugin`→`build-plugin`) — read `plan.md` + `wiki/charter.md` + `wiki/design-system.md` + the GO verdict;
+   **skip the Phase 2 confirm gate** (your gate covered it); the RESHAPE pivot is already folded; scaffold
+   that target's `app/`|`mobile/`|`plugin/` folder **offline** (do NOT run `npm install`) → its
+   `raw/builds/<date>-<slug>.md` (target-tagged) + its section of the shared `wiki/build.md` + its own
+   `applied` change-log line. Record each target's outcome (built / failed / skipped) in `run.md` +
+   `decisions.md`; a failed target does not stop the others.
 
 ### Phase D — Hand it over
 
 Close plainly: point the user at the **decision ledger** (`outputs/autopilot/<date>-<slug>/decisions.md`
 — every autonomous call, for review/override), the run log, the vetting verdict + research briefing, and
-the one-command preview path for the built target (copied from the build skill's close-out). Approval has
+the one-command preview path for **each** built target (`app/` → `npm run dev`; `mobile/` → `npm run
+start` / Expo Go QR; `plugin/` → `npm run build` + Chrome Load unpacked). Approval has
 shifted from approve-before-each-step to **decide-then-review-after**.
 
 ## The decision ledger + run record
@@ -133,7 +140,7 @@ re-runs), each file opening with RAG frontmatter (see `docs/WIKI-FRONTMATTER.md`
 - **`run.md`** — the append-only step log (newest-first, like `outputs/runs/maintenance-loop.md`).
 
 Run-state lives in `outputs/runs/autopilot.json` (`last_run`, `current_slug`, `phase`, `status`,
-`step_index`, counts, error) for resumability. The ledger **links to, never duplicates** the canonical
+`step_index`, counts, error, **plus a per-target `targets` map — `{web|mobile|plugin: built|failed|pending}` — and a `completed_with_failures` status**) for resumability, so a resume retries only the unbuilt/failed targets. The ledger **links to, never duplicates** the canonical
 artifacts the sub-skills author. **`autopilot` writes no `change-log.md` line of its own** — the
 sub-skills (including `build-*`'s `applied` line) write theirs; `improve-system` stays the single applier.
 
@@ -145,8 +152,10 @@ sub-skills (including `build-*`'s `applied` line) write theirs; `improve-system`
 - **Research offline** — skip `storm-research` with a logged note; proceed on the roast verdict.
 - **Thin goal** — default-with-assumption up to `grill_round_cap`; the worst case is an assumption-heavy
   `plan.md` you correct at the single confirm — never a silent block.
-- **Sub-skill failure mid-run** — stop gracefully (log, set `status=failed` + `step_index`); re-invoking
-  resumes from the failed step.
+- **A build-target failure** — is **independent**: log it (mark that target `failed` in the `targets` map)
+  and **continue to the next target**; the run ends `completed_with_failures` and a re-run retries only the
+  failed/unbuilt targets. **A `define-design` or upstream (Phase A) failure** — halts (everything depends
+  on it): log, set `status=failed` + `step_index`, and re-invoking resumes from that step.
 - **Re-run / existing artifacts** — offer resume / extend / restart; if a charter/design already exists,
   the grill offers use-as-is / refine / start-fresh (a **fresh** invocation, distinct from a KILL-stop
   resume). Never silently overwrite.
