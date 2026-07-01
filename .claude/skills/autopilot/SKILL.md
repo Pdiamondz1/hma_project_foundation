@@ -34,8 +34,8 @@ skills' "never unattended" rule is about the cron loop, not a user-initiated run
 Read `.claude/skills/autopilot/config.json` (all values default; never block on absence):
 - `run_dir` (default `"autopilot"`) — the run-record folder under `outputs/`.
 - `confidence_chain` (default `["define-project","roast","storm-research"]`) — the UPFRONT phase (charter → vet → research), before the confirm gate.
-- `build_chain` (default `["define-design","build-<target>"]`) — the HANDS-OFF phase, after the gate; the `build-<target>` step resolves to the target-specific skill `build-app` | `build-mobile` | `build-plugin` chosen in the grill (there is no skill literally named `build`).
-- `default_target` (default `""`) — `""` = ask/infer the build target in the grill; else `web|mobile|plugin`.
+- `build_chain` (default `["define-design","build-<target>"]`) — the HANDS-OFF phase, after the gate; `define-design` runs once, then the `build-<target>` step runs the target-specific skill `build-app` | `build-mobile` | `build-plugin` **for each target selected in the grill** (there is no skill literally named `build`).
+- `default_targets` (default `[]`) — `[]` = ask/infer in the grill; else a subset of `["web","mobile","plugin"]` to pre-select.
 - `grill_round_cap` (default `3`) — max follow-up rounds per dimension before defaulting-with-assumption.
 - `research_upfront` (default `true`) — run `storm-research` upfront; web-gated / graceful-off.
 - `stop_on_kill` (default `true`) — a KILL verdict is the one stop (surfaced upfront, before the confirm).

@@ -2,7 +2,7 @@
   "run_dir": "autopilot",
   "confidence_chain": ["define-project", "roast", "storm-research"],
   "build_chain": ["define-design", "build-<target>"],
-  "default_target": "",
+  "default_targets": [],
   "grill_round_cap": 3,
   "research_upfront": true,
   "stop_on_kill": true,
