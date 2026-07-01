@@ -125,10 +125,16 @@ Read the three north-stars, in order, and route rather than guess:
 From the charter's `In / MVP:`, derive the extension's **surfaces + views**:
 - **Popup** (always) — the toolbar-click window; the primary surface. It may hold a **small** set of
   views (e.g. a main view + a detail or quick-action view).
-- **Options page** (when the MVP implies settings/configuration) — a full-tab page for preferences or
-  a fuller workspace.
+- **Options page** (default on — it's in `config.surfaces`) — a full-tab page for preferences, an
+  "about", or a fuller workspace. Build it by default; **omit it only** if the MVP genuinely has no
+  settings or secondary content, in which case drop the `options_page` key from the manifest and skip
+  its files. Don't invent settings just to fill it.
 - **Side panel** (only when `config.include_side_panel` is true) — an optional third surface
   (`chrome.sidePanel`), same rendering model, one more HTML entry.
+
+The `manifest.json` is generated from the **resolved** surface set — a surface that isn't built has no
+manifest entry (`options_page` / `side_panel`) and no HTML file; the sample manifest in Phase 3 shows
+the default (popup + options).
 
 Each view maps to the components it needs and the mock entities it shows. Use `Purpose`/`Audience` to
 choose the popup's shape (a compact dashboard, a quick-capture form, a list, a toggle panel) and the
@@ -164,9 +170,11 @@ plugin/
 │                         #   Scripts: build (vite build), build:watch (vite build --watch), preview (vite preview),
 │                         #   typecheck (tsc --noEmit). NO dev server / no `dev` script.
 ├── vite.config.ts        # plain Vite + @vitejs/plugin-react + "@" alias; NO fileApi middleware; build.outDir "dist";
-│                         #   build.rollupOptions.input = { popup: popup.html, options: options.html (+ sidepanel if enabled) }
+│                         #   build.rollupOptions.input = { index: index.html, popup: popup.html, options: options.html (+ sidepanel if enabled) }
+│                         #   (index is a dev-only quick-look landing page; only popup/options/sidepanel are wired into the manifest)
 ├── popup.html            # Vite entry — <div id="root"> + <script type="module" src="/src/popup/main.tsx">
 ├── options.html          # Vite entry — <div id="root"> + <script type="module" src="/src/options/main.tsx">
+├── index.html            # dev-only quick-look landing page (links to popup.html + options.html); NOT in the manifest
 ├── postcss.config.js     # tailwind + autoprefixer (identical to aios/app)
 ├── tailwind.config.ts    # copied from aios (resolves the CSS vars; no hardcoded colors); content globs cover ./*.html + ./src/**
 ├── tsconfig.json / tsconfig.app.json / tsconfig.node.json   # from the aios shape; "types": ["chrome"] where appropriate
@@ -208,7 +216,9 @@ placeholder icons are written to `public/icons/` — otherwise omit the key (Chr
 puzzle icon; the extension still loads and the popup/options still work), keeping the scaffold fully
 text-only/offline (no hand-authored binary assets). Add `"side_panel": { "default_path":
 "sidepanel.html" }` + `"sidePanel"` in `permissions` only when `config.include_side_panel` is true.
-Keep `permissions: []` at Tier 0. **No `background.service_worker`** and **no content script** in v1 (a
+Keep `permissions: []` at Tier 0 (the sole exception: the opt-in `sidePanel` permission above, only
+when `include_side_panel` is true — a UI-only permission, off by default). **No
+`background.service_worker`** and **no content script** in v1 (a
 pure-UI MVP needs neither); both are named as later tiers.
 
 **Pin the stack from `aios/`, don't hardcode (identical to build-app).** Read `aios/package.json` and
@@ -265,10 +275,12 @@ only the primitives actually used.
   sectioning: the *already-shipped* `build-app` writes `wiki/build.md` as a **flat, un-sectioned** web
   index (no headings); `build-mobile` wraps that flat content under `## Web app (app/)` on first mobile
   build. So `build-plugin` must handle both: if a **flat** (un-sectioned) web index is present, **first
-  wrap it under a `## Web app (app/)` heading**; **preserve** any existing `## Web app (app/)` and
-  `## Mobile app (mobile/)` sections untouched; then add/update the `## Browser extension (plugin/)`
-  section. If `wiki/build.md` doesn't exist yet, create it (RAG frontmatter) with just the Browser
-  extension section. Cross-linked from `wiki/index.md` on first creation.
+  wrap it under a `## Web app (app/)` heading**; **preserve** any existing Web and Mobile sections
+  untouched; then add/update the `## Browser extension (plugin/)` section. **Match existing sections on
+  a stable substring** ("Web app", "Mobile app", "Browser extension") — not an exact heading string —
+  since `build-mobile` writes its headings with backticks around the folder name
+  (`` ## Mobile app (`mobile/`) ``). If `wiki/build.md` doesn't exist yet, create it (RAG frontmatter)
+  with just the Browser extension section. Cross-linked from `wiki/index.md` on first creation.
 - **`outputs/change-log.md`** — one attributed line (newest-at-top):
   `- <YYYY-MM-DD> — build-plugin — scaffolded browser extension (plugin/) from wiki/charter.md MVP; themed from wiki/design-system.md — applied`
 
@@ -290,8 +302,8 @@ plain-words path:
 > *3. The extension's icon appears in your toolbar — click it to see the popup; right-click it →*
 >    ***Options** for the settings page.*
 > *After any change, run `npm run build` again and click the reload (↻) icon on the extension's card.*
-> *Prefer a quick look without Chrome? `npm run preview` opens the popup as a plain web page in a*
-> *browser tab. Want me to build it for you?"*
+> *Prefer a quick look without Chrome? `npm run preview` opens a quick-look page (linking to the*
+> *popup and options) in a browser tab. Want me to build it for you?"*
 
 Be honest that plain Vite has **no live popup hot-reload** (MV3's CSP blocks the dev server inside the
 extension context); the working dev loop is `npm run build:watch` + click-reload on the card.
