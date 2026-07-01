@@ -126,7 +126,8 @@ plugin/
 ├── package.json          # own; mirror aios/ majors for the shared subset (read aios/package.json):
 │                         #   react, react-dom, class-variance-authority, clsx, tailwind-merge,
 │                         #   tailwindcss-animate, lucide-react; dev: vite, @vitejs/plugin-react, typescript,
-│                         #   tailwindcss, autoprefixer, postcss, @types/react, @types/react-dom, and
+│                         #   tailwindcss, autoprefixer, postcss, @tailwindcss/typography (the copied config registers it),
+│                         #   @types/react, @types/react-dom, @types/node, and
 │                         #   @types/chrome (the ONLY extension-specific add). EXCLUDE the KB-console-only deps
 │                         #   (@anthropic-ai/sdk, @supabase/supabase-js, gray-matter, react-markdown, remark-gfm,
 │                         #   vitest, @tanstack/react-query, react-router-dom — a popup/options MVP needs no router).
@@ -187,8 +188,10 @@ and **no content script** in v1 (a pure-UI MVP needs neither); both are named as
 **Pin the stack from `aios/`, don't hardcode.** Read `aios/package.json` and pin the **same major
 versions** for the shared subset: `react`, `react-dom`, `class-variance-authority`, `clsx`,
 `tailwind-merge`, `tailwindcss-animate`, `lucide-react`; dev: `vite`, `@vitejs/plugin-react`,
-`typescript`, `tailwindcss`, `autoprefixer`, `postcss`, the `@types/*`, and `@tailwindcss/typography`
-only if the design uses prose. The **only** extension-specific addition is dev-only **`@types/chrome`**
+`typescript`, `tailwindcss`, `autoprefixer`, `postcss`, the `@types/*` (incl. `@types/node`), and
+**`@tailwindcss/typography`** (the copied `tailwind.config.ts` imports and registers it
+unconditionally, so it must be present even when the design uses no prose). The **only**
+extension-specific addition is dev-only **`@types/chrome`**
 (so any future `chrome.*` usage typechecks; a mock-data v1 may not call chrome APIs at all). **Exclude**
 the KB-console-only deps: `@anthropic-ai/sdk`, `@supabase/supabase-js`, `gray-matter`, `react-markdown`,
 `remark-gfm`, `vitest`, `@tanstack/react-query`, and `react-router-dom` (a popup/options MVP navigates

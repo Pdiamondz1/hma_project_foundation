@@ -64,9 +64,10 @@ the template itself.** Your `app/` appears only when *you* run `build-app` in yo
 
 - **Real data, accounts, and deployment** — swap mock data for a real backend (e.g. Supabase), add
   sign-in, and publish. These need keys/services, so they're opt-in tiers beyond the no-keys default.
-- **Mobile apps** (Expo / React Native / Flutter) and **plugins** (browser / Figma) — separate
-  toolchains, planned as their own later phases. The build records are written generically so those
-  slot in without rework.
+- **Mobile apps** ([`build-mobile`](BUILD-MOBILE.md)) and **browser extensions**
+  ([`build-plugin`](BUILD-PLUGIN.md)) are sibling build skills that ship today; other plugin hosts
+  (e.g. a Figma plugin) remain later slices. The build records are written generically so those slot
+  in without rework.
 
 ## Credit / inspiration
 
