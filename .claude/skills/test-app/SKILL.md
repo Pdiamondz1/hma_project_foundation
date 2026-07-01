@@ -1,6 +1,6 @@
 ---
 name: test-app
-description: Use when someone asks to "test my app", "add tests", "write tests", "does my app actually work", "check that my app works", or says "/test-app". Generates a real, runnable test suite (Vitest + Testing Library + Playwright + coverage) for the already-built web app in app/, and maps it to your charter's success criteria — each becomes an automated test or a flagged manual/metric note. Reads the built app/ and wiki/charter.md; one confirm gate; scaffolds fully OFFLINE (no keys, nothing installed). Extends an existing test setup rather than duplicating it. Offers the run — runs only the unit tests on an explicit yes (as build-app runs the dev server), never the Playwright browser download unprompted. Tier 0. Attended-only — never runs in the maintenance loop. Re-runnable. Zero-argument safe.
+description: Use when someone asks to "test my app", "add tests", "write tests", "does my app actually work", "check that my app works", or says "/test-app". Generates a real, runnable test suite (Vitest + Testing Library + Playwright + coverage) for the already-built web app in app/, and maps it to your charter's success criteria — each becomes an automated test or a flagged manual/metric note. Reads the built app/ and wiki/charter.md; one confirm gate; scaffolds fully OFFLINE (no keys, nothing installed). Extends an existing test setup rather than duplicating it. Offers the run — runs only the fast Vitest suite (unit + component) on an explicit yes (as build-app runs the dev server), never the Playwright browser download unprompted. Tier 0. Attended-only — never runs in the maintenance loop. Re-runnable. Zero-argument safe.
 argument-hint: "[leave blank to test your whole app, or name a screen/criterion to focus on]"
 ---
 
@@ -91,18 +91,22 @@ Build **in-session, in order** — all offline, no network, nothing installed:
    - `app/src/test/setup.ts` registering `@testing-library/jest-dom`;
    - coverage via `@vitest/coverage-v8` **pinned to the same major as `vitest`** (both `^4` — a
      coverage-v8/vitest major mismatch is a common footgun);
-   - `app/playwright.config.ts` — `use.baseURL` = the app's dev port, **and a `webServer` block**
-     (`command: "npm run dev"`, the same port, `reuseExistingServer: !process.env.CI`) so `npm run test:e2e`
-     auto-starts the dev server (without it the base URL points at nothing);
+   - **only if `include_e2e`:** `app/playwright.config.ts` — `use.baseURL` = the app's dev port, **and a
+     `webServer` block** (`command: "npm run dev"`, the same port, `reuseExistingServer: !process.env.CI`)
+     so `npm run test:e2e` auto-starts the dev server (without it the base URL points at nothing);
    - dev deps in `app/package.json`: `vitest` (+ `@vitest/coverage-v8`), `@testing-library/react`,
-     `@testing-library/jest-dom`, `@testing-library/user-event`, `jsdom`, `@playwright/test` — each added
-     **only if not already present** (`build-backend` may have added `vitest` / `@playwright/test`);
+     `@testing-library/jest-dom`, `@testing-library/user-event`, `jsdom`, and — **only if `include_e2e`** —
+     `@playwright/test`; each added **only if not already present** (`build-backend` may have added
+     `vitest` / `@playwright/test`);
    - scripts: `test` (`vitest run`), `test:watch` (`vitest`), `test:coverage` (`vitest run --coverage`),
-     `test:e2e` (`playwright test`).
+     and — **only if `include_e2e`** — `test:e2e` (`playwright test`).
 2. **Unit tests** — colocated `*.test.ts(x)` next to their targets.
 3. **Component/integration tests** — colocated `*.test.tsx` per page, via a small shared render helper
    (router + providers).
-4. **E2E** — `app/e2e/*.spec.ts` (per-route smoke + the automatable criteria flows).
+4. **E2E (only if `include_e2e`)** — `app/e2e/*.spec.ts` (per-route smoke + the automatable criteria flows).
+   When `include_e2e` is false, skip the Playwright config, the `@playwright/test` dep, the `test:e2e`
+   script, and the `e2e/` specs **entirely** (the Vitest unit + component tests still ship) and note the
+   skip in the manifest.
 
 **Delegation.** Delegate the writing to the **`test-writer`** agent (Read/Write/Edit/Bash, sonnet), which
 writes each unit/component test **and runs `vitest` to green**, iterating on failures. It **never installs**:
@@ -140,9 +144,9 @@ in plain words. **Do not run anything unprompted** that hits the network or inst
 > Vitest). For the browser (E2E) tests, also run `npx playwright install` once — a bigger one-time download
 > of test browsers — then `npm run test:e2e`. Want me to run the unit tests for you?"*
 
-On an **explicit yes**, run **only** the unit tests with `app/` as the working directory
-(`cd app && npm install && npm test`) — exactly the Tier-0, explicit-consent convenience `build-app` ships
-for the dev server. **Never** run the Playwright browser download (`npx playwright install`) unless the user
+On an **explicit yes**, run **only** the Vitest suite (unit + component tests) with `app/` as the working
+directory (`cd app && npm install && npm test`) — exactly the Tier-0, explicit-consent convenience
+`build-app` ships for the dev server. **Never** run the Playwright browser download (`npx playwright install`) unless the user
 explicitly asks (it is a large download); E2E specs stay authored-not-run by default. This is Tier 0 — no
 keys, no deploy, nothing irreversible; the run is a convenience, never automatic.
 
