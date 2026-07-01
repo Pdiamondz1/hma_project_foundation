@@ -299,9 +299,10 @@ main chat clean. Each file follows the practices from the "Complete Guide to Cla
 **one agent, one job** (if the description needs an "and also," it should be two); a **trigger-rule
 `description`** that says *when* to fire and names the signal phrases (with "use proactively" where it
 should self-invoke), not a vague label that misroutes; **fewest tools it needs, read-only by default** —
-the four review/research agents carry only `Read`/`Grep`/`Glob`(/`Bash` for read-only git/grep), so they
-*cannot* mutate the repo (enforced by the `tools:` field, not trusted), and only `implementer` and
-`doc-writer` hold `Write`/`Edit`; and the **model-mix** — **haiku** to scan/summarize/write docs cheaply,
+the four review/research agents carry no `Write`/`Edit` — three of them (`web-researcher` with web+read,
+`spec-reviewer` and `plan-reviewer` with read/grep/glob) are **tool-enforced** read-only, while
+`code-reviewer` additionally holds `Bash` to run `git diff` for whole-branch review (no `Write`/`Edit`;
+body-instructed to inspect only) — and only `implementer` and `doc-writer` hold `Write`/`Edit`; and the **model-mix** — **haiku** to scan/summarize/write docs cheaply,
 **sonnet** for the default build/review/research work, **opus** for the high-stakes reasoning of
 `spec-reviewer` and `code-reviewer` — the per-task cost dial the template had never used before. A new
 `docs/SUBAGENTS.md` policy documents the fleet, the conventions, the when-to-use gut check, and the

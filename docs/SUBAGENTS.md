@@ -12,7 +12,7 @@ grunt work is **cheaper** (the right model per task), **safer** (read-only by de
 |---|---|---|---|
 | `web-researcher` | sonnet | WebSearch, WebFetch, Read | Web research → a cited brief (not raw dumps). Also the executor for `storm-research` lenses / `roast`'s Researcher. |
 | `spec-reviewer` | opus | Read, Grep, Glob | Reviewing a design spec before planning → Approved \| Issues. |
-| `plan-reviewer` | sonnet | Read, Grep, Glob, Bash | Reviewing an implementation plan + verifying quoted edits match the files. |
+| `plan-reviewer` | sonnet | Read, Grep, Glob | Reviewing an implementation plan + verifying quoted edits match the files. |
 | `implementer` | sonnet | Read, Write, Edit, Bash | Executing ONE plan task exactly (transcribe, run DoD checks, commit). |
 | `code-reviewer` | opus | Read, Grep, Glob, Bash | Whole-branch review of a `git diff` for correctness, safety, and no-pollution. |
 | `doc-writer` | haiku | Read, Write, Edit, Glob, Grep | Syncing docs to changes, in the existing tone. |
@@ -23,7 +23,10 @@ grunt work is **cheaper** (the right model per task), **safer** (read-only by de
 - **The `description` is a trigger rule, not a label.** Say *when* to use it and name the signal phrases;
   add "use proactively" if it should fire on its own. Vague descriptions misroute.
 - **Fewest tools it needs — read-only by default.** A reviewer with only `Read, Grep, Glob` *cannot*
-  modify the repo; that is enforced, not trusted. Add `Write`/`Edit` only to a fix-it role.
+  modify the repo; that is enforced, not trusted. Add `Write`/`Edit` only to a fix-it role. (One nuance:
+  `code-reviewer` also holds `Bash` to run `git diff` for a whole-branch review — it has no `Write`/`Edit`
+  and its body forbids mutation, but `Bash` is a shell, so that's a body-instructed limit, not a hard
+  tool-enforced one. Grant `Bash` to a "read-only" agent only when it truly needs it.)
 - **Match the model to the task** — the main cost dial:
 
 | Model | Use it for |

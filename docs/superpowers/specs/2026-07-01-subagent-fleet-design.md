@@ -73,7 +73,7 @@ explicit `subagent_type` selection.
 |---|---|---|---|
 | `web-researcher` | `sonnet` | `WebSearch, WebFetch, Read` | Research a question → a **cited brief**, never raw dumps. Cross-references claims, flags disagreement, returns URLs. |
 | `spec-reviewer` | `opus` | `Read, Grep, Glob` | Review a design spec for completeness / consistency / clarity / scope / buildability → **Approved \| Issues**, calibrated (only real blockers, not style). |
-| `plan-reviewer` | `sonnet` | `Read, Grep, Glob, Bash` | Review an implementation plan for buildability **and verify quoted `old_string`s still match the live files** → Approved \| Issues. |
+| `plan-reviewer` | `sonnet` | `Read, Grep, Glob` | Review an implementation plan for buildability **and verify quoted `old_string`s still match the live files** (via Read/Grep) → Approved \| Issues. |
 | `implementer` | `sonnet` | `Read, Write, Edit, Bash` | Execute **ONE** plan task exactly: transcribe verbatim, run the DoD `grep`/`wc`/`git` checks, commit per task; never touch files outside the task; report DONE/BLOCKED + commit SHAs. `maxTurns` set. |
 | `code-reviewer` | `opus` | `Read, Grep, Glob, Bash` | Whole-branch review (`git diff main..HEAD`): spec compliance + safety/invariants + no-pollution → Approved \| Issues with file:line, tiered (Critical / Warning / Suggestion). |
 | `doc-writer` | `haiku` | `Read, Write, Edit, Glob, Grep` | Sync docs to changes, matching existing tone/format; skip internals; flag uncertainty instead of guessing. |
@@ -92,9 +92,10 @@ explicit `subagent_type` selection.
 the mechanical doc role (`doc-writer`). This is most of the cost control in one column.
 
 **Safety by construction:** the four review/research agents carry no `Write`/`Edit` and their bodies
-state "do not modify files." The two without `Bash` (`web-researcher`, `spec-reviewer`) *physically
-cannot* mutate the repo at all; `plan-reviewer`/`code-reviewer` hold `Bash` **only** for read-only
-verification (`git diff`, `grep`) — the tool grant is deliberately narrow and the body forbids writes.
+state "do not modify files." The three without `Bash` (`web-researcher`, `spec-reviewer`,
+`plan-reviewer`) *physically cannot* mutate the repo at all; only `code-reviewer` holds `Bash` — to run
+`git diff` for whole-branch review — with no `Write`/`Edit` and a body that forbids any mutation (a
+body-instructed limit, since `Bash` is a shell, so grant it only where it's truly needed).
 `implementer` is the only writer and is scoped to a single task with `maxTurns` to bound runaway.
 
 ## `docs/SUBAGENTS.md` — the foundation's subagent policy
