@@ -27,6 +27,8 @@ Nothing above assumes a domain. You make it *your* project by turning a few knob
 
 **Then vet the idea:** run **`roast`** for a brutal GO / RESHAPE / KILL second opinion before you build, and (optionally) **`storm-research`** for a citation-verified HTML briefing — both saved to `outputs/vetting/`. See `docs/IDEA-VETTING.md`.
 
+**Then build it:** run **`build-app`** — it turns the charter (the MVP scope) + design system (the theme) into a working, themed front-end web app in a new top-level `app/` folder, runnable with `npm run dev`. `app/` is the generated **Tier-0 front-end MVP** product target (mock data, no keys); real data/accounts/deploy, mobile, and plugins are later tiers. See `docs/BUILD-APP.md`.
+
 **Fast path:** run the **`setup-project`** skill — it does moves 1–2 for you (interviews you,
 then writes `project.ts`, `brand.ts`, `features.ts`, `index.html`, and scaffolds `aios/.env`
 for your chosen tier), and offers to schedule the loop. The moves below are what it sets, and

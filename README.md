@@ -40,6 +40,7 @@ Everything below is built in from day one:
 - 💡 **Proactive advisor** — it reads your usage data and proactively proposes improve, scale, and maintain ideas for you to approve (see [metrics feed](docs/METRICS-FEED.md)).
 - 🧪 **Vetted before you build** — say **"/roast"** and a council of expert "advisors" pressure-tests your idea, returns a clear **go / reshape / stop** verdict plus the cheapest way to test it, and can back it with a fact-checked research briefing — so you don't pour time into the wrong thing (see [idea vetting](docs/IDEA-VETTING.md)).
 - 🎨 **Designed, not generic** — a guided design step (Google Stitch–aware) captures your look-and-feel so what you build looks intentional, not AI-default.
+- 🛠️ **Built for you** — when you're ready, say **"build my app"** and it scaffolds a working, on-brand first version of your web app in an `app/` folder you can run and click — mock data first, no coding (see [building your app](docs/BUILD-APP.md)).
 
 ---
 
@@ -52,6 +53,7 @@ Every link below is clickable:
 | [Start here](docs/START-HERE.md) | The simplest, plain-language way to begin. |
 | [New project walkthrough](docs/NEW-PROJECT-WALKTHROUGH.md) | The full step-by-step — including how to pull in updates later. |
 | [Using this for any project](docs/USING-THIS-FOR-ANY-PROJECT.md) | The mental model + how far to take it (the "tiers"). |
+| [Building your app](docs/BUILD-APP.md) | How the system builds your app for you. |
 | [Extending](docs/EXTENDING.md) | Adding your own skills, sources, tools, and pages. |
 | [Scheduling](docs/SCHEDULING.md) | Letting it run and improve itself on a schedule. |
 | [Design spec](docs/superpowers/specs/2026-06-29-hma-project-foundation-design.md) | The full design, for the curious. |
@@ -77,11 +79,12 @@ Three folders do the work (all clickable):
 ## Make it your project
 
 This is meant to become *your* thing — a web or mobile app, a workflow, a portfolio or data
-manager, a research notebook. The natural order is **define it → vet it → design it**:
+manager, a research notebook. The natural order is **define it → vet it → design it → build it**:
 
 1. **Define it** — run **[`define-project`](.claude/skills/define-project/SKILL.md)**, a short discovery interview that captures your goal, audience, and success in `wiki/charter.md` so the rest of the system has a north star.
 2. **Vet it** — want a gut-check before you build? Say **"/roast"** and **[`roast`](.claude/skills/roast/SKILL.md)** convenes a council that pressure-tests the idea and gives a clear **go / reshape / stop** verdict, with an optional fact-checked briefing — so you only build what's worth building.
 3. **Design it** — run **[`define-design`](.claude/skills/define-design/SKILL.md)** to capture how it should *look* — a design system in `wiki/design-system.md` so your UI isn't generic.
+4. **Build it** — when the plan and look are set, run **[`build-app`](.claude/skills/build-app/SKILL.md)** (or just say "build my app") and it scaffolds a working, themed first version of your web app into an `app/` folder, runnable with `npm run dev`. A front-end MVP with placeholder data — real data, accounts, and deployment come later. See [building your app](docs/BUILD-APP.md).
 
 The easiest route is to let the **setup** step do it for you
 (it's part of [Start here](docs/START-HERE.md)). To go deeper, see
@@ -120,3 +123,4 @@ The technical reference — skip this if you just want to use it.
 - Phase 8 — `define-project` discovery interview → project charter (`wiki/charter.md`) ✅
 - Phase 9 — `define-design` design-discovery + design system (`wiki/design-system.md`, Google Stitch–aware) ✅
 - Phase 10 — `roast` + `storm-research` idea-vetting gate (vet before you build) ✅
+- Phase 11 — `build-app`: turn the charter + design system into a working, themed web app (`app/`) ✅
