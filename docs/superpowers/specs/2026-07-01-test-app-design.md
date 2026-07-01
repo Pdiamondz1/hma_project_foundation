@@ -260,7 +260,8 @@ Phases A–E are unchanged (the test phase is additive and off by default).
   `.claude/skills/advise-project/SKILL.md` (extend the deferred-tier / next-step clause to name `test-app`
   after a build — additive); `CLAUDE.md` (skill bullet + `outputs/tests/` pointer, hold < 125 lines);
   `README.md` (build-status Phase 19 line + guide row); `docs/PATH-TO-PRODUCTION.md` (mark rung 2 shipped);
-  `docs/SUBAGENTS.md` (the `test-writer` fleet row + Bash-nuance note); `docs/USING-THIS-FOR-ANY-PROJECT.md`
+  `docs/SUBAGENTS.md` (add the `test-writer` **fleet-table row only** — document it `implementer`-style as a
+  scoped writer; do **NOT** add it to the `code-reviewer` Bash-nuance note, which is about a read-only agent); `docs/USING-THIS-FOR-ANY-PROJECT.md`
   (a testing rung/clause); `docs/AUTOPILOT.md` (the optional test-phase note);
   `docs/superpowers/specs/2026-06-29-hma-project-foundation-design.md` (Phase 19 addendum).
 - **Reuse (reference, do not modify):** `aios/vite.config.ts` + `aios/package.json` (the Vitest convention:
@@ -277,8 +278,10 @@ against the template) a manual smoke of a generated suite:
 - **Real-suite + honest-map explicit:** SKILL.md describes generating unit + component + E2E tests AND
   mapping charter success criteria to automated-or-flagged-manual (grep the wording); states the suite is
   real-but-not-exhaustive.
-- **Offer-don't-run + no-keys:** SKILL.md forbids running `npm install` / the browser download / the tests
-  for the user and collecting any key; only offers the run commands + writes the `outputs/tests/` manifest.
+- **Offer-then-run-on-yes + no-keys:** SKILL.md forbids running anything **unprompted** and never collects
+  a key; it runs **only** the unit tests on an explicit yes (`cd app && npm install && npm test`, matching
+  `build-app`'s dev-server precedent) and **never** the Playwright browser download unless explicitly asked;
+  it writes the `outputs/tests/` manifest.
 - **`test-writer` agent correct:** `.claude/agents/test-writer.md` has `name: test-writer` (== the
   filename, per the SUBAGENTS convention), `model: sonnet`, `tools: Read, Write, Edit, Bash`, a `maxTurns`,
   a one-job body (write→run→iterate→report), and the never-install / authored-not-run fallback;
