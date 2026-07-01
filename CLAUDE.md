@@ -21,6 +21,7 @@ Condense *wording*, never a *rule*; raise the line cap before dropping a directi
   - `raw/metrics/` — live usage snapshots (DAU etc.) the advisor reads
   - `raw/project/` — `define-project` discovery record; the north star lives at `wiki/charter.md`
   - `raw/design/` — `define-design` Stitch exports; the look-and-feel north star lives at `wiki/design-system.md`
+  - `raw/builds/` — `build-app` build records; the app itself lives in `app/` (a build target outside the knowledge system, like `aios/`)
 
 - **`wiki/` — the AI-written table of contents over `raw/`.** Written and maintained
   *only* by AI, never by hand. Every wiki page is a distilled, navigable index that
@@ -77,6 +78,7 @@ orchestrator's run log in `outputs/runs/data-ingestion.md`.
 - **`define-design`** — interview that grills you into a **design system** (`wiki/design-system.md`, the look-and-feel north star Claude reads before building any UI): style, color, type, voice. Google Stitch–aware (manual default; optional MCP); offers to theme the console. See `docs/DESIGN-SYSTEM.md`.
 - **`roast`** — convene a 5-persona council that pressure-tests an idea, then a Judge returns one **GO / RESHAPE / KILL** verdict + the cheapest 48-hour test; saves the verdict to `outputs/vetting/` and can commission `storm-research`. Triggers: "roast" / "convene the council" / "brutal second opinion" / `/roast`.
 - **`storm-research`** — turn a topic or idea into a verified, multi-perspective HTML briefing (5 expert lenses → contradiction map → self-review + primary-source citation checks → `outputs/vetting/<date>-<slug>/`). Needs web; refuses rather than fabricates offline. See `docs/IDEA-VETTING.md`.
+- **`build-app`** — turn the charter (the MVP scope) + design system (the theme) into a working, themed front-end **web app** in a new top-level `app/` folder (its own Vite+React project, like `aios/`), runnable with `npm run dev`. Attended, Tier 0 (mock data, no keys); one confirm gate; re-runnable; **never in the unattended loop**. Web-first (mobile/plugins later). See `docs/BUILD-APP.md`.
 - **`what-can-i-do`** — show a friendly menu of everyday actions for anyone unsure what to do next.
 - **`add-new-resource`** — add a file into `raw/`, then index it in `wiki/`.
 - **`sync-claude-sessions`** — summarize new `~/.claude/projects/` sessions → `raw/inputs/processed/`.
