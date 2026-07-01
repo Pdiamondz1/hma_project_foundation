@@ -624,9 +624,16 @@ with:
 ```
 
 - [ ] **Step 2: Add the `build-plugin` Skills bullet** immediately after the `build-mobile` bullet
-  (currently line 82):
+  (currently line 82). Replace:
 
 ```
+- **`build-mobile`** — the phone sibling of `build-app`: turn the charter + design system into a themed **Expo (React Native)** app in a new top-level `mobile/` folder, previewed on a phone by scanning a QR code (Expo Go — no Mac/Xcode). Attended, Tier 0 (mock data, no keys/accounts); one confirm gate; re-runnable; **never in the unattended loop**. Installable app-store builds (EAS) are a later tier. See `docs/BUILD-MOBILE.md`.
+```
+
+with (the same bullet, then the new one appended):
+
+```
+- **`build-mobile`** — the phone sibling of `build-app`: turn the charter + design system into a themed **Expo (React Native)** app in a new top-level `mobile/` folder, previewed on a phone by scanning a QR code (Expo Go — no Mac/Xcode). Attended, Tier 0 (mock data, no keys/accounts); one confirm gate; re-runnable; **never in the unattended loop**. Installable app-store builds (EAS) are a later tier. See `docs/BUILD-MOBILE.md`.
 - **`build-plugin`** — the browser-extension sibling of `build-app`: turn the charter + design system into a themed **Manifest V3** browser extension (popup + options page) in a new top-level `plugin/` folder (plain Vite+React, like `app/`), previewed in Chrome via **Load unpacked**. Attended, Tier 0 (mock data, no keys/permissions); one confirm gate; re-runnable; **never in the unattended loop**. Packaging + Chrome Web Store are a later tier. See `docs/BUILD-PLUGIN.md`.
 ```
 
@@ -656,15 +663,28 @@ git commit -m "docs(build-plugin): CLAUDE.md skill bullet + widen raw/builds not
 - Modify: `docs/BUILD-APP.md`
 - Modify: `docs/BUILD-MOBILE.md`
 
-- [ ] **Step 1: README — "Built for you" bullet** (line 43). Replace with a version naming all three:
+- [ ] **Step 1: README — "Built for you" bullet** (line 43). Replace:
+
+```
+- 🛠️ **Built for you** — when you're ready, say **"build my app"** (web) or **"build my mobile app"** (phone) and it scaffolds a working, on-brand first version in an `app/` or `mobile/` folder — the mobile one previews on your phone via a QR code, mock data first, no coding (see [building your app](docs/BUILD-APP.md) · [mobile](docs/BUILD-MOBILE.md)).
+```
+
+with:
 
 ```
 - 🛠️ **Built for you** — when you're ready, say **"build my app"** (web), **"build my mobile app"** (phone), or **"build my browser extension"** (Chrome) and it scaffolds a working, on-brand first version in an `app/`, `mobile/`, or `plugin/` folder — mock data first, no coding (see [web](docs/BUILD-APP.md) · [mobile](docs/BUILD-MOBILE.md) · [extension](docs/BUILD-PLUGIN.md)).
 ```
 
-- [ ] **Step 2: README — docs table** (after the `Building your mobile app` row, line 57). Add:
+- [ ] **Step 2: README — docs table** (after the `Building your mobile app` row, line 57). Replace:
 
 ```
+| [Building your mobile app](docs/BUILD-MOBILE.md) | How the system builds a phone app for you. |
+```
+
+with:
+
+```
+| [Building your mobile app](docs/BUILD-MOBILE.md) | How the system builds a phone app for you. |
 | [Building your browser extension](docs/BUILD-PLUGIN.md) | How the system builds a Chrome extension for you. |
 ```
 
@@ -677,14 +697,27 @@ git commit -m "docs(build-plugin): CLAUDE.md skill bullet + widen raw/builds not
 Prefer a browser extension? Run **[`build-plugin`](.claude/skills/build-plugin/SKILL.md)** ("build my browser extension") for a themed Manifest V3 extension in a `plugin/` folder you load into Chrome via Developer mode. All three are front-end MVPs with placeholder data — real data, accounts, and deployment come later. See [web](docs/BUILD-APP.md) · [mobile](docs/BUILD-MOBILE.md) · [extension](docs/BUILD-PLUGIN.md).
 ```
 
-- [ ] **Step 4: README — build-status list** (after the Phase 12 line, line 128). Add:
+- [ ] **Step 4: README — build-status list** (after the Phase 12 line, line 128). Replace:
 
 ```
+- Phase 12 — `build-mobile`: turn the charter + design system into a themed Expo phone app (`mobile/`) ✅
+```
+
+with:
+
+```
+- Phase 12 — `build-mobile`: turn the charter + design system into a themed Expo phone app (`mobile/`) ✅
 - Phase 13 — `build-plugin`: turn the charter + design system into a themed Manifest V3 browser extension (`plugin/`) ✅
 ```
 
 - [ ] **Step 5: USING** — replace the `**Then build it:**` line (line 30) with a version that adds the
-  extension option (keep web + mobile; append the extension sentence + link):
+  extension option (keep web + mobile; append the extension sentence + link). Replace:
+
+```
+**Then build it:** run **`build-app`** — it turns the charter (the MVP scope) + design system (the theme) into a working, themed front-end web app in a new top-level `app/` folder, runnable with `npm run dev`. Prefer a phone app? Run **`build-mobile`** for a themed Expo (React Native) app in a `mobile/` folder you preview on your phone via a QR code (Expo Go). Both are Tier-0 front-end MVPs (mock data, no keys); real data/accounts/deploy and app-store/installable builds are later tiers. See `docs/BUILD-APP.md` · `docs/BUILD-MOBILE.md`.
+```
+
+with:
 
 ```
 **Then build it:** run **`build-app`** — it turns the charter (the MVP scope) + design system (the theme) into a working, themed front-end web app in a new top-level `app/` folder, runnable with `npm run dev`. Prefer a phone app? Run **`build-mobile`** for a themed Expo (React Native) app in a `mobile/` folder you preview on your phone via a QR code (Expo Go). Prefer a browser extension? Run **`build-plugin`** for a themed Manifest V3 extension in a `plugin/` folder you load into Chrome via Developer mode. All are Tier-0 front-end MVPs (mock data, no keys); real data/accounts/deploy, installable/app-store builds, and Chrome Web Store submission are later tiers. See `docs/BUILD-APP.md` · `docs/BUILD-MOBILE.md` · `docs/BUILD-PLUGIN.md`.
