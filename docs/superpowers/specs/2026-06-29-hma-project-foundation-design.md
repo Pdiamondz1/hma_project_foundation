@@ -227,3 +227,19 @@ artifacts to `outputs/vetting/<date>-<slug>/` and index them in `wiki/vetting.md
 `storm-research` needs the built-in web tools and refuses rather than fabricates offline. Wired into
 `define-project` (draft-gate offer), `what-can-i-do`, and `advise-project` (on-demand only). Full
 design: `docs/superpowers/specs/2026-06-30-idea-vetting-design.md`; how-to: `docs/IDEA-VETTING.md`.
+
+## Phase 11 addendum — Build the app (`build-app`) (2026-06-30)
+
+Phase 11 closes the loop from **define → vet → design → build**: the `build-app` skill turns the
+charter (the MVP scope) + design system (the theme) + latest vetting verdict into a working, themed
+front-end **web app** in a new top-level `app/` folder — its own minimal Vite + React + TypeScript +
+Tailwind project (mirroring the `aios/` stack), wired to mock/local data and runnable with
+`npm run dev`. It is attended-only (one screen-plan confirm gate; never in the unattended
+`maintenance-loop`), Tier 0 (no keys, no backend, offline-safe scaffolding), and re-runnable
+(incremental, never clobbers). Provenance lands in the knowledge base — an immutable
+`raw/builds/<date>-<slug>.md` record per build and an AI-written `wiki/build.md` index — while `app/`
+itself is a build target outside the three-folder discipline, like `aios/`. Wired into
+`what-can-i-do`, `setup-project` (propose-only once a charter + design exist), and `advise-project`
+(a GO-vetted brief may point to it). The `raw/builds/` + `wiki/build.md` provenance is written
+generically so future `build-mobile` / `build-plugin` slices slot in without rework. Full design:
+`docs/superpowers/specs/2026-06-30-build-app-design.md`; how-to: `docs/BUILD-APP.md`.
