@@ -37,7 +37,7 @@ Do not invent studies, numbers, or URLs to work around missing web access. No we
 
 ## Phase 1: Five expert lenses (parallel agents)
 
-Spawn **five `general-purpose` agents in a single message** so they run concurrently. Each gets the SAME topic framing plus its own lens. Use these exact prompts, substituting `{TOPIC}` and a one-line `{TOPIC_FRAME}` (your Phase 0 interpretation):
+Spawn **five `general-purpose` agents in a single message** so they run concurrently. *(Each lens — and the Phase 4b citation verifiers — may instead be dispatched as the `web-researcher` agent: Sonnet + web-restricted tools in place of `general-purpose`, keeping the exact lens/verifier prompt and its "Return EXACTLY…" output contract below. See `docs/SUBAGENTS.md`.)* Each gets the SAME topic framing plus its own lens. Use these exact prompts, substituting `{TOPIC}` and a one-line `{TOPIC_FRAME}` (your Phase 0 interpretation):
 
 **1. THE PRACTITIONER** — `You are THE PRACTITIONER for: {TOPIC} ({TOPIC_FRAME}). You work with this daily. Do real web research (prioritize recent sources, case studies, practitioner threads, operator data). Surface the GAP between what hands-on operators know and what academics/pundits miss, and the practical realities (workflow friction, what actually works, where it breaks) that get ignored. Return EXACTLY: 1) CORE POSITION in 2 sentences. 2) STRONGEST EVIDENCE, 3-5 bullets each with a concrete data point/case/named source + URL. 3) THE ONE THING only a practitioner would say. Cite real sources with URLs. Under 400 words.`
 

@@ -47,6 +47,7 @@ Each council member must return: a one-line stance, their 3-5 sharpest points, t
 **Web-availability note.** The Researcher relies on web search. If web access is unavailable,
 instruct the Researcher to reason from general knowledge instead and flag that its evidence is
 unverified — the council still runs and the Judge still delivers a verdict (Tier 0, no web, no keys).
+When web IS available, the Researcher may be dispatched as the `web-researcher` agent (Sonnet + web-restricted tools) instead of `general-purpose` — keep the Researcher persona prompt and its output contract exactly as above. See `docs/SUBAGENTS.md`.
 
 ## Step 3: The Judge delivers the verdict
 
