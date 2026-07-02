@@ -39,6 +39,7 @@ Condense *wording*, never a *rule*; raise the line cap before dropping a directi
   - `outputs/vetting/` — `roast` verdicts + `storm-research` briefings (indexed in `wiki/vetting.md`)
   - `outputs/backend/` — `build-backend` go-live checklists (`<date>-<slug>/GO-LIVE.md`)
   - `outputs/tests/` — `test-app` coverage/criteria manifests (`<date>-<slug>/TEST-PLAN.md`)
+  - `outputs/audits/` — `audit-app` security/a11y/perf findings reports (`<date>-<slug>/AUDIT.md`)
 
 ## Wiki page frontmatter (RAG-ready)
 
@@ -85,6 +86,7 @@ orchestrator's run log in `outputs/runs/data-ingestion.md`.
 - **`build-plugin`** — the browser-extension sibling of `build-app`: turn the charter + design system into a themed **Manifest V3** browser extension (popup + options page) in a new top-level `plugin/` folder (plain Vite+React, like `app/`), previewed in Chrome via **Load unpacked**. Attended, Tier 0 (mock data, no keys/permissions); one confirm gate; re-runnable; **never in the unattended loop**. Packaging + Chrome Web Store are a later tier. See `docs/BUILD-PLUGIN.md`.
 - **`build-backend`** — the "make it real" tier: upgrades the built `app/` (mock data) into a real-data, backend-ready app — a Supabase schema (from `src/data/` + charter) + a graceful-off data layer + email auth + tests + a go-live checklist; scaffolds offline (no keys), the one keyed go-live step stays the user's. Attended, Tier 1 scaffold-key-free; never in the loop. See `docs/BUILD-BACKEND.md` and the roadmap `docs/PATH-TO-PRODUCTION.md`.
 - **`test-app`** — the "prove it works" tier: generates a real, runnable test suite (Vitest + Testing Library + Playwright + coverage) for the built `app/` and maps it to the charter's success criteria (each → an automated test or a flagged manual/metric note). Scaffolds offline; extends an existing setup; offers the run (unit tests on explicit yes, like `build-app`). Attended, Tier 0; never in the loop. See `docs/TEST-APP.md` and the roadmap `docs/PATH-TO-PRODUCTION.md`.
+- **`audit-app`** — the "prove it's safe" tier: reads the built `app/` and writes ONE prioritized security + accessibility + performance findings report to `outputs/audits/`. **Propose-only** (mirrors `codex-review`): never modifies the app, never auto-fixes, no confirm gate. Reasoning-first/offline; `npm audit`/Lighthouse offered, not run. Tier 0; never in the loop. See `docs/AUDIT-APP.md` and the roadmap `docs/PATH-TO-PRODUCTION.md`.
 - **`autopilot`** — the capstone: describe your goal once → it grills you once, **vets + researches** it, shows one plan to confirm, then runs `define-project → roast → storm-research → define-design → build-*` **hands-off**, pausing only on a KILL verdict; logs every call to `outputs/autopilot/<date>-<slug>/`; delegates grunt work to the `.claude/agents/` fleet. **Attended-started, hands-off-executed — never in `maintenance-loop`.** Tier 0. See `docs/AUTOPILOT.md`.
 - **`what-can-i-do`** — show a friendly menu of everyday actions for anyone unsure what to do next.
 - **`add-new-resource`** — add a file into `raw/`, then index it in `wiki/`.

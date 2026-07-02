@@ -25,10 +25,14 @@ go-live. That boundary is deliberate and permanent.
    suite + coverage, and a coverage/criteria manifest in `outputs/tests/`. Adds a `test-writer` agent to the
    fleet. Scaffolds offline; the run stays yours. See `docs/TEST-APP.md`.
 
-3. **Prove it's safe — audit.**
-   A `security-audit` skill (dependency + secret scanning, authorization / input-validation / injection
-   review, an OWASP-style checklist → a findings report in `outputs/`, mirroring `codex-review`'s pattern),
-   with **accessibility (WCAG)** and **performance (Lighthouse)** audit siblings.
+3. **Prove it's safe — audit — `audit-app`** *(shipped, Phase 20).*
+   One `audit-app` skill runs three lenses — security (dependency + secret scanning, authorization /
+   input-validation / injection review, an OWASP-style checklist), **accessibility (WCAG)**, and
+   **performance** — into one prioritized findings report in `outputs/audits/`, mirroring `codex-review`'s
+   propose-only pattern (it writes only a report — never modifies the app or auto-fixes). Reasoning-first and
+   offline; `npm audit` / Lighthouse / axe are offered, not run. *(The roadmap's `security-audit` + a11y/perf
+   siblings resolved to one skill with three lenses, matching how rungs 1–2 were reconciled.)* See
+   `docs/AUDIT-APP.md`.
 
 4. **Ship it — deploy & operate.**
    A `deploy` skill: a hosting target + CI/CD + env/secrets management as **scaffold + guided checklist**
