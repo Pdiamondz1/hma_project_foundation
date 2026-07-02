@@ -154,7 +154,7 @@ When invoked by `autopilot` right after a build (its **Phase E** — a distinct 
 `## Autonomous invocation` notes on the build skills), focus your four lenses on the **just-built project**:
 the charter's `Later`/`Out` deferred items → `scale`/`improve` ideas; the decision ledger's
 `(assumed — confirm later)` flags (`outputs/autopilot/<date>-<slug>/decisions.md`) → `maintain`/validate
-ideas; the deferred tiers (real data → the `build-backend` skill, testing → the `test-app` skill, deploy, more build targets) → next-step ideas; the build record
+ideas; the deferred tiers (real data → the `build-backend` skill, testing → the `test-app` skill, audit → the `audit-app` skill, deploy, more build targets) → next-step ideas; the build record
 (`raw/builds/` + the run's `plan.md`/`run.md`) → what exists now. The `raw/metrics/` usage feed will be
 empty for a fresh build — that's fine; skip it and ground on the charter/ledger/build-record. Run **only
 your generate-and-append steps** (gather → generate → dedup → score → write the queue → summarize) and

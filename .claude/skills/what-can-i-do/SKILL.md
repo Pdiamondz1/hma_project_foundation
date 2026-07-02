@@ -27,6 +27,7 @@ everyone*).
    - **Build a browser extension** — turn your plan into a Chrome extension you can load and try → runs `build-plugin`
    - **Make your app's data real** — already built an app? Add a real database + sign-in so it saves data (say "add a backend"). *(Runs `build-backend`; you do a quick 5-minute go-live at the end.)*
    - **Test my app** — already built an app? Generate a real test suite (unit + browser tests) mapped to your success criteria (say "test my app"). *(Runs `test-app`; nothing installs — it hands you one command to run them.)*
+   - **Audit my app** — already built an app? Check it's safe, accessible, and fast — a prioritized findings report (say "audit my app"). *(Runs `audit-app`; propose-only — it changes nothing, just tells you what to fix.)*
    - **Add something** — save a note, a file, or a link → runs `add-new-resource`
    - **Find something** — search what you've saved so far → searches the knowledge base
    - **See what's saved** — a quick overview of the project so far → reads `wiki/index.md`
