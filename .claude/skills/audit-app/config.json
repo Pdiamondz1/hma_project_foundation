@@ -1,0 +1,5 @@
+{
+  "app_dir": "app",
+  "dimensions": ["security", "accessibility", "performance"],
+  "caution_severity": "CRITICAL"
+}
