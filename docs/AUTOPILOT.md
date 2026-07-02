@@ -44,6 +44,8 @@ Optionally, autopilot can make the built web app **backend-ready** in the same h
 
 Autopilot can likewise **test** the built web app in the same hands-off run: set `test_after_build: true` in `.claude/skills/autopilot/config.json` and, after the build (and any backend wire), it runs `test-app` (offline, via the `test-writer` agent — nothing installed) to generate a test suite mapped to your success criteria, then adds the test manifest to the hand-over. **Off by default.** See `docs/TEST-APP.md`.
 
+Autopilot can also **audit** the built web app: set `audit_after_build: true` in `.claude/skills/autopilot/config.json` and, after the build (and any backend wire / test pass), it runs `audit-app` (offline, reasoning-only — nothing installed) to produce a security/accessibility/performance findings report, then adds it to the hand-over. It's **propose-only** (changes nothing) and **off by default.** See `docs/AUDIT-APP.md`.
+
 - **It reuses your existing skills** — `define-project`, `roast`, `storm-research`, `define-design`, and
   `build-app`/`mobile`/`plugin` — driving each in an automatic mode. Their normal, one-at-a-time behavior
   is unchanged; autopilot just chains them for you, and hands the grunt work to the tuned

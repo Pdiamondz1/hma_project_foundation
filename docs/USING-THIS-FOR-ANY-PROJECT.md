@@ -35,6 +35,8 @@ Nothing above assumes a domain. You make it *your* project by turning a few knob
 
 **Then prove it works:** run **`test-app`** — it generates a real, runnable test suite (Vitest + Testing Library + Playwright + coverage) for your `app/` and maps it to your charter's success criteria, so the tests check *your* definition of done, not just that code runs. Scaffolds offline; it hands you one command to run them. This is the second rung of the path to production. See `docs/TEST-APP.md`.
 
+**Then prove it's safe:** run **`audit-app`** — it reads your `app/` and writes one prioritized report on security, accessibility (WCAG), and performance: what to fix, most serious first, with how to fix it. It's **propose-only** (changes nothing), reasons fully offline, and offers the deeper `npm audit` / Lighthouse checks without running them. This is the third rung of the path to production. See `docs/AUDIT-APP.md`.
+
 **Under the hood:** the template ships a tuned fleet of specialist subagents (`.claude/agents/`) that does the grunt work — the right model per job, read-only by default — so building is cheaper, safer, and consistent. See `docs/SUBAGENTS.md`.
 
 **Fast path:** run the **`setup-project`** skill — it does moves 1–2 for you (interviews you,

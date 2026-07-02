@@ -60,6 +60,7 @@ Every link below is clickable:
 | [Building your browser extension](docs/BUILD-PLUGIN.md) | How the system builds a Chrome extension for you. |
 | [Make data real](docs/BUILD-BACKEND.md) | Add a real Supabase backend + sign-in to your built app. |
 | [Test your app](docs/TEST-APP.md) | Generate a real test suite mapped to your success criteria. |
+| [Audit your app](docs/AUDIT-APP.md) | Check it's safe, accessible, and fast — a prioritized findings report. |
 | [Path to production](docs/PATH-TO-PRODUCTION.md) | The ordered map from prototype to a shippable product. |
 | [Extending](docs/EXTENDING.md) | Adding your own skills, sources, tools, and pages. |
 | [Subagents](docs/SUBAGENTS.md) | The tuned agent fleet that does the grunt work — and how to add your own. |
@@ -141,3 +142,4 @@ The technical reference — skip this if you just want to use it.
 - Phase 17 — `autopilot` loop-aware: after building, it proposes ranked "what's next" ideas (propose-only) ✅
 - Phase 18 — `build-backend`: upgrades the built web app to real data — Supabase schema + graceful-off data layer + auth + go-live checklist (offline scaffold; keyed go-live stays the user's) ✅
 - Phase 19 — `test-app`: a real test suite (Vitest + Testing Library + Playwright + coverage) for the built `app/`, mapped to the charter's success criteria; adds a `test-writer` agent ✅
+- Phase 20 — `audit-app`: a propose-only security + accessibility + performance audit of the built `app/` → one prioritized findings report in `outputs/audits/` (mirrors `codex-review`) ✅
